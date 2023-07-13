@@ -17,7 +17,7 @@ return new class extends Migration
       $table->unsignedBigInteger('apartment_id');
       $table->foreign('apartment_id')
         ->references('id')
-        ->on('apartmets')
+        ->on('apartments')
         ->cascadeOnDelete();
 
 
@@ -39,6 +39,6 @@ return new class extends Migration
    */
   public function down()
   {
-    Schema::dropIfExists('apartament_sponsorship');
+    Schema::dropIfExists('apartment_sponsorship');
   }
 };

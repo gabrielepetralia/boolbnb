@@ -26,6 +26,7 @@ return new class extends Migration
         $table->string("address", 100)->nullable();
         $table->text("img_path")->nullable();
         $table->boolean("visible")->default(1);
+        $table->decimal("price", 6, 2)->nullable();
 
         $table->timestamps();
       });

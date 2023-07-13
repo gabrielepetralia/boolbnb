@@ -15,11 +15,12 @@ class DatabaseSeeder extends Seeder
   public function run()
   {
     $this->call([
-      UsersTableSeeder::class,
+      UsersTableSeeder::class, //to remove
       ServicesTableSeeder::class,
       SponsorshipsTableSeeder::class,
-      ApartmentsTableSeeder::class,
-      ApartmentsServicesTableSeeder::class
+      ApartmentsTableSeeder::class, //to remove
+      ApartmentsServicesTableSeeder::class, //to remove
+      ApartmentsSponsorshipsTableSeeder::class //to remove
     ]);
   }
 }

@@ -18,7 +18,7 @@ export default {
             <router-link :to="{ name: 'home' }" class="nav-link fw-semibold">Home</router-link>
           </li>
           <li class="header-menu-item">
-            <router-link :to="{ name: 'dashboard' }" class="nav-link fw-semibold">Dashboard</router-link>
+            <router-link :to="{ name: 'apartments' }" class="nav-link fw-semibold">My Apartments</router-link>
           </li>
         </ul>
       </nav>
@@ -121,7 +121,8 @@ header {
     .nav-link {
       color: $dark-gray;
 
-      &:hover {
+      &:hover,
+      &.active {
         cursor: pointer;
         color: $light_blue;
       }

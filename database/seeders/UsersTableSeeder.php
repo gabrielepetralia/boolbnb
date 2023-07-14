@@ -20,8 +20,7 @@ class UsersTableSeeder extends Seeder
 
           $new_user = new User();
 
-          $new_user->name = $user['name'];
-          $new_user->lastname = $user['lastname'];
+          $new_user->fullnamename = $user['fullname'];
           $new_user->email = $user['email'];
           $new_user->password = $user['password'];
           $new_user->birth_date = $user['birth_date'];

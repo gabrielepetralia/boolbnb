@@ -1,6 +1,31 @@
 <script>
+import { store } from '../../store/store';
+import { ref } from 'vue';
+import axios from 'axios';
+import { useRouter } from 'vue-router';
 export default {
-  name: "Header"
+  name: "Header",
+  data(){
+    return{
+      router : useRouter(),
+
+      form : ref({
+        full_name: "",
+        email: "",
+        password: ""
+      })
+    }
+  },
+  methods: {
+    handleRegistration(){
+      axios.post('/register', {
+        full_name: this.form.full_name,
+        email: this.form.email,
+        password: this.form.password,
+      })
+      this.router.push('/');
+    }
+  }
 }
 </script>
 
@@ -72,23 +97,44 @@ export default {
         </div>
         <div class="modal-body">
           <h1 class="modal-title fs-3 fw-semibold text-center mt-2 mb-4" id="registerModalLabel">Registrati</h1>
+          <form @submit="prevent.handleRegistration()">
 
-          <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
-            <input type="text" class="form-control" placeholder="Nome e Cognome">
-            <label for="exampleFormControlInput1" class="form-label mb-0"><i class="fa-solid fa-user"></i></label>
-          </div>
+            <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
+              <input
+                v-model="form.full_name"
+                type="text"
+                id="full_name"
+                name="full_name"
+                class="form-control"
+                placeholder="Nome e Cognome">
+              <label  for="full_name" class="form-label mb-0"><i class="fa-solid fa-user"></i></label>
 
-          <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
-            <input type="email" class="form-control" placeholder="Email">
-            <label for="exampleFormControlInput1" class="form-label mb-0"><i class="fa-solid fa-envelope"></i></label>
-          </div>
+            </div>
 
-          <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
-            <input type="password" class="form-control" placeholder="Password">
-            <label for="exampleFormControlInput1" class="form-label mb-0"><i class="fa-solid fa-key"></i></label>
-          </div>
+            <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
+              <input
+              v-model="form.email"
+                type="email"
+                id="email"
+                name="email"
+                class="form-control"
+                placeholder="Email">
+              <label for="email" class="form-label mb-0"><i class="fa-solid fa-envelope"></i></label>
+            </div>
 
-          <button type="button" class="btn my-3 w-100 btn-modal">Sign Up</button>
+            <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
+              <input
+              v-model="form.password"
+                type="password"
+                id="password"
+                name="password"
+                class="form-control"
+                placeholder="Password">
+              <label for="password" class="form-label mb-0"><i class="fa-solid fa-key"></i></label>
+            </div>
+
+            <button type="submit" class="btn my-3 w-100 btn-modal">Sign Up</button>
+          </form>
         </div>
         <div class="modal-footer d-flex justify-content-center">
           <p>Hai già un account? <span class="fw-semibold redirect" data-bs-toggle="modal" data-bs-target="#login-modal">Accedi</span></p>

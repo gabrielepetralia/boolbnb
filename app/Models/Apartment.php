@@ -7,7 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Apartment extends Model
 {
-    use HasFactory;
+  use HasFactory;
+
+  protected $fillable = [
+    'title',
+    'slug',
+    'num_rooms',
+    'num_beds',
+    'num_bathrooms',
+    'square_meters',
+    'coordinates',
+    'address',
+    'visible',
+    'price',
+    'user_id'
+  ];
+
 
   public function user()
   {

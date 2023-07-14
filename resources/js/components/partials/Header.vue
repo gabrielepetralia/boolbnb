@@ -114,7 +114,7 @@ header {
 
   nav {
     .logo {
-      width: 90px;
+      width: 100px;
       margin-bottom: 8px;
     }
 

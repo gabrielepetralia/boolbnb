@@ -34,8 +34,8 @@ export default {
     </div>
 
     <div class="content d-flex flex-column align-items-center">
-      <h1 class="mb-2">BoolBnB</h1>
-      <p class="text-center mb-3">Cerca subito la destinazione della tua prossima vacanza e trova l'alloggio perfetto per te!</p>
+      <img class="logo" src="/img/logo-big-light.svg" alt="Logo">
+      <p class="text-center mb-3">Cerca la destinazione della tua prossima vacanza e trova subito l'alloggio perfetto per te!</p>
       <MainSearchbar/>
     </div>
 
@@ -67,11 +67,16 @@ export default {
   }
 
   .content {
+    font-size: 1.1rem;
     color: white;
     position: absolute;
     top: 38%;
     left: 50%;
     transform: translate(-50%);
+
+    .logo {
+      width: 300px;
+    }
   }
 
 }

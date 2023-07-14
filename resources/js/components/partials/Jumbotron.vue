@@ -70,7 +70,7 @@ export default {
     font-size: 1.1rem;
     color: white;
     position: absolute;
-    top: 38%;
+    top: 30%;
     left: 50%;
     transform: translate(-50%);
 

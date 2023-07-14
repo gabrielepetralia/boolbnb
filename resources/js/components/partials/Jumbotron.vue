@@ -62,7 +62,7 @@ export default {
     }
   }
 
-   p {
+  p {
     max-width: 400px;
   }
 

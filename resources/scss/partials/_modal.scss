@@ -1,0 +1,48 @@
+@use "./variables" as *;
+
+.modal {
+  color: $dark-gray;
+
+  .modal-header {
+    .btn-close {
+      &:focus {
+        border: none;
+        outline: none;
+        box-shadow: none;
+      }
+    }
+  }
+
+  .modal-body {
+    padding: 0 80px;
+
+    .input-box {
+      border-bottom: 1px solid $dark-gray;
+
+      .form-control {
+        border: none;
+        outline: none;
+        box-shadow: none;
+
+        &:focus+label {
+          color: $light_blue;
+          border: none;
+          outline: none;
+          box-shadow: none;
+        }
+      }
+    }
+  }
+
+  .modal-footer {
+    .redirect {
+      color: $dark_gray;
+      text-decoration: underline;
+
+      &:hover {
+        cursor: pointer;
+        color: $light_blue
+      }
+    }
+  }
+}

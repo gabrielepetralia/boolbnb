@@ -1,0 +1,213 @@
+<script>
+export default {
+  name: "DashboardApartments"
+}
+
+// $("[type='number']").keypress(function (evt) {
+//   evt.preventDefault();
+// });
+</script>
+
+<template>
+  <div class="t4-container py-5 px-5">
+    <div class="d-flex justify-content-between my-4">
+      <h2 class="fs-3 mb-0 title">Appartamenti</h2>
+      <div>
+        <button title="Add Apartment" class="btn t4-btn btn-add" data-bs-toggle="modal" data-bs-target="#add-apartment-modal"><i class="fa-solid fa-plus"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Add Apartment -->
+  <div class="modal fade" id="add-apartment-modal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <h1 class="modal-title fs-3 fw-semibold text-center mt-2 mb-4" id="addApartmentModalLabel">Add Apartment</h1>
+            <form enctype="multipart/form-data">
+
+              <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
+                <input
+
+                  type="text"
+                  id="title"
+                  name="title"
+                  class="form-control"
+                  placeholder="Titolo">
+                <label  for="title" class="form-label mb-0"><i class="fa-solid fa-heading"></i></label>
+
+              </div>
+
+              <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
+                <input
+
+                  type="number"
+                  min="1" max="255"
+                  id="num_rooms"
+                  name="num_rooms"
+                  class="form-control"
+                  placeholder="N. Stanze">
+                <label for="num_rooms" class="form-label mb-0"><i class="fa-solid fa-door-open"></i></label>
+              </div>
+
+              <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
+                <input
+
+                  type="number"
+                  min="1" max="255"
+                  id="num_beds"
+                  name="num_beds"
+                  class="form-control"
+                  placeholder="N. Letti">
+                <label for="num_beds" class="form-label mb-0"><i class="fa-solid fa-bed"></i></label>
+              </div>
+
+              <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
+                <input
+
+                  type="number"
+                  min="1" max="255"
+                  id="num_bathrooms"
+                  name="num_bathrooms"
+                  class="form-control"
+                  placeholder="N. Bagni">
+                <label for="num_bathrooms" class="form-label mb-0"><i class="fa-solid fa-bath"></i></label>
+              </div>
+
+              <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
+                <input
+
+                  type="number"
+                  min="1"
+                  id="square_meters"
+                  name="square_meters"
+                  class="form-control"
+                  placeholder="m²">
+                <label for="square_meters" class="form-label mb-0"><i class="fa-solid fa-expand"></i></label>
+              </div>
+
+              <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
+                <input
+
+                  type="text"
+                  id="address"
+                  name="address"
+                  class="form-control"
+                  placeholder="Indirizzo">
+                <label for="address" class="form-label mb-0"><i class="fa-solid fa-location-dot"></i></label>
+              </div>
+
+              <div class="mb-3 d-flex flex-row-reverse input-box pb-2">
+                <textarea id="description" name="description" class="form-control" placeholder="Descrizione" rows="3"></textarea>
+                <label for="description" class="form-label mb-0 mt-2"><i class="fa-solid fa-comment-dots"></i></label>
+              </div>
+
+              <div class="mb-3 d-flex align-items-center flex-row-reverse input-box pb-2">
+                <input
+
+                  type="file"
+                  id="img_path"
+                  name="img_path"
+                  class="form-control ms-2"
+                  placeholder="Immagine">
+                <label for="img_path" class="form-label mb-0"><i class="fa-solid fa-image"></i></label>
+              </div>
+
+              <div class="mb-3 d-flex justify-content-end align-items-center flex-row-reverse input-box border-0 pb-2">
+                <label class="switch">
+                  <input type="checkbox"
+
+                    id="visible"
+                    name="visible"
+                    class="form-control ms-1"
+                    title="Visibile"
+                    checked>
+                  <span class="slider round"></span>
+                </label>
+                <label for="visible" class="form-label mb-0"><i class="fa-solid fa-eye"></i></label>
+              </div>
+
+            </form>
+          </div>
+          <div class="modal-footer pe-4">
+            <button type="submit" class="btn t4-btn"><i class="fa-solid fa-floppy-disk"></i></button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+</template>
+
+<style lang="scss" scoped>
+@use "../../../scss/partials/variables" as *;
+
+.title {
+  color: $dark_gray;
+}
+
+// Toggle
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+
+  transform: scale(0.7)
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: $light_blue;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px $light_blue;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+</style>

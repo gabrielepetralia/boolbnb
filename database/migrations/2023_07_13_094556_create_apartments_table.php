@@ -24,6 +24,7 @@ return new class extends Migration
         $table->integer("square_meters")->unsigned()->nullable();
         $table->point("coordinates")->nullable();
         $table->string("address", 100)->nullable();
+        $table->text("description")->nullable();
         $table->text("img_path")->nullable();
         $table->boolean("visible")->default(1);
         $table->decimal("price", 6, 2)->nullable();

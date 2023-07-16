@@ -7,28 +7,33 @@ export default {
   name: "Header",
   data(){
     return{
+      store,
       router : useRouter(),
+      errors: null,
+      user : store.user,
 
-      form : ref({
-        full_name: "",
-        email: "",
-        password: ""
-      })
+
     }
   },
-  methods: {
-    handleRegistration(){
-      axios.post('/register', {
-        full_name: this.form.full_name,
-        email: this.form.email,
-        password: this.form.password,
-      })
-      this.router.push('/');
+
+  mounted(){
+
+    this.store.getUser()
+  },
+
+  computed : {
+    getUserData(){
+      return this.store.user;
+    },
+
+    getErrors(){
+      return this.errors
     }
   }
+
 }
 </script>
-
+<!-- Fixare il redirect dello store quando si effettua un logout  -->
 <template>
   <header>
     <div class="t4-container d-flex justify-content-between align-items-center h-100">
@@ -42,17 +47,24 @@ export default {
           <li class="header-menu-item me-4">
             <router-link :to="{ name: 'home' }" class="nav-link fw-semibold">Home</router-link>
           </li>
-          <li class="header-menu-item">
+          <li v-if="store.user !== null" class="header-menu-item">
             <router-link :to="{ name: 'apartments' }" class="nav-link fw-semibold">My Apartments</router-link>
           </li>
         </ul>
       </nav>
 
       <div>
-        <button class="btn btn-login d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#login-modal">
+        <button v-if="!this.store.user" class="btn btn-login d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#login-modal">
           <i class="fa-solid fa-circle-user me-2 fs-6"></i>
           <span class="me-1">Login</span>
         </button>
+
+
+          <a href="/" v-else  @click="store.handleLogout()" type="submit" class="btn btn-login t4-btn d-flex align-items-center">
+            <i class="fa-solid fa-circle-user me-2 fs-6"></i>
+            <span class="me-1">  Logout </span>
+          </a>
+
       </div>
 
     </div>
@@ -69,20 +81,50 @@ export default {
         <div class="modal-body">
           <h1 class="modal-title fs-3 fw-semibold text-center mt-2 mb-4">Accedi</h1>
 
-          <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
-            <input type="email" class="form-control" placeholder="Email">
-            <label for="exampleFormControlInput1" class="form-label mb-0"><i class="fa-solid fa-envelope"></i></label>
+          <div v-if="this.store.errors">
+            <span>
+              {{ this.store.errors }}
+            </span>
           </div>
 
-          <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
-            <input type="password" class="form-control" placeholder="Password">
-            <label for="exampleFormControlInput1" class="form-label mb-0"><i class="fa-solid fa-key"></i></label>
-          </div>
 
-          <button type="button" class="btn my-3 w-100 btn-modal">Sign In</button>
+
+          <form @submit.prevent="store.handleLogin()">
+            <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
+              <input
+              v-model="this.store.formLogin.loginEmail"
+                required
+                type="loginEmail"
+                name="loginEmail"
+                id="loginEmail"
+                class="form-control"
+                placeholder="Email">
+
+              <label for="loginEmail" class="form-label mb-0">
+                <i class="fa-solid fa-envelope"></i>
+              </label>
+            </div>
+
+            <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
+              <input
+                v-model="this.store.formLogin.loginPassword"
+                type="password"
+                required
+                name="loginPassword"
+                id="loginPassword"
+                class="form-control"
+                placeholder="Password">
+
+              <label for="loginPassword" class="form-label mb-0">
+                <i class="fa-solid fa-key"></i>
+              </label>
+            </div>
+
+            <button   type="submit" class="btn my-3 w-100 btn-modal" data-bs-dismiss="modal">Sign In</button>
+          </form>
         </div>
         <div class="modal-footer d-flex justify-content-center">
-          <p>Non hai ancora un account? <span class="fw-semibold redirect" data-bs-toggle="modal" data-bs-target="#register-modal">Registrati</span></p>
+          <p>Non hai ancora un account? <span class="fw-semibold redirect" data-bs-toggle="modal" data-bs-target="#register-modal"  >Registrati</span></p>
         </div>
       </div>
     </div>
@@ -97,11 +139,12 @@ export default {
         </div>
         <div class="modal-body">
           <h1 class="modal-title fs-3 fw-semibold text-center mt-2 mb-4" id="registerModalLabel">Registrati</h1>
-          <form @submit="prevent.handleRegistration()">
+          <form @submit.prevent="this.store.handleRegistration()">
 
             <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
               <input
-                v-model="form.full_name"
+                v-model="store.form.full_name"
+                required
                 type="text"
                 id="full_name"
                 name="full_name"
@@ -113,7 +156,8 @@ export default {
 
             <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
               <input
-              v-model="form.email"
+              v-model="store.form.email"
+                required
                 type="email"
                 id="email"
                 name="email"
@@ -124,7 +168,8 @@ export default {
 
             <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
               <input
-              v-model="form.password"
+              v-model="store.form.password"
+                required
                 type="password"
                 id="password"
                 name="password"
@@ -133,7 +178,7 @@ export default {
               <label for="password" class="form-label mb-0"><i class="fa-solid fa-key"></i></label>
             </div>
 
-            <button type="submit" class="btn my-3 w-100 btn-modal">Sign Up</button>
+            <button type="submit" class="btn my-3 w-100 btn-modal" data-bs-dismiss="modal">Sign Up</button>
           </form>
         </div>
         <div class="modal-footer d-flex justify-content-center">

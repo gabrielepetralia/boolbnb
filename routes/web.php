@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Guest\PageController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\ApartmentsController;
+
 
 
 /*
@@ -26,6 +28,7 @@ Route::middleware(['auth', 'verified'])
 ->group(function () {
     // Route::get('/', [DashboardController::class, 'index'])->name('home');
     Route::get('/user-auth', [UserController::class, 'index']);
+    Route::resource('apartments', ApartmentsController::class);
 
 });
 

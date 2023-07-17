@@ -44,8 +44,6 @@ export const store = reactive ({
         .then(response => {
           this.getUser()
 
-
-
           this.formLogin = ref({
             loginEmail: "",
             loginPassword: ""
@@ -74,7 +72,7 @@ export const store = reactive ({
           axios.get('admin/user-auth')
                       .then(response => {
                         this.user = response.data
-
+                        console.log(this.user);
                       })
         })
   },

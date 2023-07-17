@@ -1,6 +1,72 @@
 <script>
+import { ref } from 'vue';
+import { store } from '../../store/store';
+import axios from 'axios';
 export default {
-  name: "DashboardApartments"
+  name: "DashboardApartments",
+
+  data(){
+    return{
+      store,
+      coordinates: '',
+      apiKey: 'BJn2pmnX1Y20KpKZAZYCLf4m1Gzqu2bG',
+      apiUrl: 'https://api.tomtom.com/',
+      apartmentForm : ref({
+        title: '',
+        num_rooms: '',
+        num_beds: '',
+        num_bathrooms: '',
+        square_meters: '',
+        address: '',
+        description: '',
+        img_path: '',
+        visible: true,
+        price: '',
+        user_id: store.user.id
+      })
+    }
+  },
+
+  methods: {
+    // getCoordinates(address){
+    //   axios.get(this.apiUrl + 'geocode/'+this.apartmentForm.address+'.json?view=Unified&key='+ this.apiKey )
+    //       .then(result => {
+    //         this.apartmentForm.lat = result.data.results[0].position.lat;
+    //         this.apartmentForm.lon = result.data.results[0].position.lon;
+    //       })
+    // },
+
+    addApartment(){
+      console.log('ciao');
+      axios.get('sanctum/csrf-cookie')
+      .then(() => {
+        // this.getCoordinates(this.apartmentForm.address);
+        console.log('ciao');
+
+      })
+      .then(() => {
+        console.log(this.apartmentForm);
+        console.log(this.apartmentForm)
+        axios.post('/admin/apartments', {
+          title: this.apartmentForm.title,
+          num_rooms: this.apartmentForm.num_rooms,
+          num_beds: this.apartmentForm.num_beds,
+          num_bathrooms: this.apartmentForm.num_bathrooms,
+          square_meters: this.apartmentForm.square_meters,
+          address: this.apartmentForm.address,
+          // coordinates: '',
+          description: this.apartmentForm.description,
+          img_path: this.apartmentForm.img_path,
+          visible: this.apartmentForm.visible,
+          price: this.apartmentForm.price,
+          user_id: this.apartmentForm.user_id
+        })
+      })
+      .then(result => {
+        console.log(result)
+      })
+    }
+  }
 }
 
 // $("[type='number']").keypress(function (evt) {
@@ -27,11 +93,11 @@ export default {
           </div>
           <div class="modal-body">
             <h1 class="modal-title fs-3 fw-semibold text-center mt-2 mb-4" id="addApartmentModalLabel">Add Apartment</h1>
-            <form enctype="multipart/form-data">
+            <form enctype="multipart/form-data" @submit.prevent="addApartment()">
 
               <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
                 <input
-
+                  v-model="apartmentForm.title"
                   type="text"
                   id="title"
                   name="title"
@@ -43,7 +109,7 @@ export default {
 
               <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
                 <input
-
+                  v-model="apartmentForm.num_rooms"
                   type="number"
                   min="1" max="255"
                   id="num_rooms"
@@ -55,7 +121,7 @@ export default {
 
               <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
                 <input
-
+                  v-model="apartmentForm.num_beds"
                   type="number"
                   min="1" max="255"
                   id="num_beds"
@@ -67,7 +133,7 @@ export default {
 
               <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
                 <input
-
+                  v-model="apartmentForm.num_bathrooms"
                   type="number"
                   min="1" max="255"
                   id="num_bathrooms"
@@ -79,7 +145,7 @@ export default {
 
               <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
                 <input
-
+                  v-model="apartmentForm.square_meters"
                   type="number"
                   min="1"
                   id="square_meters"
@@ -91,7 +157,7 @@ export default {
 
               <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
                 <input
-
+                  v-model="apartmentForm.address"
                   type="text"
                   id="address"
                   name="address"
@@ -101,13 +167,17 @@ export default {
               </div>
 
               <div class="mb-3 d-flex flex-row-reverse input-box pb-2">
-                <textarea id="description" name="description" class="form-control" placeholder="Descrizione" rows="3"></textarea>
+                <textarea
+                  v-model="apartmentForm.description"
+                  name="description"
+                  class="form-control"
+                  placeholder="Descrizione"
+                  rows="3"></textarea>
                 <label for="description" class="form-label mb-0 mt-2"><i class="fa-solid fa-comment-dots"></i></label>
               </div>
 
               <div class="mb-3 d-flex align-items-center flex-row-reverse input-box pb-2">
                 <input
-
                   type="file"
                   id="img_path"
                   name="img_path"
@@ -119,21 +189,36 @@ export default {
               <div class="mb-3 d-flex justify-content-end align-items-center flex-row-reverse input-box border-0 pb-2">
                 <label class="switch">
                   <input type="checkbox"
-
+                    v-model="apartmentForm.visible"
                     id="visible"
                     name="visible"
                     class="form-control ms-1"
                     title="Visibile"
-                    checked>
+                    >
                   <span class="slider round"></span>
                 </label>
                 <label for="visible" class="form-label mb-0"><i class="fa-solid fa-eye"></i></label>
               </div>
 
+              <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
+                <input
+                  v-model="apartmentForm.price"
+                  type="number"
+                  min="1"
+                  id="price"
+                  name="price"
+                  class="form-control"
+                  placeholder="Prezzo per notte">
+                <label for="price" class="form-label mb-0">
+                  <!-- Add Price icon -->
+                  <!-- <i class="fa-solid fa-expand"></i> -->
+                </label>
+              </div>
+
+              <div class="modal-footer pe-4">
+                <button type="submit" class="btn t4-btn"><i class="fa-solid fa-floppy-disk"></i></button>
+              </div>
             </form>
-          </div>
-          <div class="modal-footer pe-4">
-            <button type="submit" class="btn t4-btn"><i class="fa-solid fa-floppy-disk"></i></button>
           </div>
 
         </div>

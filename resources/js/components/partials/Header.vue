@@ -11,13 +11,10 @@ export default {
       router : useRouter(),
       errors: null,
       user : store.user,
-
-
     }
   },
 
   mounted(){
-
     this.store.getUser()
   },
 
@@ -54,17 +51,15 @@ export default {
       </nav>
 
       <div>
-        <button v-if="!this.store.user" class="btn btn-login d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#login-modal">
-
+        <button v-if="!this.store.user" class="btn btn-login t4-btn d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#login-modal">
           <i class="fa-solid fa-circle-user me-2 fs-6"></i>
           <span class="me-1">Login</span>
         </button>
 
-
-          <a href="/" v-else  @click="store.handleLogout()" type="submit" class="btn btn-login t4-btn d-flex align-items-center">
-            <i class="fa-solid fa-circle-user me-2 fs-6"></i>
-            <span class="me-1">  Logout </span>
-          </a>
+        <a v-else href="/" @click="store.handleLogout()" type="submit" class="btn btn-logout t4-btn d-flex align-items-center">
+          <i class="fa-solid fa-circle-user me-2 fs-6"></i>
+          <span class="me-1">Logout</span>
+        </a>
 
       </div>
 
@@ -91,7 +86,7 @@ export default {
           <form @submit.prevent="store.handleLogin()">
             <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
               <input
-              v-model="this.store.formLogin.loginEmail"
+                v-model="this.store.formLogin.loginEmail"
                 required
                 type="loginEmail"
                 name="loginEmail"
@@ -119,7 +114,7 @@ export default {
               </label>
             </div>
 
-            <button   type="submit" class="btn my-3 w-100 btn-modal" data-bs-dismiss="modal">Sign In</button>
+            <button   type="submit" class="btn t4-btn my-3 w-100 btn-modal" data-bs-dismiss="modal">Sign In</button>
           </form>
         </div>
         <div class="modal-footer d-flex justify-content-center">
@@ -176,7 +171,7 @@ export default {
                 placeholder="Password">
               <label for="password" class="form-label mb-0"><i class="fa-solid fa-key"></i></label>
             </div>
-            <button type="submit" class="btn my-3 w-100 btn-modal" data-bs-dismiss="modal">Sign Up</button>
+            <button type="submit" class="btn t4-btn my-3 w-100 btn-modal" data-bs-dismiss="modal">Sign Up</button>
           </form>
         </div>
         <div class="modal-footer d-flex justify-content-center">
@@ -219,7 +214,8 @@ header {
     }
   }
 
-  .btn-login {
+  .btn-login,
+  .bnt-logout {
     font-size: 0.9rem;
   }
 }

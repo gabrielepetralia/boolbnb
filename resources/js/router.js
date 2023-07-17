@@ -7,7 +7,7 @@ import DashboardMessages from './pages/dashboard-pages/DashboardMessages.vue'
 import DashboardStats from './pages/dashboard-pages/DashboardStats.vue'
 import DashboardSponsorships from './pages/dashboard-pages/DashboardSponsorships.vue'
 import Error404 from './pages/Error404.vue'
-
+import { store } from './store/store'
 const router = createRouter({
 
     history: createWebHistory(),
@@ -23,6 +23,17 @@ const router = createRouter({
             path: '/my-apartments',
             name: 'my-apartments',
             component: Dashboard,
+
+            beforeEnter: (to, from, next) => {
+              if(store.user?.id){
+                // store.errors = null;
+                return next()
+              }else {
+                // store.errors = 'Per accedere a questa rotta bisogna essere loggati.'
+                return next('/')
+
+              }
+            },
 
             children: [
               {

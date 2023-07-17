@@ -77,11 +77,6 @@ export default {
         <div class="modal-body">
           <h1 class="modal-title fs-3 fw-semibold text-center mt-2 mb-4">Accedi</h1>
 
-          <div v-if="this.store.errors">
-            <span>
-              {{ this.store.errors }}
-            </span>
-          </div>
 
           <form @submit.prevent="store.handleLogin()">
             <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">

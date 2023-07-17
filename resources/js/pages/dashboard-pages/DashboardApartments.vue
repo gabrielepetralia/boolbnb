@@ -37,16 +37,12 @@ export default {
     // },
 
     addApartment(){
-      console.log('ciao');
       axios.get('sanctum/csrf-cookie')
       .then(() => {
         // this.getCoordinates(this.apartmentForm.address);
-        console.log('ciao');
 
       })
       .then(() => {
-        console.log(this.apartmentForm);
-        console.log(this.apartmentForm)
         axios.post('/admin/apartments', {
           title: this.apartmentForm.title,
           num_rooms: this.apartmentForm.num_rooms,
@@ -63,7 +59,24 @@ export default {
         })
       })
       .then(result => {
-        console.log(result)
+        // if(result.response.status===500) {
+        //   console.log("error")
+        // } else {
+        //   this.apartmentForm = ref({
+        //     title: '',
+        //     num_rooms: '',
+        //     num_beds: '',
+        //     num_bathrooms: '',
+        //     square_meters: '',
+        //     address: '',
+        //     description: '',
+        //     img_path: '',
+        //     visible: true,
+        //     price: '',
+        //     user_id: store.user.id
+        //   })
+        // }
+        // console.log(result)
       })
     }
   }
@@ -212,8 +225,8 @@ export default {
                 <label for="visible" class="form-label mb-0"><i class="fa-solid fa-eye"></i></label>
               </div>
 
-              <div class="modal-footer pe-4">
-                <button type="submit" class="btn t4-btn"><i class="fa-solid fa-floppy-disk"></i></button>
+              <div class="modal-footer pe-2">
+                <button type="submit" class="btn t4-btn" data-bs-dismiss="modal"><i class="fa-solid fa-floppy-disk"></i></button>
               </div>
             </form>
           </div>

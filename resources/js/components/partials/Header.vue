@@ -44,14 +44,14 @@ export default {
           <li class="header-menu-item me-4">
             <router-link :to="{ name: 'home' }" class="nav-link fw-semibold">Home</router-link>
           </li>
-          <li v-if="store.user !== null" class="header-menu-item">
+          <li v-if="store.user" class="header-menu-item">
             <router-link :to="{ name: 'apartments' }" class="nav-link fw-semibold">My Apartments</router-link>
           </li>
         </ul>
       </nav>
 
       <div>
-        <button v-if="!this.store.user" class="btn btn-login t4-btn d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#login-modal">
+        <button v-if="!store.user" class="btn btn-login t4-btn d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#login-modal">
           <i class="fa-solid fa-circle-user me-2 fs-6"></i>
           <span class="me-1">Login</span>
         </button>
@@ -137,14 +137,14 @@ export default {
 
             <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
               <input
-                v-model="store.form.full_name"
+                v-model="store.form.name"
                 required
                 type="text"
-                id="full_name"
-                name="full_name"
+                id="name"
+                name="name"
                 class="form-control"
                 placeholder="Nome e Cognome">
-              <label  for="full_name" class="form-label mb-0"><i class="fa-solid fa-user"></i></label>
+              <label  for="name" class="form-label mb-0"><i class="fa-solid fa-user"></i></label>
 
             </div>
 

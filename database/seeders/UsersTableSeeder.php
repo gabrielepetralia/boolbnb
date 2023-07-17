@@ -20,7 +20,7 @@ class UsersTableSeeder extends Seeder
 
           $new_user = new User();
 
-          $new_user->name = $user['full_name'];
+          $new_user->name = $user['name'];
           $new_user->email = $user['email'];
           $new_user->password = Hash::make($user['password']);
           $new_user->birth_date = $user['birth_date'];

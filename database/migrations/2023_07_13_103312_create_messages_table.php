@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
             $table->string('email', 100);
-            $table->string('full_name', 100);
+            $table->string('name', 100);
             $table->text('msg_text');
             $table->dateTime('sent_date');
             $table->timestamps();

@@ -9,7 +9,7 @@ export const store = reactive ({
   errors: null,
 
   form : ref({
-    full_name: "",
+    name: "",
     email: "",
     password: ""
   }),
@@ -22,7 +22,7 @@ export const store = reactive ({
 
   handleRegistration(){
     axios.post('/register', {
-      name: this.form.full_name,
+      name: this.form.name,
       email: this.form.email,
       password: this.form.password,
     })

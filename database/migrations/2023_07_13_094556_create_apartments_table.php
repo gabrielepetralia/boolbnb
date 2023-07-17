@@ -27,7 +27,7 @@ return new class extends Migration
         $table->text("description")->nullable();
         $table->text("img_path")->nullable();
         $table->boolean("visible")->default(1);
-        $table->decimal("price", 6, 2)->nullable();
+        $table->decimal("price", 6, 2)->unsigned()->nullable();
 
         $table->timestamps();
       });

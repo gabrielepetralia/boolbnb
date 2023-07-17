@@ -79,7 +79,7 @@ export default {
     <div class="d-flex justify-content-between my-4">
       <h2 class="fs-3 mb-0 title">Appartamenti</h2>
       <div>
-        <button title="Add Apartment" class="btn t4-btn btn-add" data-bs-toggle="modal" data-bs-target="#add-apartment-modal"><i class="fa-solid fa-plus"></i></button>
+        <button title="Aggiungi Appartamento" class="btn t4-btn btn-add" data-bs-toggle="modal" data-bs-target="#add-apartment-modal"><i class="fa-solid fa-plus"></i></button>
       </div>
     </div>
   </div>
@@ -92,7 +92,7 @@ export default {
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <h1 class="modal-title fs-3 fw-semibold text-center mt-2 mb-4" id="addApartmentModalLabel">Add Apartment</h1>
+            <h1 class="modal-title fs-3 fw-semibold text-center mt-2 mb-4" id="addApartmentModalLabel">Aggiungi Appartamento</h1>
             <form enctype="multipart/form-data" @submit.prevent="addApartment()">
 
               <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
@@ -176,6 +176,18 @@ export default {
                 <label for="description" class="form-label mb-0 mt-2"><i class="fa-solid fa-comment-dots"></i></label>
               </div>
 
+              <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
+                <input
+                  v-model="apartmentForm.price"
+                  type="number"
+                  min="1"
+                  id="price"
+                  name="price"
+                  class="form-control"
+                  placeholder="Prezzo Per Notte">
+                <label for="price" class="form-label mb-0"><i class="fa-solid fa-euro-sign"></i></label>
+              </div>
+
               <div class="mb-3 d-flex align-items-center flex-row-reverse input-box pb-2">
                 <input
                   type="file"
@@ -198,21 +210,6 @@ export default {
                   <span class="slider round"></span>
                 </label>
                 <label for="visible" class="form-label mb-0"><i class="fa-solid fa-eye"></i></label>
-              </div>
-
-              <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
-                <input
-                  v-model="apartmentForm.price"
-                  type="number"
-                  min="1"
-                  id="price"
-                  name="price"
-                  class="form-control"
-                  placeholder="Prezzo per notte">
-                <label for="price" class="form-label mb-0">
-                  <!-- Add Price icon -->
-                  <!-- <i class="fa-solid fa-expand"></i> -->
-                </label>
               </div>
 
               <div class="modal-footer pe-4">

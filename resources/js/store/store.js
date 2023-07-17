@@ -25,10 +25,17 @@ export const store = reactive ({
       name: this.form.name,
       email: this.form.email,
       password: this.form.password,
+    }).then(() => {
+
+      axios.post('/login', {
+        email: this.form.email,
+        password: this.form.password
+      })
+    }).then(response => {
+      this.getUser()
+
     })
-    this.$router.push({
-      name:'home'
-    });
+
   },
 
   handleLogin(){
@@ -47,9 +54,7 @@ export const store = reactive ({
           this.formLogin = ref({
             loginEmail: "",
             loginPassword: ""
-          }),
-
-          this.router.push('/my-apartments');
+          })
         })
       })
     }else {
@@ -61,8 +66,6 @@ export const store = reactive ({
   handleLogout(){
     axios.post('/logout').then(response => {
       this.user = null;
-
-      this.$router.push('/');
     })
   },
 
@@ -72,7 +75,6 @@ export const store = reactive ({
           axios.get('admin/user-auth')
                       .then(response => {
                         this.user = response.data
-                        console.log(this.user);
                       })
         })
   },

@@ -33,7 +33,7 @@ export const store = reactive ({
 
   handleLogin(){
 
-    if(this.formLogin.loginPassword.length > 4){
+    if(this.formLogin.loginPassword.length > 7){
 
       axios.get('sanctum/csrf-cookie')
       .then(result =>{

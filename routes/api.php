@@ -23,8 +23,8 @@ Route::middleware('auth:sanctum')->group(
 
 
 Route::namespace('Api')
-        ->prefix('apartments')
-        ->group(function(){
+  ->prefix('apartments')
+  ->group(function(){
+    Route::get('/', [PostController::class, 'getSponsorizedApartments']);
 
-
-        });
+});

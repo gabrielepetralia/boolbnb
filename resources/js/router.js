@@ -2,8 +2,10 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import Home from './pages/Home.vue'
 import Dashboard from './pages/Dashboard.vue'
-import DashboardApartments from './pages/DashboardApartments.vue'
-import DashboardMessages from './pages/DashboardMessages.vue'
+import DashboardApartments from './pages/dashboard-pages/DashboardApartments.vue'
+import DashboardMessages from './pages/dashboard-pages/DashboardMessages.vue'
+import DashboardStats from './pages/dashboard-pages/DashboardStats.vue'
+import DashboardSponsorships from './pages/dashboard-pages/DashboardSponsorships.vue'
 import Error404 from './pages/Error404.vue'
 
 const router = createRouter({
@@ -32,6 +34,16 @@ const router = createRouter({
                 path: '/my-apartments/messages',
                 name: 'messages',
                 component: DashboardMessages,
+              },
+              {
+                path: '/my-apartments/stats',
+                name: 'stats',
+                component: DashboardStats,
+              },
+              {
+                path: '/my-apartments/sponsorships',
+                name: 'sponsorships',
+                component: DashboardSponsorships,
               },
             ]
         },

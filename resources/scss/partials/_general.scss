@@ -10,6 +10,17 @@ body {
   margin: 0 auto;
 }
 
+.t4-btn {
+  color: white;
+  background-color: $dark_gray;
+  transition: all 0.3s;
+
+  &:hover {
+    color: white;
+    background-color: $light_blue;
+  }
+}
+
 a {
   text-decoration: none;
   color: white;

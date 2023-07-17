@@ -5,10 +5,10 @@ export default {
 </script>
 
 <template>
-  <h1 class="p-5">Messages</h1>
+  <h2 class="p-5">Messaggi</h2>
 </template>
 
 <style lang="scss" scoped>
-@use "../../scss/partials/variables" as *;
+@use "../../../scss/partials/variables" as *;
 
 </style>

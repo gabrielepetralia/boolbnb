@@ -8,7 +8,7 @@ export default {
   <p></p>
   <div class="d-flex align-items-center">
     <input class="searchbar me-2" type="text" name="searchbar" placeholder="Inserisci una località">
-    <button class="btn btn-search d-flex justify-content-center align-items-center" name="btn_search"><i class="fa-solid fa-magnifying-glass"></i></button>
+    <button class="btn t4-btn btn-search d-flex justify-content-center align-items-center" name="btn_search"><i class="fa-solid fa-magnifying-glass"></i></button>
   </div>
 </template>
 
@@ -24,15 +24,8 @@ export default {
 }
 .btn-search {
   border-radius: 50%;
-  color: white;
-  background-color: $dark_gray;
   height: 50px;
   width: 50px;
   padding: 10px;
-  transition: all 0.3s;
-
-  &:hover {
-    background-color: $light-blue;
-  }
 }
 </style>

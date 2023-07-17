@@ -32,6 +32,7 @@ class ApartmentsTableSeeder extends Seeder
           $new_apartment->square_meters = rand(50, 300);
           $new_apartment->coordinates = DB::raw("ST_GeomFromText('POINT($faker->latitude $faker->longitude)')");
           $new_apartment->address = $faker->address();
+          $new_apartment->description = $faker->text(500);
           $new_apartment->visible = rand(0, 1);
           $new_apartment->user_id = User::inRandomOrder()->first()->id;
           $new_apartment->price = $faker->randomfloat(2, 10, 1000);

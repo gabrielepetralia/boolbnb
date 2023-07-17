@@ -57,7 +57,7 @@ export default {
         </button>
 
         <a v-else href="/" @click="store.handleLogout()" type="submit" class="btn btn-logout t4-btn d-flex align-items-center">
-          <i class="fa-solid fa-circle-user me-2 fs-6"></i>
+          <i class="fa-solid fa-right-from-bracket me-2 fs-6"></i>
           <span class="me-1">Logout</span>
         </a>
 
@@ -215,7 +215,7 @@ header {
   }
 
   .btn-login,
-  .bnt-logout {
+  .btn-logout {
     font-size: 0.9rem;
   }
 }

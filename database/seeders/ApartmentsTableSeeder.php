@@ -25,6 +25,7 @@ class ApartmentsTableSeeder extends Seeder
       $types_of_structure = ['B&B','Villa','Residence'];
         for ($i=0; $i < 100; $i++) {
 
+
           $new_apartment = new Apartment();
           $new_apartment->title = $types_of_structure[rand(0, count($types_of_structure) - 1)] . " " . $faker->firstNameFemale();
           $new_apartment->slug = CustomHelper::generateUniqueSlug($new_apartment->title, new Apartment());

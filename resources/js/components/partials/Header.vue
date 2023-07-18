@@ -45,7 +45,7 @@ export default {
             <router-link :to="{ name: 'home' }" class="nav-link fw-semibold">Home</router-link>
           </li>
           <li v-if="store.user" class="header-menu-item">
-            <router-link :to="{ name: 'apartments' }" class="nav-link fw-semibold">My Apartments</router-link>
+            <router-link :to="{ name: 'apartments' }" class="nav-link fw-semibold">Gestione Appartamenti</router-link>
           </li>
         </ul>
       </nav>

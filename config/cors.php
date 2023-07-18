@@ -21,7 +21,9 @@ return [
 
     'allowed_origins' => ['*'],
 
-    'allowed_origins_patterns' => ['http://127.0.0.1:8000/'],
+    'allowed_origins_patterns' => [
+      'https://api.tomtom.com', 'http://127.0.0.1:8000'
+    ],
 
     'allowed_headers' => ['*'],
 

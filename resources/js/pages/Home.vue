@@ -1,6 +1,7 @@
 <script>
 import Jumbotron from '../components/partials/Jumbotron.vue';
 import ApartmentCard from '../components/partials/cards/ApartmentCard.vue';
+import { store } from '../store/store';
 
 export default {
   name: 'Home',
@@ -8,6 +9,27 @@ export default {
   components: {
     Jumbotron,
     ApartmentCard
+  },
+
+  data() {
+    return {
+      store,
+      apartments: []
+    }
+  },
+
+  methods: {
+    getApi() {
+      axios.get(store.apiUrl + 'apartments')
+        .then(res => {
+          this.apartments = res.data;
+          console.log(this.apartments)
+        })
+    },
+
+    mounted() {
+      this.getApi();
+    }
   }
 }
 </script>
@@ -19,9 +41,11 @@ export default {
     <section class="sponsorized-apartments">
       <div class="t4-container">
 
-        <h2 class="mb-4">Appartamenti in evidenza</h2>
+        <h2 class="mb-4 mt-5 mb-4">Appartamenti In Evidenza</h2>
 
-        <div class="row row-cols-5">
+        <div class="row row-cols-6">
+          <ApartmentCard/>
+          <ApartmentCard/>
           <ApartmentCard/>
           <ApartmentCard/>
           <ApartmentCard/>

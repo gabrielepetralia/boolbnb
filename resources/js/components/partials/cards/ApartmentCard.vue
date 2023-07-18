@@ -33,7 +33,17 @@ export default {
 
 .apartment-card {
   color: $dark_gray;
+  border-radius: 12px;
+  transition: all 0.2s;
+
+  &:hover {
+    box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
+  }
+
   .apartment-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 12px;
     overflow: hidden;
     aspect-ratio: 1;
@@ -50,6 +60,8 @@ export default {
   }
 
   .apartment-text {
+    padding: 10px 15px;
+    padding-top: 0;
 
     p {
       font-size: 0.9rem;

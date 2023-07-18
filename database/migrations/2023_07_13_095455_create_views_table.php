@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('views', function (Blueprint $table) {
             $table->id();
-            $table->string('ip_address', 15);
+            $table->string('ip_address');
             $table->timestamp('date_time');
             $table->timestamps();
         });

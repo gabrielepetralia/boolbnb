@@ -21,6 +21,8 @@ class ApartmentsTableSeeder extends Seeder
      */
     public function run(Faker $faker)
     {
+      $addresses = config('addresses');
+      
       $images = [
       "https://a0.muscache.com/im/pictures/40706270/81c0585d_original.jpg?im_w=720",
       "https://a0.muscache.com/im/pictures/e47c0a48-4f10-470d-aa86-66f79ae86f20.jpg?im_w=720",
@@ -35,6 +37,7 @@ class ApartmentsTableSeeder extends Seeder
       ];
 
       $types_of_structure = ['B&B','Villa','Residence'];
+      
         for ($i=0; $i < 200; $i++) {
           $new_apartment = new Apartment();
           $new_apartment->title = $types_of_structure[rand(0, count($types_of_structure) - 1)] . " " . $faker->firstNameFemale();
@@ -43,8 +46,8 @@ class ApartmentsTableSeeder extends Seeder
           $new_apartment->num_beds = rand(1, 4);
           $new_apartment->num_bathrooms = rand(1, 3);
           $new_apartment->square_meters = rand(50, 300);
-          $new_apartment->coordinates = DB::raw("ST_GeomFromText('POINT($faker->latitude $faker->longitude)')");
-          $new_apartment->address = $faker->address();
+          $new_apartment->address = $addresses[rand(0, count($addresses) -1)]['via_completa'];
+          $new_apartment->coordinates =  DB::raw("ST_GeomFromText('POINT(" . CustomHelper::getCoordinates($new_apartment->address) . ")')");
           $new_apartment->description = $faker->text(500);
           $new_apartment->img_path = $images[rand(0, count($images) - 1)];
           $new_apartment->visible = rand(0, 1);

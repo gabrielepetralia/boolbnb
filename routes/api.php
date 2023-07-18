@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::namespace('Api')
 ->prefix('api/apartments')
 ->group(function () {
-  Route::get('/', [ApartmentController::class, 'index']);
+  Route::get('/', [ApartmentController::class, 'getSponsorizedApartments']);
 });
 
 

@@ -1,4 +1,5 @@
 <script>
+import axios from 'axios';
 import Jumbotron from '../components/partials/Jumbotron.vue';
 import ApartmentCard from '../components/partials/cards/ApartmentCard.vue';
 import { store } from '../store/store';
@@ -22,14 +23,14 @@ export default {
     getApi() {
       axios.get(store.apiUrl + 'apartments')
         .then(res => {
-          this.apartments = res.data;
+          this.apartments = res.data.apartments;
           console.log(this.apartments)
         })
-    },
-
-    mounted() {
-      this.getApi();
     }
+  },
+
+  mounted() {
+    this.getApi();
   }
 }
 </script>
@@ -44,18 +45,10 @@ export default {
         <h2 class="mb-4 mt-5 mb-4">Appartamenti In Evidenza</h2>
 
         <div class="row row-cols-6">
-          <ApartmentCard/>
-          <ApartmentCard/>
-          <ApartmentCard/>
-          <ApartmentCard/>
-          <ApartmentCard/>
-          <ApartmentCard/>
-          <ApartmentCard/>
-          <ApartmentCard/>
-          <ApartmentCard/>
-          <ApartmentCard/>
-          <ApartmentCard/>
-          <ApartmentCard/>
+          <ApartmentCard
+          v-for="apartment in apartments"
+            :key="apartment.id"
+            :apartment="apartment"/>
         </div>
 
       </div>
@@ -70,10 +63,6 @@ export default {
 .home {
   color: $dark_gray;
   background-color: $dark_white;
-
-  .sponsorized-apartments {
-
-  }
 }
 
 </style>

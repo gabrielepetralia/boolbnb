@@ -18,15 +18,16 @@ class ApartmentsSponsorshipsTableSeeder extends Seeder
     public function run(Faker $faker)
     {
       for ($i = 0; $i < 100; $i++) {
-        $sponsorships = Sponsorship::all();
-
         $apartment = Apartment::inRandomOrder()->first();
         $sponsorhip_id = Sponsorship::inRandomOrder()->first()->id;
 
         $duration = Sponsorship::where('id', $sponsorhip_id)->value('duration');
 
-        $start_date = $faker->date() . " " . $faker->time();
-        $end_date = rand(0, 1) ? date('Y-m-d H:i:s', strtotime($start_date . ' +' . $duration . ' hours')) : null;
+        date_default_timezone_set('Europe/Rome');
+        $formattedDateTime = $faker->dateTimeInInterval('-1 month', '+1 month')->format('Y-m-d H:i:s');
+
+        $start_date = $formattedDateTime;
+        $end_date = date('Y-m-d H:i:s', strtotime($start_date . ' +' . $duration . ' hours'));
 
         $apartment->sponsorships()->attach($sponsorhip_id, [
           'start_date' => $start_date,

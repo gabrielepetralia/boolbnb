@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Apartment;
 use Illuminate\Http\Request;
 use App\Helpers\CustomHelper;
+use Illuminate\Support\Facades\DB;
 class ApartmentsController extends Controller
 {
     /**
@@ -25,7 +26,7 @@ class ApartmentsController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -38,9 +39,12 @@ class ApartmentsController extends Controller
     {
       $form_data = $request->all();
       $form_data['slug'] = CustomHelper::generateUniqueSlug($form_data['title'], new Apartment());
+      $form_data['coordinates'] = DB::raw("ST_GeomFromText('POINT(" . CustomHelper::getCoordinates($form_data['address']) . ")')");
       $new_apartment = Apartment::create($form_data);
       // Da reindirizzare direttamente alla show
       return response()->json('ok');
+
+
     }
 
     /**

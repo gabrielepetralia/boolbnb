@@ -9,6 +9,7 @@ export default {
     return{
       store,
       coordinates: '',
+      city: '',
       apiKey: 'BJn2pmnX1Y20KpKZAZYCLf4m1Gzqu2bG',
       apiUrl: 'https://api.tomtom.com/',
       apartmentForm : ref({
@@ -28,21 +29,12 @@ export default {
   },
 
   methods: {
-    // getCoordinates(address){
-    //   axios.get(this.apiUrl + 'geocode/'+this.apartmentForm.address+'.json?view=Unified&key='+ this.apiKey )
-    //       .then(result => {
-    //         this.apartmentForm.lat = result.data.results[0].position.lat;
-    //         this.apartmentForm.lon = result.data.results[0].position.lon;
-    //       })
-    // },
 
     addApartment(){
       console.log('ciao');
       axios.get('sanctum/csrf-cookie')
       .then(() => {
-        // this.getCoordinates(this.apartmentForm.address);
         console.log('ciao');
-
       })
       .then(() => {
         console.log(this.apartmentForm);
@@ -54,7 +46,6 @@ export default {
           num_bathrooms: this.apartmentForm.num_bathrooms,
           square_meters: this.apartmentForm.square_meters,
           address: this.apartmentForm.address,
-          // coordinates: '',
           description: this.apartmentForm.description,
           img_path: this.apartmentForm.img_path,
           visible: this.apartmentForm.visible,
@@ -224,6 +215,7 @@ export default {
         </div>
       </div>
     </div>
+
 </template>
 
 <style lang="scss" scoped>

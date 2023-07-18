@@ -21,6 +21,7 @@ class ApartmentsTableSeeder extends Seeder
      */
     public function run(Faker $faker)
     {
+      $addresses = config('addresses');
       $types_of_structure = ['B&B','Villa','Residence'];
         for ($i=0; $i < 200; $i++) {
           $new_apartment = new Apartment();
@@ -30,8 +31,8 @@ class ApartmentsTableSeeder extends Seeder
           $new_apartment->num_beds = rand(1, 4);
           $new_apartment->num_bathrooms = rand(1, 3);
           $new_apartment->square_meters = rand(50, 300);
-          $new_apartment->coordinates = DB::raw("ST_GeomFromText('POINT($faker->latitude $faker->longitude)')");
-          $new_apartment->address = $faker->address();
+          $new_apartment->address = $addresses[rand(0, count($addresses) -1)]['via_completa'];
+          $new_apartment->coordinates =  DB::raw("ST_GeomFromText('POINT(" . CustomHelper::getCoordinates($new_apartment->address) . ")')");
           $new_apartment->description = $faker->text(500);
           $new_apartment->visible = rand(0, 1);
           $new_apartment->user_id = User::inRandomOrder()->first()->id;

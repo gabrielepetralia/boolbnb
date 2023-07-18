@@ -8,6 +8,7 @@ use App\Http\Requests\VisibilityCheck;
 use App\Models\Apartment;
 use Illuminate\Http\Request;
 use App\Helpers\CustomHelper;
+use Illuminate\Support\Facades\DB;
 
 class ApartmentController extends Controller
 {
@@ -47,6 +48,7 @@ class ApartmentController extends Controller
     // }
 
     $form_data['slug'] = CustomHelper::generateUniqueSlug($form_data['title'], new Apartment());
+    $form_data['coordinates'] = DB::raw("ST_GeomFromText('POINT(" . CustomHelper::getCoordinates($form_data['address']) . ")')");
     $new_apartment = Apartment::create($form_data);
     // Da reindirizzare direttamente alla show
     return response()->json('ok');

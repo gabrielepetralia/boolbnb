@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ApartmentRequest;
+use App\Http\Requests\VisibilityCheck;
 use App\Models\Apartment;
 use Illuminate\Http\Request;
 use App\Helpers\CustomHelper;
@@ -35,9 +37,15 @@ class ApartmentController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function store(Request $request)
+  public function store(ApartmentRequest $request)
   {
+
     $form_data = $request->all();
+
+    // if($form_data['visible'] == true){
+    //   $form_data = $visiblecheck->all();
+    // }
+
     $form_data['slug'] = CustomHelper::generateUniqueSlug($form_data['title'], new Apartment());
     $new_apartment = Apartment::create($form_data);
     // Da reindirizzare direttamente alla show

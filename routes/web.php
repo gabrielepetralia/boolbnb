@@ -6,6 +6,7 @@ use App\Http\Controllers\Guest\PageController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Admin\ApartmentController;
+use App\Http\Controllers\Api\ApartmentController as AdminApartmentController;
 
 
 
@@ -29,8 +30,10 @@ Route::middleware(['auth', 'verified'])
     // Route::get('/', [DashboardController::class, 'index'])->name('home');
     Route::get('/user-auth', [UserController::class, 'index']);
     Route::resource('apartments', ApartmentController::class);
+    Route::get('/{user_id}', [AdminApartmentController::class, 'getUserApartments']);
 
 });
+
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/api.php';

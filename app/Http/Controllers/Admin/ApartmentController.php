@@ -19,7 +19,7 @@ class ApartmentController extends Controller
    */
   public function index()
   {
-    //
+
   }
 
   /**
@@ -83,9 +83,31 @@ class ApartmentController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, $id)
+  public function update(Request $request, $apartment)
   {
-    //
+    $form_data = $request->all();
+
+    if($apartment->title !== $form_data['title']){
+      $form_data['slug'] = CustomHelper::generateUniqueSlug($form_data['title'], new Apartment());
+    }
+    if($apartment->address !== $form_data['address']){
+      $form_data['coordinates'] = DB::raw("ST_GeomFromText('POINT(" . CustomHelper::getCoordinates($form_data['address']) . ")')");
+    }
+
+    if(array_key_exists('image_path', $form_data)){
+
+      if($apartment->image_path){
+          Storage::disk('public')->delete($apartment->image_path);
+      }
+
+      $form_data['original_img_name'] = $request->file('image')->getClientOriginalName();
+
+      $form_data['image_path'] = Storage::put('uploads', $form_data['image']);
+  }
+
+    $apartment->update($form_data);
+
+    return response()->json($apartment);
   }
 
   /**
@@ -96,6 +118,13 @@ class ApartmentController extends Controller
    */
   public function destroy($id)
   {
-    //
+    // if($apartment->image_path){
+    //   Storage::disk('public')->delete($apartment->image_path);
+    // }
+
+  $project->delete();
+  return response()->with('deleted', "<strong> $project->name </strong> deleted successfully");
   }
+
+
 }

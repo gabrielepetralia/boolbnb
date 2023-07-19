@@ -12,7 +12,7 @@ export default {
     return{
       tt,
       store,
-
+      myAp : [],
       coordinates: '',
 
       apiUrl: 'https://api.tomtom.com/',
@@ -33,6 +33,16 @@ export default {
   },
 
   methods: {
+    getMyApartments(){
+      axios.get('sanctum/csrf-cookie')
+          .then(()=> {
+            axios.get(`/admin/${store.user.id}`).then(result => {
+              this.myAp = result.data;
+              console.log(result);
+            })
+          })
+    },
+
     addApartment(){
       axios.get('sanctum/csrf-cookie')
       .then(() => {
@@ -72,6 +82,10 @@ export default {
       })
     },
 
+  },
+
+  mounted(){
+    this.getMyApartments()
   }
 }
 

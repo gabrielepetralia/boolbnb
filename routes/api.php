@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\ApartmentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,6 +20,7 @@ Route::namespace('Api')
 ->prefix('api/apartments')
 ->group(function () {
   Route::get('/', [ApartmentController::class, 'getSponsorizedApartments']);
+
 });
 
 

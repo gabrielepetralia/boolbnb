@@ -6,6 +6,7 @@ import DashboardApartments from './pages/dashboard-pages/DashboardApartments.vue
 import DashboardMessages from './pages/dashboard-pages/DashboardMessages.vue'
 import DashboardStats from './pages/dashboard-pages/DashboardStats.vue'
 import DashboardSponsorships from './pages/dashboard-pages/DashboardSponsorships.vue'
+import ApartmentDetailAdmin from './pages/dashboard-pages/ApartmentDetailAdmin.vue'
 import Error404 from './pages/Error404.vue'
 import { store } from './store/store'
 const router = createRouter({
@@ -40,6 +41,11 @@ const router = createRouter({
                 path: '/my-apartments/apartments',
                 name: 'apartments',
                 component: DashboardApartments,
+              },
+              {
+                path: '/my-apartments/apartment-detail',
+                name: 'apartment-detail',
+                component: ApartmentDetailAdmin,
               },
               {
                 path: '/my-apartments/messages',

@@ -22,7 +22,7 @@ class ApartmentsTableSeeder extends Seeder
     public function run(Faker $faker)
     {
       $addresses = config('addresses');
-      
+
       $images = [
       "https://a0.muscache.com/im/pictures/40706270/81c0585d_original.jpg?im_w=720",
       "https://a0.muscache.com/im/pictures/e47c0a48-4f10-470d-aa86-66f79ae86f20.jpg?im_w=720",
@@ -37,7 +37,7 @@ class ApartmentsTableSeeder extends Seeder
       ];
 
       $types_of_structure = ['B&B','Villa','Residence'];
-      
+
         for ($i=0; $i < 200; $i++) {
           $new_apartment = new Apartment();
           $new_apartment->title = $types_of_structure[rand(0, count($types_of_structure) - 1)] . " " . $faker->firstNameFemale();

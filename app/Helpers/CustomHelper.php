@@ -24,7 +24,7 @@ class CustomHelper
 
   public static function getCoordinates($request)
   {
-      $client = new Client();
+      $client = new Client(['verify' => false]);
 
       try {
           $response = $client->get('https://api.tomtom.com/search/2/geocode/'. $request .'.json', [

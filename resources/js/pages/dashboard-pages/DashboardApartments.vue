@@ -2,14 +2,19 @@
 import { ref } from 'vue';
 import { store } from '../../store/store';
 import axios from 'axios';
+
+import tt from '@tomtom-international/web-sdk-maps';
+
 export default {
   name: "DashboardApartments",
 
   data(){
     return{
+      tt,
       store,
+
       coordinates: '',
-      apiKey: 'BJn2pmnX1Y20KpKZAZYCLf4m1Gzqu2bG',
+
       apiUrl: 'https://api.tomtom.com/',
       apartmentForm : ref({
         title: '',
@@ -28,20 +33,8 @@ export default {
   },
 
   methods: {
-    // getCoordinates(address){
-    //   axios.get(this.apiUrl + 'geocode/'+this.apartmentForm.address+'.json?view=Unified&key='+ this.apiKey )
-    //       .then(result => {
-    //         this.apartmentForm.lat = result.data.results[0].position.lat;
-    //         this.apartmentForm.lon = result.data.results[0].position.lon;
-    //       })
-    // },
-
     addApartment(){
       axios.get('sanctum/csrf-cookie')
-      .then(() => {
-        // this.getCoordinates(this.apartmentForm.address);
-
-      })
       .then(() => {
         axios.post('/admin/apartments', {
           title: this.apartmentForm.title,
@@ -50,7 +43,6 @@ export default {
           num_bathrooms: this.apartmentForm.num_bathrooms,
           square_meters: this.apartmentForm.square_meters,
           address: this.apartmentForm.address,
-          // coordinates: '',
           description: this.apartmentForm.description,
           img_path: this.apartmentForm.img_path,
           visible: this.apartmentForm.visible,
@@ -78,13 +70,11 @@ export default {
         // }
         // console.log(result)
       })
-    }
+    },
+
   }
 }
 
-// $("[type='number']").keypress(function (evt) {
-//   evt.preventDefault();
-// });
 </script>
 
 <template>
@@ -168,15 +158,23 @@ export default {
                 <label for="square_meters" class="form-label mb-0"><i class="fa-solid fa-expand"></i></label>
               </div>
 
-              <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
+              <div class="mb-3 d-flex align-items-center flex-row-reverse input-box position-relative">
                 <input
                   v-model="apartmentForm.address"
+                  @input="store.getSuggestions(this.apartmentForm.address)"
                   type="text"
                   id="address"
                   name="address"
                   class="form-control"
+                  autocomplete="off"
                   placeholder="Indirizzo">
-                <label for="address" class="form-label mb-0"><i class="fa-solid fa-location-dot"></i></label>
+                  <label for="address" class="form-label mb-0"><i class="fa-solid fa-location-dot"></i></label>
+                  <!-- MODIFICARE LO STILE IN SCSS  -->
+                  <div style="top: 100%; left: 0; width: 100%; background-color: white;" class="position-absolute text-black">
+                    <ul v-if="store.showSuggestions">
+                      <li v-for="(suggest, index) in store.suggestions" :key="index" @click="store.selectAddress(this.apartmentForm, suggest)">{{ suggest.address.freeformAddress }}</li>
+                    </ul>
+                  </div>
               </div>
 
               <div class="mb-3 d-flex flex-row-reverse input-box pb-2">

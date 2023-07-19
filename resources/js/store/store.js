@@ -4,12 +4,19 @@ import axios from 'axios';
 
 
 export const store = reactive ({
-
+// TomTom Api Datas
   apiUrl: 'http://127.0.0.1:8000/api/',
+  apiKey: 'BJn2pmnX1Y20KpKZAZYCLf4m1Gzqu2bG',
 
+// user logged in and form errors
   user : null,
   errors: null,
 
+// Autocomplete fields
+  suggestions: null,
+  showSuggestions: false,
+
+// Login and register forms fields
   form : ref({
     name: "",
     email: "",
@@ -21,7 +28,7 @@ export const store = reactive ({
     loginPassword: ""
   }),
 
-
+// Handling authorizations
   handleRegistration(){
     axios.post('/register', {
       name: this.form.name,
@@ -80,4 +87,34 @@ export const store = reactive ({
                       })
         })
   },
+
+// Getting suggestions for adressed autocomplete w/ TomTom Api
+  getSuggestions(address){
+    if(address.length >= 3){
+
+      axios
+      .get('https://api.tomtom.com/search/2/search/' + address + '.json', {
+        params: {
+          key: this.apiKey,
+          language: 'it-IT',
+          limit: 5,
+        }})
+        .then((response) => {
+          this.suggestions = response.data.results;
+          this.showSuggestions = true;
+        })
+        .catch(error => {
+          this.errors = error
+        });
+
+      }else {
+        this.showSuggestions = false;
+      }
+  },
+
+  selectAddress(formField, suggest) {
+    formField.address = suggest.address.freeformAddress;
+    this.showSuggestions = false;
+  },
+
 });

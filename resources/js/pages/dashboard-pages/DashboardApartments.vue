@@ -106,7 +106,7 @@ export default {
           </div>
           <div class="modal-body">
             <h1 class="modal-title fs-3 fw-semibold text-center mt-2 mb-4" id="addApartmentModalLabel">Aggiungi Appartamento</h1>
-            <form enctype="multipart/form-data" @submit.prevent="addApartment()">
+            <form enctype="multipart/form-data">
 
               <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
                 <input
@@ -225,10 +225,11 @@ export default {
                 <label for="visible" class="form-label mb-0"><i class="fa-solid fa-eye"></i></label>
               </div>
 
-              <div class="modal-footer pe-2">
-                <button type="submit" class="btn t4-btn" data-bs-dismiss="modal"><i class="fa-solid fa-floppy-disk"></i></button>
-              </div>
             </form>
+          </div>
+
+          <div class="modal-footer pe-3">
+            <button @click="addApartment()" class="btn t4-btn" data-bs-dismiss="modal"><i class="fa-solid fa-floppy-disk"></i></button>
           </div>
 
         </div>

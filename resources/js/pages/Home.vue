@@ -1,6 +1,7 @@
 <script>
 import axios from 'axios';
 import Jumbotron from '../components/partials/Jumbotron.vue';
+import Footer from '../components/partials/Footer.vue';
 import ApartmentCard from '../components/partials/cards/ApartmentCard.vue';
 import { store } from '../store/store';
 
@@ -9,7 +10,8 @@ export default {
 
   components: {
     Jumbotron,
-    ApartmentCard
+    ApartmentCard,
+    Footer
   },
 
   data() {
@@ -39,7 +41,7 @@ export default {
   <div class="home">
     <Jumbotron/>
 
-    <section class="sponsorized-apartments">
+    <section class="sponsorized-apartments pb-4">
       <div class="t4-container">
 
         <h2 class="mb-4 mt-5 mb-4">Appartamenti In Evidenza</h2>
@@ -55,6 +57,7 @@ export default {
     </section>
 
   </div>
+  <Footer />
 </template>
 
 <style lang="scss" scoped>

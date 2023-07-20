@@ -253,7 +253,7 @@ export default {
           </div>
 
           <div class="modal-footer pe-4">
-            <button @click="addApartment()" class="btn t4-btn" data-bs-dismiss="modal"><i class="fa-solid fa-floppy-disk"></i></button>
+            <button @click="addApartment()" class="btn t4-btn" data-bs-dismiss="modal" title="Salva"><i class="fa-solid fa-floppy-disk"></i></button>
           </div>
 
         </div>

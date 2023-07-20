@@ -42,7 +42,7 @@ methods: {
         address: this.apartment.address,
         description: this.apartment.description,
         img_path: this.apartment.img_path,
-        visible: this.apartment.visible,
+        visible: this.apartment.visible === 1 ? true : false,
         price: this.apartment.price,
         user_id: store.user.id
       })
@@ -160,10 +160,13 @@ mounted(){
   </div>
   <div class="d-flex justify-content-between">
     <h5 class="fw-semibold">{{ apartment.address }}</h5>
-    <router-link :to="{ name: 'apartments' }" class="btn t4-btn btn-add me-2"><i class="fa-solid fa-left-long"></i></router-link>
+    <div>
+      <router-link :to="{ name: 'apartments' }" class="btn t4-btn btn-add me-2"><i class="fa-solid fa-left-long"></i></router-link>
+    </div>
   </div>
 
 </div>
+
 <!-- modal -->
 <div class="modal fade" id="edit-apartment-modal" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -305,7 +308,7 @@ mounted(){
           </div>
 
           <div class="modal-footer pe-4">
-            <button class="btn t4-btn" data-bs-dismiss="modal"><i class="fa-solid fa-floppy-disk"></i></button>
+            <button class="btn t4-btn" data-bs-dismiss="modal" title="Salva"><i class="fa-solid fa-floppy-disk"></i></button>
           </div>
 
         </div>

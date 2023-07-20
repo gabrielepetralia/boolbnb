@@ -62,7 +62,7 @@ methods: {
   },
 
   getMap(){
-    axios.get( this.apiUrl + 'geocode/rome.json?view=Unified&key='+ this.apiKey )
+    axios.get( this.apiUrl + 'geocode/'+this.apartment.address+'.json?view=Unified&key='+ this.apiKey )
     .then(result => {
 
       this._map.lat = result.data.results[0].position.lat;

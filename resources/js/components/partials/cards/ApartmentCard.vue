@@ -18,7 +18,7 @@ export default {
         </div>
 
         <div class="apartment-text">
-          <h6 class="mb-1">{{ apartment.title }}</h6>
+          <h6 class="mb-1 fw-semibold">{{ apartment.title }}</h6>
           <p class="address">{{ apartment.address }}</p>
           <p><span class="fw-semibold fs-6">{{ apartment.price }} &euro;</span> a notte</p>
         </div>
@@ -67,7 +67,7 @@ export default {
       font-size: 0.9rem;
     }
 
-    .address {
+    .address, h6 {
       display: block;
       width: 100%;
       white-space: nowrap;

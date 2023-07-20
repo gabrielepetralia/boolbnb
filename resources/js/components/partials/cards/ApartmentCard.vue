@@ -14,7 +14,7 @@ export default {
       <div class="apartment-card mb-4">
 
         <div class="apartment-img mb-2">
-          <img :src="apartment.img_path" alt="" onerror=" this.src = '/img/placeholder.webp' ">
+          <img :src="apartment.img_path" alt="" onerror=" this.src = '/img/house-placeholder.png' ">
         </div>
 
         <div class="apartment-text">

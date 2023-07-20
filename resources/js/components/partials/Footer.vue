@@ -56,8 +56,8 @@
         </div>
         <div class="right">
           <ul class="d-flex align-items-center">
-            <li class="lang">
-              <i class="fa-solid fa-globe icon globe"></i>
+            <li class="lang d-flex align-items-center">
+              <i class="fa-solid fa-globe icon"></i>
               <a class="d-flex align-items-center" href="#">
                 <span class="language">Italiano</span>
               </a>
@@ -69,13 +69,13 @@
               </a>
             </li>
             <li class="d-flex align-items-center">
-              <a class="d-flex align-items-center" href="#"><i class="fa-brands fa-instagram icon"></i></a>
+              <a class="d-flex align-items-center icon-link" href="#"><i class="fa-brands fa-instagram icon"></i></a>
             </li>
             <li>
-              <a class="d-flex align-items-center" href="#"><i class="fa-brands fa-square-facebook icon"></i></a>
+              <a class="d-flex align-items-center icon-link" href="#"><i class="fa-brands fa-square-facebook icon"></i></a>
             </li>
             <li>
-              <a class="d-flex align-items-center" href="#"><i class="fa-brands fa-square-twitter icon"></i></a>
+              <a class="d-flex align-items-center icon-link" href="#"><i class="fa-brands fa-square-twitter icon"></i></a>
             </li>
           </ul>
         </div>
@@ -103,10 +103,10 @@ footer {
   }
   .footer-btm {
     .language {
-      margin-left: .5rem;
+      margin-left: 0.5rem;
     }
     span {
-      font-size: .8rem;
+      font-size: 0.8rem;
     }
 
     .left {
@@ -123,18 +123,18 @@ footer {
     }
 
     .right {
-      .lang {
-        line-height: 20px;
-      }
       span {
-        font-size:1rem ;
+        font-size:0.95rem ;
       }
+
       .icon {
         font-size: 1.2rem;
       }
-      .globe {
-        float: left;
+
+      .icon-link:hover {
+        text-decoration: none;
       }
+
       li:not(:last-child) {
         margin-right: 15px;
       }
@@ -143,8 +143,3 @@ footer {
 
 }
 </style>
-
-<!-- <i class="fa-brands fa-instagram"></i> instagram-->
-<!-- <i class="fa-brands fa-square-facebook"></i> facebook -->
-<!-- <i class="fa-brands fa-square-twitter"></i> twitter -->
-<!-- <i class="fa-solid fa-globe"></i> globe -->

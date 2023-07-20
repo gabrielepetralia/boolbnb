@@ -43,7 +43,6 @@ export default {
           .then(()=> {
             axios.get(`/admin/${store.user.id}`).then(result => {
               this.apartments = result.data.apartments;
-              console.log(result);
             })
           })
     },

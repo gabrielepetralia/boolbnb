@@ -31,9 +31,8 @@ Route::middleware(['auth', 'verified'])
     Route::get('/user-auth', [UserController::class, 'index']);
     Route::resource('apartments', AdminApartmentController::class);
     Route::get('/{user_id}', [ApartmentController::class, 'getUserApartments']);
-
-});
-
+    Route::get('/apartment/{slug}', [ApartmentController::class, 'getApartmentDetail']);
+  });
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/api.php';

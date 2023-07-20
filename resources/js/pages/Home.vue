@@ -26,7 +26,6 @@ export default {
       axios.get(store.apiUrl + 'apartments')
         .then(res => {
           this.apartments = res.data.apartments;
-          console.log(this.apartments)
         })
     }
   },

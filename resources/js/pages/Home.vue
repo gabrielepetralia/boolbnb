@@ -43,7 +43,7 @@ export default {
     <section class="sponsorized-apartments pb-4">
       <div class="t4-container">
 
-        <h2 class="mb-4 mt-5 mb-4">Appartamenti In Evidenza</h2>
+        <h2 class="mb-4 mt-5 mb-4 fw-semibold">Appartamenti In Evidenza</h2>
 
         <div class="row row-cols-6">
           <ApartmentCard

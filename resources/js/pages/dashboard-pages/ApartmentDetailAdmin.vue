@@ -92,7 +92,7 @@ mounted(){
 
   <div class="d-flex justify-content-between align-items-center my-4">
     <div class="d-flex align-items-center">
-      <h2 class="fs-3 mb-0 title">{{ apartment.title }}</h2>
+      <h2 class="fs-3 fw-semibold mb-0 title">{{ apartment.title }}</h2>
     </div>
     <div>
       <button title="Modifica Appartamento" class="btn t4-btn btn-add me-2" data-bs-toggle="modal" data-bs-target="#edit-apartment-modal"><i class="fa-solid fa-pencil"></i></button>
@@ -112,12 +112,12 @@ mounted(){
     <div class="col ps-4">
 
       <div>
-        <h4>Descrizione :</h4>
+        <h4 class="fw-semibold">Descrizione :</h4>
         <p>{{ apartment.description  }}</p>
       </div>
       <hr>
       <div>
-        <h4>Dettagli :</h4>
+        <h4 class="fw-semibold">Dettagli :</h4>
         <ul class="d-flex details">
           <li>
             <i class="fa-solid fa-door-open"></i>
@@ -139,7 +139,7 @@ mounted(){
       </div>
       <hr>
       <div>
-        <h4>Servizi :</h4>
+        <h4 class="fw-semibold">Servizi :</h4>
         <ul class="d-flex">
           <li>servizio</li>
           <li>servizio</li>
@@ -154,12 +154,12 @@ mounted(){
 
   <hr class="my-4">
 
-  <h4>Mappa :</h4>
+  <h4 class="fw-semibold">Mappa :</h4>
   <div class="map my-3">
     <div id="map"></div>
   </div>
   <div class="d-flex justify-content-between">
-    <h5>{{ apartment.address }}</h5>
+    <h5 class="fw-semibold">{{ apartment.address }}</h5>
     <router-link :to="{ name: 'apartments' }" class="btn t4-btn btn-add me-2"><i class="fa-solid fa-left-long"></i></router-link>
   </div>
 

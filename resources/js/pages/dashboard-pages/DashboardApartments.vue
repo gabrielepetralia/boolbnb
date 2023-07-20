@@ -98,7 +98,7 @@ export default {
 <template>
   <div class="t4-container py-5 px-5">
     <div class="d-flex justify-content-between my-4">
-      <h2 class="fs-3 mb-0 title">Appartamenti</h2>
+      <h2 class="fs-3 fw-semibold mb-0 title">Appartamenti</h2>
       <div>
         <button title="Aggiungi Appartamento" class="btn t4-btn btn-add" data-bs-toggle="modal" data-bs-target="#add-apartment-modal"><i class="fa-solid fa-plus"></i></button>
       </div>

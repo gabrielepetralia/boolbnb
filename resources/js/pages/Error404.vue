@@ -6,7 +6,7 @@ export default {
 
 <template>
   <div class="error-404 d-flex align-items-center justify-content-center">
-    <h1 class="p-5">Error 404</h1>
+    <h1 class="p-5 fw-semibold">Error 404</h1>
   </div>
 </template>
 

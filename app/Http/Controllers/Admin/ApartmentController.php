@@ -9,6 +9,7 @@ use App\Models\Apartment;
 use Illuminate\Http\Request;
 use App\Helpers\CustomHelper;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ApartmentController extends Controller
 {
@@ -83,7 +84,7 @@ class ApartmentController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, $apartment)
+  public function update(Request $request,Apartment $apartment)
   {
     $form_data = $request->all();
 
@@ -100,8 +101,6 @@ class ApartmentController extends Controller
           Storage::disk('public')->delete($apartment->image_path);
       }
 
-      $form_data['original_img_name'] = $request->file('image')->getClientOriginalName();
-
       $form_data['image_path'] = Storage::put('uploads', $form_data['image']);
   }
 
@@ -116,14 +115,14 @@ class ApartmentController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function destroy($id)
+  public function destroy(Apartment $apartment)
   {
-    // if($apartment->image_path){
-    //   Storage::disk('public')->delete($apartment->image_path);
-    // }
+    if($apartment->image_path){
+      Storage::disk('public')->delete($apartment->image_path);
+    }
 
-  $project->delete();
-  return response()->with('deleted', "<strong> $project->name </strong> deleted successfully");
+    $apartment->delete();
+    return response()->with('deleted', "<strong> $apartment->name </strong> eliminato correttamente!");
   }
 
 

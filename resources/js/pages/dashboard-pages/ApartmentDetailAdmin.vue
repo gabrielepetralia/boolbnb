@@ -45,7 +45,7 @@ mounted(){
     <h2 class="fs-3 mb-0 title">Nome Appartamento</h2>
     <div>
       <button title="Modifica Appartamento" class="btn t4-btn btn-add me-2" data-bs-toggle="modal" data-bs-target="#add-apartment-modal"><i class="fa-solid fa-pencil"></i></button>
-      <button title="Aggiungi Appartamento" class="btn t4-btn btn-add" data-bs-toggle="modal" data-bs-target="#add-apartment-modal"><i class="fa-solid fa-trash"></i></button>
+      <button title="Elimina Appartamento" class="btn t4-btn btn-add" data-bs-toggle="modal" data-bs-target="#add-apartment-modal"><i class="fa-solid fa-trash"></i></button>
     </div>
   </div>
   <div class="row row-cols-2">

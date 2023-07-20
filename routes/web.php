@@ -5,8 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Guest\PageController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Admin\ApartmentController;
-use App\Http\Controllers\Api\ApartmentController as AdminApartmentController;
+use App\Http\Controllers\Admin\ApartmentController as AdminApartmentController;
+use App\Http\Controllers\Api\ApartmentController;
 
 
 
@@ -29,8 +29,8 @@ Route::middleware(['auth', 'verified'])
 ->group(function () {
     // Route::get('/', [DashboardController::class, 'index'])->name('home');
     Route::get('/user-auth', [UserController::class, 'index']);
-    Route::resource('apartments', ApartmentController::class);
-    Route::get('/{user_id}', [AdminApartmentController::class, 'getUserApartments']);
+    Route::resource('apartments', AdminApartmentController::class);
+    Route::get('/{user_id}', [ApartmentController::class, 'getUserApartments']);
 
 });
 

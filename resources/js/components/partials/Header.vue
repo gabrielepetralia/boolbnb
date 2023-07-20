@@ -9,7 +9,7 @@ export default {
     return{
       store,
       router : useRouter(),
-      errors: null,
+      errors: store.errors,
       user : store.user,
     }
   },
@@ -23,9 +23,6 @@ export default {
       return this.store.user;
     },
 
-    getErrors(){
-      return this.errors
-    }
   }
 
 }
@@ -92,6 +89,10 @@ export default {
               <label for="loginEmail" class="form-label mb-0">
                 <i class="fa-solid fa-envelope"></i>
               </label>
+              <div v-if="store.errorslogin.email" class="error-message">
+                 <p>{{ store.errorslogin.email }}</p>
+              </div>
+
             </div>
 
             <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
@@ -99,6 +100,7 @@ export default {
                 v-model="this.store.formLogin.loginPassword"
                 type="password"
                 required
+                @blur="validateEmail"
                 name="loginPassword"
                 id="loginPassword"
                 class="form-control"
@@ -107,9 +109,13 @@ export default {
               <label for="loginPassword" class="form-label mb-0">
                 <i class="fa-solid fa-key"></i>
               </label>
+              <div v-if="store.errorslogin.password" class="error-message">
+                 <p>{{ store.errorslogin.password }}</p>
+              </div>
+              <!-- <p v-if="this.store.errors" class="error-message">{{ errors }}</p> -->
             </div>
 
-            <button   type="submit" class="btn t4-btn my-3 w-100 btn-modal" data-bs-dismiss="modal">Sign In</button>
+            <button   type="submit" class="btn t4-btn my-3 w-100 btn-modal">Sign In</button>
           </form>
         </div>
         <div class="modal-footer d-flex justify-content-center">
@@ -140,6 +146,9 @@ export default {
                 class="form-control"
                 placeholder="Nome e Cognome">
               <label  for="name" class="form-label mb-0"><i class="fa-solid fa-user"></i></label>
+              <div v-if="store.errors.name" class="error-message">
+                 <p>{{ store.errors.name }}</p>
+              </div>
 
             </div>
 
@@ -153,6 +162,9 @@ export default {
                 class="form-control"
                 placeholder="Email">
               <label for="email" class="form-label mb-0"><i class="fa-solid fa-envelope"></i></label>
+              <div v-if="store.errors.email" class="error-message">
+                 <p>{{ store.errors.email }}</p>
+              </div>
             </div>
 
             <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
@@ -165,8 +177,11 @@ export default {
                 class="form-control"
                 placeholder="Password">
               <label for="password" class="form-label mb-0"><i class="fa-solid fa-key"></i></label>
+              <div v-if="store.errors.password" class="error-message">
+                 <p>{{ store.errors.password }}</p>
+              </div>
             </div>
-            <button type="submit" class="btn t4-btn my-3 w-100 btn-modal" data-bs-dismiss="modal">Sign Up</button>
+            <button type="submit" class="btn t4-btn my-3 w-100 btn-modal">Sign Up</button>
           </form>
         </div>
         <div class="modal-footer d-flex justify-content-center">

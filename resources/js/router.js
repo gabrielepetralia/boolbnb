@@ -43,7 +43,7 @@ const router = createRouter({
                 component: DashboardApartments,
               },
               {
-                path: '/my-apartments/apartment-detail',
+                path: '/my-apartments/apartment-detail/:slug',
                 name: 'apartment-detail',
                 component: ApartmentDetailAdmin,
               },

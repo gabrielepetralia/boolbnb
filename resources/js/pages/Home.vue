@@ -26,7 +26,6 @@ export default {
       axios.get(store.apiUrl + 'apartments')
         .then(res => {
           this.apartments = res.data.apartments;
-          console.log(this.apartments)
         })
     }
   },
@@ -44,13 +43,14 @@ export default {
     <section class="sponsorized-apartments pb-4">
       <div class="t4-container">
 
-        <h2 class="mb-4 mt-5 mb-4">Appartamenti In Evidenza</h2>
+        <h2 class="mb-4 mt-5 mb-4 fw-semibold">Appartamenti In Evidenza</h2>
 
         <div class="row row-cols-6">
           <ApartmentCard
           v-for="apartment in apartments"
             :key="apartment.id"
-            :apartment="apartment"/>
+            :apartment="apartment"
+            :link_name="'home'"/>
         </div>
 
       </div>

@@ -30,13 +30,14 @@ class ApartmentController extends Controller
 
   public function getUserApartments($user_id)
   {
-
     $apartments = Apartment::where('user_id', $user_id)->get()->makeHidden('coordinates');
-    $coordinates = DB::table('apartments')
-        ->selectRaw("ST_X(coordinates) as lat, ST_Y(coordinates) as lng")
-        ->where('user_id', $user_id)
-        ->first();
-    return response()->json(compact('apartments', 'coordinates'));
+    return response()->json(compact('apartments'));
+  }
+  
+  public function getApartmentDetail($slug)
+  {
+    $apartment = Apartment::where('slug', $slug)->get()->makeHidden('coordinates');
+    return response()->json(compact('apartment'));
   }
 
   public function getApartmentFromPlaces($address, $radiusInMeters)
@@ -55,5 +56,4 @@ class ApartmentController extends Controller
 
     return response()->json(compact('apartments'));
   }
-
 }

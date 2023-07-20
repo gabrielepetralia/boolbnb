@@ -44,7 +44,7 @@ class ApartmentController extends Controller
 
     $form_data = $request->all();
 
-    // if($form_data['visible'] == true){
+    // if(in_array('visible', $form_data)){
     //   $form_data = $visiblecheck->all();
     // }
 
@@ -84,9 +84,10 @@ class ApartmentController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request,Apartment $apartment)
+  public function update(Request $request, $id)
   {
     $form_data = $request->all();
+    $apartment = Apartment::where('id', $id)->first();
 
     if($apartment->title !== $form_data['title']){
       $form_data['slug'] = CustomHelper::generateUniqueSlug($form_data['title'], new Apartment());
@@ -105,8 +106,6 @@ class ApartmentController extends Controller
   }
 
     $apartment->update($form_data);
-
-    return response()->json($apartment);
   }
 
   /**
@@ -115,14 +114,15 @@ class ApartmentController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function destroy(Apartment $apartment)
+  public function destroy($id)
   {
-    if($apartment->image_path){
-      Storage::disk('public')->delete($apartment->image_path);
-    }
+    $apartment = Apartment::where('id', $id)->first();
+    // if($apartment->image_path){
+    //   Storage::disk('public')->delete($apartment->image_path);
+    // }
 
     $apartment->delete();
-    return response()->with('deleted', "<strong> $apartment->name </strong> eliminato correttamente!");
+
   }
 
 

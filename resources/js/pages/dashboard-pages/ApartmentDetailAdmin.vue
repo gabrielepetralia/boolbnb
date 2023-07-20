@@ -2,6 +2,7 @@
 import axios from "axios";
 import { store } from '../../store/store';
 import { ref } from 'vue';
+// import { Modal } from "bootstrap";
 import tt from '@tomtom-international/web-sdk-maps';
 export default {
 name: 'ApartmentDetailAdmin',
@@ -9,6 +10,7 @@ data(){
   return {
     store,
     apartment: null,
+    errors: null,
     apiUrl: 'https://api.tomtom.com/search/2/',
     apiKey: 'gdZGu9e4M0xCvL3gtsUxcBcG8KtOb1fQ',
     _map: {
@@ -79,6 +81,95 @@ methods: {
       })
     })
   },
+
+  deleteApartment(id){
+    axios.get('sanctum/csrf-cookie')
+      .then(() => {
+        axios.delete(store.adminUrl + 'apartments/' + id)
+          .then(result => {
+            this.$router.push("/my-apartments/apartments");
+          })
+      })
+  },
+
+  updateApartment($id){
+    this.errors = null
+      if(this.apartmentForm.visible == true){
+        if(
+          this.apartmentForm.title == ''         ||
+          this.apartmentForm.num_rooms == ''     ||
+          this.apartmentForm.num_beds == ''      ||
+          this.apartmentForm.num_bathrooms == '' ||
+          this.apartmentForm.square_meters == '' ||
+          this.apartmentForm.description == ''   ||
+          this.apartmentForm.price == '')
+        {
+          this.errors = 'Rendi l\'appartamento privato o completa tutti i campi';
+        }else{
+          axios.get('sanctum/csrf-cookie')
+            .then(() => {
+              axios.put(store.adminUrl + 'apartments/' + $id, {
+                title: this.apartmentForm.title,
+                num_rooms: this.apartmentForm.num_rooms,
+                num_beds: this.apartmentForm.num_beds,
+                num_bathrooms: this.apartmentForm.num_bathrooms,
+                square_meters: this.apartmentForm.square_meters,
+                address: this.apartmentForm.address,
+                description: this.apartmentForm.description,
+                img_path: this.apartmentForm.img_path,
+                visible: this.apartmentForm.visible,
+                price: this.apartmentForm.price,
+                user_id: this.apartmentForm.user_id
+              })
+                .then(result => {
+                  // this.$router.push("/my-apartments/apartments");
+                })
+            })
+        }
+
+    }else if(this.apartmentForm.address == ''){
+      this.errors = 'Devi inserire sia il titolo che l\'indirizzo'
+
+    }else{
+      axios.get('sanctum/csrf-cookie')
+        .then(() => {
+          axios.put(store.adminUrl + 'apartments/' + $id, {
+            title: this.apartmentForm.title,
+            num_rooms: this.apartmentForm.num_rooms,
+            num_beds: this.apartmentForm.num_beds,
+            num_bathrooms: this.apartmentForm.num_bathrooms,
+            square_meters: this.apartmentForm.square_meters,
+            address: this.apartmentForm.address,
+            description: this.apartmentForm.description,
+            img_path: this.apartmentForm.img_path,
+            visible: this.apartmentForm.visible,
+            price: this.apartmentForm.price,
+            user_id: this.apartmentForm.user_id
+          })
+        })
+        .then(result => {
+          this.apartmentForm = ref({
+            title: '',
+            num_rooms: '',
+            num_beds: '',
+            num_bathrooms: '',
+            square_meters: '',
+            address: '',
+            description: '',
+            img_path: '',
+            visible: true,
+            price: '',
+            user_id: store.user.id
+          })
+          // console.log(result)
+
+          this.getApi();
+          this.$router.push("/my-apartments/apartments");
+
+
+        })
+     }
+  }
 },
 
 mounted(){
@@ -92,11 +183,11 @@ mounted(){
 
   <div class="d-flex justify-content-between align-items-center my-4">
     <div class="d-flex align-items-center">
-      <h2 class="fs-3 fw-semibold mb-0 title">{{ apartment.title }}</h2>
+      <h2  class="fs-3 fw-semibold mb-0 title">{{ apartment.title }}</h2>
     </div>
     <div>
       <button title="Modifica Appartamento" class="btn t4-btn btn-add me-2" data-bs-toggle="modal" data-bs-target="#edit-apartment-modal"><i class="fa-solid fa-pencil"></i></button>
-      <button title="Elimina Appartamento" class="btn t4-btn btn-add" data-bs-toggle="modal" data-bs-target=""><i class="fa-solid fa-trash"></i></button>
+      <button @click="deleteApartment(this.apartment.id)" title="Elimina Appartamento" class="btn t4-btn btn-add" data-bs-toggle="modal" data-bs-target=""><i class="fa-solid fa-trash"></i></button>
     </div>
   </div>
 
@@ -176,6 +267,11 @@ mounted(){
           </div>
           <div class="modal-body">
             <h1 class="modal-title fs-3 fw-semibold text-center mt-2 mb-4" id="addApartmentModalLabel">Modifica Appartamento</h1>
+            <div v-if="this.errors !== null" class="d-flex justify-content-center align-items-center">
+              <span style="font-size: 13px;" class="text-danger">
+                {{ this.errors }}
+              </span>
+            </div>
             <form enctype="multipart/form-data">
 
               <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
@@ -308,7 +404,7 @@ mounted(){
           </div>
 
           <div class="modal-footer pe-4">
-            <button class="btn t4-btn" data-bs-dismiss="modal" title="Salva"><i class="fa-solid fa-floppy-disk"></i></button>
+            <button @click="updateApartment(this.apartment.id)" class="btn t4-btn" data-bs-dismiss="modal" title="Salva"><i class="fa-solid fa-floppy-disk"></i></button>
           </div>
 
         </div>

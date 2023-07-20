@@ -10,7 +10,7 @@ export default {
 
 <template>
   <div class="col">
-    <a href="#">
+    <router-link :to="{ name: 'apartment-detail', params: { slug: apartment.slug } }">
       <div class="apartment-card mb-4">
 
         <div class="apartment-img mb-2">
@@ -24,7 +24,7 @@ export default {
         </div>
 
       </div>
-    </a>
+    </router-link>
   </div>
 </template>
 

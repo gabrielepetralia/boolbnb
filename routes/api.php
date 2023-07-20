@@ -20,7 +20,6 @@ Route::namespace('Api')
 ->prefix('api/apartments')
 ->group(function () {
   Route::get('/', [ApartmentController::class, 'getSponsorizedApartments']);
-
 });
 
 

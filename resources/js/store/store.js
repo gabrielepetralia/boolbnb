@@ -7,6 +7,7 @@ export const store = reactive ({
 // TomTom Api Datas
   apiUrl: 'http://127.0.0.1:8000/api/',
   apiKey: 'BJn2pmnX1Y20KpKZAZYCLf4m1Gzqu2bG',
+  adminUrl: 'http://127.0.0.1:8000/admin/',
 
 // user logged in and form errors
   user : null,

@@ -16,6 +16,7 @@ class ApartmentController extends Controller
     $apartments = Apartment::join('apartment_sponsorship', 'apartments.id', '=', 'apartment_sponsorship.apartment_id')
         ->where('apartment_sponsorship.start_date', '<=', $current_date)
         ->where('apartment_sponsorship.end_date', '>=', $current_date)
+        ->where('apartments.visible', '=', 1)
         ->select('apartments.*')
         ->get()
         ->makeHidden('coordinates');

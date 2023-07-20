@@ -4,15 +4,20 @@ import { store } from '../../store/store';
 import axios from 'axios';
 
 import tt from '@tomtom-international/web-sdk-maps';
+import ApartmentCard from '../../components/partials/cards/ApartmentCard.vue';
 
 export default {
   name: "DashboardApartments",
+
+  components: {
+    ApartmentCard,
+  },
 
   data(){
     return{
       tt,
       store,
-      myAp : [],
+      apartments: [],
       coordinates: '',
 
       apiUrl: 'https://api.tomtom.com/',
@@ -37,7 +42,7 @@ export default {
       axios.get('sanctum/csrf-cookie')
           .then(()=> {
             axios.get(`/admin/${store.user.id}`).then(result => {
-              this.myAp = result.data;
+              this.apartments = result.data.apartments;
               console.log(result);
             })
           })
@@ -98,6 +103,13 @@ export default {
       <div>
         <button title="Aggiungi Appartamento" class="btn t4-btn btn-add" data-bs-toggle="modal" data-bs-target="#add-apartment-modal"><i class="fa-solid fa-plus"></i></button>
       </div>
+    </div>
+
+    <div class="row row-cols-6">
+      <ApartmentCard
+      v-for="apartment in apartments"
+        :key="apartment.id"
+        :apartment="apartment"/>
     </div>
   </div>
 

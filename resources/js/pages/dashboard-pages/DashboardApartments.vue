@@ -169,8 +169,8 @@ export default {
                   autocomplete="off"
                   placeholder="Indirizzo">
                   <label for="address" class="form-label mb-0"><i class="fa-solid fa-location-dot"></i></label>
-                  <!-- MODIFICARE LO STILE IN SCSS  -->
-                  <div style="top: 100%; left: 0; width: 100%; background-color: white;" class="position-absolute text-black">
+
+                  <div class="autocomplete-box">
                     <ul v-if="store.showSuggestions">
                       <li v-for="(suggest, index) in store.suggestions" :key="index" @click="store.selectAddress(this.apartmentForm, suggest)">{{ suggest.address.freeformAddress }}</li>
                     </ul>
@@ -226,7 +226,7 @@ export default {
             </form>
           </div>
 
-          <div class="modal-footer pe-3">
+          <div class="modal-footer pe-4">
             <button @click="addApartment()" class="btn t4-btn" data-bs-dismiss="modal"><i class="fa-solid fa-floppy-disk"></i></button>
           </div>
 
@@ -302,6 +302,38 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+.autocomplete-box {
+  position: absolute;
+  top: 102%;
+  left: 0;
+  background-color: white;
+  color: $dark-gray;
+  width: 100%;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+
+  ul {
+    li {
+      display: block;
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 0.9rem;
+      padding: 12px 18px;
+      border-bottom: 1px solid $dark_white;
+      transition: all 0.3s;
+
+      &:hover {
+        background-color: $dark_white;
+        cursor: pointer;
+      }
+
+    }
+  }
 }
 
 </style>

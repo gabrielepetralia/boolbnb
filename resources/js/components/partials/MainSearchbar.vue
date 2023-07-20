@@ -31,8 +31,7 @@ export default {
       name="searchbar"
       placeholder="Inserisci una località">
 
-      <!-- MODIFICARE LO STILE IN SCSS  -->
-      <div style="top: 100%; left: 0; width: 100%; background-color: white;" class="position-absolute text-black">
+      <div class="autocomplete-box">
         <ul v-if="store.showSuggestions">
           <li
             v-for="(suggest, index) in store.suggestions"
@@ -53,17 +52,59 @@ export default {
 <style lang="scss" scoped>
 @use "../../../scss/partials/variables" as *;
 .searchbar {
+  color: $dark-gray;
+   font-size: 0.95rem;
   height: 40px;
   width: 300px;
   padding: 0 20px;
   border-radius: 50px;
   border: 0;
   margin-left: 58px;
+  box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
+
+  &:focus {
+    border: none;
+    outline: 1px solid $light_blue;
+  }
 }
 .btn-search {
   border-radius: 50%;
   height: 50px;
   width: 50px;
   padding: 10px;
+}
+
+.autocomplete-box {
+  z-index: -1;
+  position: absolute;
+  top: 50%;
+  left: 14%;
+  background-color: white;
+  color: $dark-gray;
+  width: 72.2%;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+
+  ul {
+    padding-top: 21px;
+    li {
+      display: block;
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 0.9rem;
+      padding: 12px 18px;
+      border-bottom: 1px solid $dark_white;
+      transition: all 0.3s;
+
+      &:hover {
+        background-color: $dark_white;
+        cursor: pointer;
+      }
+
+    }
+  }
 }
 </style>

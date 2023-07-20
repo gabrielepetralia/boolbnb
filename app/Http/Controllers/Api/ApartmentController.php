@@ -23,4 +23,10 @@ class ApartmentController extends Controller
 
     return response()->json(compact('apartments'));
   }
+
+  public function getUserApartments($user_id)
+  {
+    $apartments = Apartment::where('user_id', $user_id)->get()->makeHidden('coordinates');
+    return response()->json(compact('apartments'));
+  }
 }

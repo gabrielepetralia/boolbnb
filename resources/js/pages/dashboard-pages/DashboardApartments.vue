@@ -108,7 +108,8 @@ export default {
       <ApartmentCard
       v-for="apartment in apartments"
         :key="apartment.id"
-        :apartment="apartment"/>
+        :apartment="apartment"
+        :link_name="'apartment-detail'"/>
     </div>
   </div>
 

@@ -3,20 +3,20 @@ export default {
   name: "ApartmentCard",
 
   props: {
-    apartment: Object
+    apartment: Object,
+    link_name: String
   }
 }
 </script>
 
 <template>
   <div class="col">
-    <router-link :to="{ name: 'apartment-detail', params: { slug: apartment.slug } }">
+    <router-link :to="{ name: link_name, params: { slug: apartment.slug } }">
       <div class="apartment-card mb-4">
 
         <div class="apartment-img mb-2">
           <img :src="apartment.img_path ?? '/img/house-placeholder.png'" alt="">
         </div>
-
         <div class="apartment-text">
           <h6 class="mb-1">{{ apartment.title }}</h6>
           <p class="address">{{ apartment.address }}</p>

@@ -11,6 +11,7 @@ data(){
     store,
     apartment: null,
     errors: null,
+    map_link: null,
     apiUrl: 'https://api.tomtom.com/search/2/',
     apiKey: 'gdZGu9e4M0xCvL3gtsUxcBcG8KtOb1fQ',
     _map: {
@@ -30,7 +31,9 @@ data(){
         visible: true,
         price: '',
         user_id: store.user.id
-      })
+      }),
+      coordinate_x: null,
+      coordinate_Y: null,
   }
 },
 methods: {
@@ -49,6 +52,7 @@ methods: {
         user_id: store.user.id
       })
   },
+
   getApi() {
     this.loading = true,
     axios.get('sanctum/csrf-cookie')
@@ -58,7 +62,7 @@ methods: {
             this.apartment = result.data.apartment[0];
             this.loading = false;
             this.fillForm();
-            this.getMap()
+            this.getMap();
           })
       })
   },
@@ -70,13 +74,15 @@ methods: {
       this._map.lat = result.data.results[0].position.lat;
       this._map.lon = result.data.results[0].position.lon;
 
+      this.map_link = `https://www.google.it/maps/@${this._map.lat},${this._map.lon},18z/data=!5m1!1e1?entry=ttu`;
+
       tt.setProductInfo("maps", "1");
 
       var map = tt.map({
         key: "gdZGu9e4M0xCvL3gtsUxcBcG8KtOb1fQ",
         container: "map",
         center: [this._map.lon, this._map.lat],
-        zoom: 16
+        zoom: 18
 
       })
     })
@@ -247,7 +253,9 @@ mounted(){
 
   <h4 class="fw-semibold">Mappa :</h4>
   <div class="map my-3">
-    <div id="map"></div>
+    <a :href="map_link" target="blank">
+      <div id="map"></div>
+    </a>
   </div>
   <div class="d-flex justify-content-between">
     <h5 class="fw-semibold">{{ apartment.address }}</h5>

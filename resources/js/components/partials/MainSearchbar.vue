@@ -42,10 +42,9 @@ export default {
         </ul>
       </div>
 
-
-    <button class="btn t4-btn btn-search d-flex justify-content-center align-items-center" name="btn_search">
+    <router-link :to="{ name: 'advanced-search' }" @click="store.getSearchedApartments(this.search)" class="btn t4-btn btn-search d-flex justify-content-center align-items-center" name="btn_search">
       <i class="fa-solid fa-magnifying-glass"></i>
-    </button>
+    </router-link>
   </div>
 </template>
 

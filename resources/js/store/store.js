@@ -4,8 +4,12 @@ import axios from 'axios';
 
 
 export const store = reactive ({
+
+// Arrays
   searchedApartments : null,
-// TomTom Api Datas
+  availableServices: null,
+
+  // TomTom Api Datas
   apiUrl: 'http://127.0.0.1:8000/api/',
   apiKey: 'BJn2pmnX1Y20KpKZAZYCLf4m1Gzqu2bG',
   adminUrl: 'http://127.0.0.1:8000/admin/',
@@ -159,5 +163,15 @@ export const store = reactive ({
       .then(res => {
         this.searchedApartments = res.data.apartments;
       })
+  },
+
+  // Get All services
+  getServices(){
+    axios.get(store.apiUrl + "apartments/services ")
+          .then(response => {
+            this.availableServices = response.data.services
+          })
   }
 });
+
+

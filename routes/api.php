@@ -21,6 +21,7 @@ Route::namespace('Api')
 ->group(function () {
   Route::get('/', [ApartmentController::class, 'getSponsorizedApartments']);
   Route::get('/{address}/{radius}', [ApartmentController::class, 'getApartmentFromPlaces']);
+  Route::get('/services', [ApartmentController::class, 'getServices']);
 });
 
 

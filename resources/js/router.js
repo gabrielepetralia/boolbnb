@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 import Home from './pages/Home.vue'
+import AdvancedSearch from './pages/AdvancedSearch.vue'
 import Dashboard from './pages/Dashboard.vue'
 import DashboardApartments from './pages/dashboard-pages/DashboardApartments.vue'
 import DashboardMessages from './pages/dashboard-pages/DashboardMessages.vue'
@@ -19,6 +20,11 @@ const router = createRouter({
             path: '/',
             name: 'home',
             component: Home,
+        },
+        {
+            path: '/advanced-search',
+            name: 'advanced-search',
+            component: AdvancedSearch,
         },
         {
             path: '/my-apartments',

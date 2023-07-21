@@ -4,6 +4,7 @@ import axios from 'axios';
 
 
 export const store = reactive ({
+  searchedApartments : null,
 // TomTom Api Datas
   apiUrl: 'http://127.0.0.1:8000/api/',
   apiKey: 'BJn2pmnX1Y20KpKZAZYCLf4m1Gzqu2bG',
@@ -152,5 +153,12 @@ export const store = reactive ({
     formField.address = suggest.address.freeformAddress;
     this.showSuggestions = false;
   },
+
+  getSearchedApartments(address) {
+    axios.get(store.apiUrl + "apartments/" + address + "/" + "0.2")
+      .then(res => {
+        this.searchedApartments = res.data.apartments;
+      })
+  }
 
 });

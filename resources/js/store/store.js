@@ -160,5 +160,4 @@ export const store = reactive ({
         this.searchedApartments = res.data.apartments;
       })
   }
-
 });

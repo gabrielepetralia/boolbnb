@@ -31,7 +31,7 @@ export default {
       name="searchbar"
       placeholder="Inserisci una località">
 
-      <div class="autocomplete-box">
+      <div class="autocomplete-box" :class="{ 'box-shadow': store.showSuggestions }">
         <ul v-if="store.showSuggestions">
           <li
             v-for="(suggest, index) in store.suggestions"
@@ -82,7 +82,6 @@ export default {
   color: $dark-gray;
   width: 72.2%;
   border-radius: 0 0 12px 12px;
-  box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
   overflow: hidden;
 
   ul {
@@ -105,5 +104,9 @@ export default {
 
     }
   }
+}
+
+.box-shadow {
+  box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
 }
 </style>

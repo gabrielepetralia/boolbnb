@@ -299,7 +299,7 @@ mounted(){
               <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
                 <input
                   v-model="apartmentForm.title"
-
+                  title="Titolo"
                   type="text"
                   id="title"
                   name="title"
@@ -312,6 +312,7 @@ mounted(){
               <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
                 <input
                   v-model="apartmentForm.num_rooms"
+                  title="N. Stanze"
                   type="number"
                   min="1" max="255"
                   id="num_rooms"
@@ -324,6 +325,7 @@ mounted(){
               <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
                 <input
                   v-model="apartmentForm.num_beds"
+                  title="N. Letti"
                   type="number"
                   min="1" max="255"
                   id="num_beds"
@@ -336,6 +338,7 @@ mounted(){
               <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
                 <input
                   v-model="apartmentForm.num_bathrooms"
+                  title="N. Bagni"
                   type="number"
                   min="1" max="255"
                   id="num_bathrooms"
@@ -348,6 +351,7 @@ mounted(){
               <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
                 <input
                   v-model="apartmentForm.square_meters"
+                  title="Metri Quadri"
                   type="number"
                   min="1"
                   id="square_meters"
@@ -360,6 +364,7 @@ mounted(){
               <div class="mb-3 d-flex align-items-center flex-row-reverse input-box position-relative">
                 <input
                   v-model="apartmentForm.address"
+                  title="Indirizzo"
                   @input="store.getSuggestions(this.apartmentForm.address)"
                   type="text"
                   id="address"
@@ -379,6 +384,7 @@ mounted(){
               <div class="mb-3 d-flex flex-row-reverse input-box pb-2">
                 <textarea
                   v-model="apartmentForm.description"
+                  title="Descrizione"
                   name="description"
                   class="form-control"
                   placeholder="Descrizione"
@@ -389,6 +395,7 @@ mounted(){
               <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
                 <input
                   v-model="apartmentForm.price"
+                  title="Prezzo per Notte"
                   type="number"
                   min="1"
                   id="price"
@@ -401,6 +408,7 @@ mounted(){
               <div class="mb-3 d-flex align-items-center flex-row-reverse input-box pb-2">
                 <input
                   type="file"
+                  title="Copertina"
                   id="img_path"
                   name="img_path"
                   class="form-control ms-2"
@@ -419,7 +427,7 @@ mounted(){
                     >
                   <span class="slider round"></span>
                 </label>
-                <label for="visible" class="form-label mb-0"><i class="fa-solid fa-eye"></i></label>
+                <label for="visible" title="Visibile" class="form-label mb-0"><i class="fa-solid fa-eye"></i></label>
               </div>
 
               <div class="mb-3 d-flex justify-content-end align-items-center flex-row-reverse input-box border-0 pb-2">

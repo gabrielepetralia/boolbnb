@@ -2,7 +2,6 @@
 import axios from "axios";
 import { store } from '../../store/store';
 import { ref } from 'vue';
-// import { Modal } from "bootstrap";
 import tt from '@tomtom-international/web-sdk-maps';
 export default {
 name: 'ApartmentDetailAdmin',
@@ -37,6 +36,11 @@ data(){
   }
 },
 methods: {
+
+  redirectToPreviousPage() {
+      this.$router.back();
+    },
+
   fillForm(){
     this.apartmentForm = ref({
         title: this.apartment.title,
@@ -188,12 +192,17 @@ mounted(){
 <div v-if="!loading" class="t4-container py-5 px-5 apartment-detail">
 
   <div class="d-flex justify-content-between align-items-center my-4">
-    <div class="d-flex align-items-center">
-      <h2  class="fs-3 fw-semibold mb-0 title">{{ apartment.title }}</h2>
-    </div>
+    <h2  class="fs-3 fw-semibold mb-0 title">{{ apartment.title }}</h2>
     <div>
-      <button title="Modifica Appartamento" class="btn t4-btn btn-add me-2" data-bs-toggle="modal" data-bs-target="#edit-apartment-modal"><i class="fa-solid fa-pencil"></i></button>
-      <button @click="deleteApartment(this.apartment.id)" title="Elimina Appartamento" class="btn t4-btn btn-add" data-bs-toggle="modal" data-bs-target=""><i class="fa-solid fa-trash"></i></button>
+      <button @click="redirectToPreviousPage()" title="Torna Indietro" class="btn t4-btn btn-add me-2">
+        <i class="fa-solid fa-left-long"></i>
+      </button>
+      <button title="Modifica Appartamento" class="btn t4-btn btn-add me-2" data-bs-toggle="modal" data-bs-target="#edit-apartment-modal">
+        <i class="fa-solid fa-pencil"></i>
+      </button>
+      <button @click="deleteApartment(this.apartment.id)" title="Elimina Appartamento" class="btn t4-btn btn-add" data-bs-toggle="modal" data-bs-target="">
+        <i class="fa-solid fa-trash"></i>
+      </button>
     </div>
   </div>
 
@@ -257,12 +266,8 @@ mounted(){
       <div id="map"></div>
     </a>
   </div>
-  <div class="d-flex justify-content-between">
-    <h5 class="fw-semibold">{{ apartment.address }}</h5>
-    <div>
-      <router-link :to="{ name: 'apartments' }" class="btn t4-btn btn-add me-2"><i class="fa-solid fa-left-long"></i></router-link>
-    </div>
-  </div>
+
+  <h5 class="fw-semibold">{{ apartment.address }}</h5>
 
 </div>
 
@@ -412,7 +417,9 @@ mounted(){
           </div>
 
           <div class="modal-footer pe-4">
-            <button @click="updateApartment(this.apartment.id)" class="btn t4-btn" data-bs-dismiss="modal" title="Salva"><i class="fa-solid fa-floppy-disk"></i></button>
+            <button @click="updateApartment(this.apartment.id)" class="btn t4-btn" data-bs-dismiss="modal" title="Salva">
+              <i class="fa-solid fa-floppy-disk"></i>
+            </button>
           </div>
 
         </div>

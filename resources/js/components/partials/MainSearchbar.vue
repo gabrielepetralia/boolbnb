@@ -21,38 +21,40 @@ export default {
 </script>
 
 <template>
-  <p></p>
-  <div class="d-flex align-items-center position-relative">
-    <input
-      v-model="search"
-      @input="store.getSuggestions(this.search)"
-      class="searchbar me-2"
-      type="text"
-      name="searchbar"
-      placeholder="Inserisci una località">
+<p></p>
+<div class="d-flex align-items-center position-relative">
+  <input
+    v-model="search"
+    @input="store.getSuggestions(this.search)"
+    class="searchbar me-2"
+    type="text"
+    name="searchbar"
+    placeholder="Inserisci una località">
 
-      <div class="autocomplete-box" :class="{ 'box-shadow': store.showSuggestions }">
-        <ul v-if="store.showSuggestions">
-          <li
-            v-for="(suggest, index) in store.suggestions"
-            :key="index"
-            @click="this.selectAddressToSearch(suggest)">
-            {{ suggest.address.freeformAddress }}
-          </li>
-        </ul>
-      </div>
-
-    <router-link :to="{ name: 'advanced-search' }" @click="store.getSearchedApartments(this.search)" class="btn t4-btn btn-search d-flex justify-content-center align-items-center" name="btn_search">
-      <i class="fa-solid fa-magnifying-glass"></i>
-    </router-link>
+  <div class="autocomplete-box" :class="{ 'box-shadow': store.showSuggestions }">
+    <ul v-if="store.showSuggestions">
+      <li
+        v-for="(suggest, index) in store.suggestions"
+        :key="index"
+        @click="this.selectAddressToSearch(suggest)">
+        {{ suggest.address.freeformAddress }}
+      </li>
+    </ul>
   </div>
+
+  <router-link :to="{ name: 'advanced-search' }">
+    <button @click="store.getSearchedApartments(this.search)" class="btn t4-btn btn-search d-flex justify-content-center align-items-center" name="btn_search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+  </router-link>
+</div>
 </template>
 
 <style lang="scss" scoped>
 @use "../../../scss/partials/variables" as *;
 .searchbar {
   color: $dark-gray;
-   font-size: 0.95rem;
+  font-size: 0.95rem;
   height: 40px;
   width: 300px;
   padding: 0 20px;

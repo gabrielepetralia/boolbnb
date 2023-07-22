@@ -8,6 +8,7 @@ import DashboardMessages from './pages/dashboard-pages/DashboardMessages.vue'
 import DashboardStats from './pages/dashboard-pages/DashboardStats.vue'
 import DashboardSponsorships from './pages/dashboard-pages/DashboardSponsorships.vue'
 import ApartmentDetailAdmin from './pages/dashboard-pages/ApartmentDetailAdmin.vue'
+import ApartmentDetailGuest from './pages/ApartmentDetailGuest.vue'
 import Error404 from './pages/Error404.vue'
 import { store } from './store/store'
 const router = createRouter({
@@ -25,6 +26,11 @@ const router = createRouter({
             path: '/advanced-search',
             name: 'advanced-search',
             component: AdvancedSearch,
+        },
+        {
+          path: '/apartment-detail/:slug',
+          name: 'apartment-detail-guest',
+          component: ApartmentDetailGuest,
         },
         {
             path: '/my-apartments',
@@ -50,7 +56,7 @@ const router = createRouter({
               },
               {
                 path: '/my-apartments/apartment-detail/:slug',
-                name: 'apartment-detail',
+                name: 'apartment-detail-admin',
                 component: ApartmentDetailAdmin,
               },
               {

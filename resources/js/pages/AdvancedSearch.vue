@@ -163,7 +163,7 @@ export default {
         v-for="apartment in store.searchedApartments"
           :key="apartment.id"
           :apartment="apartment"
-          :link_name="'advanced-search'"/>
+          :link_name="'apartment-detail-guest'"/>
       </div>
     </div>
     <div v-else>

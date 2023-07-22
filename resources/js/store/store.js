@@ -159,5 +159,7 @@ export const store = reactive ({
       .then(res => {
         this.searchedApartments = res.data.apartments;
       })
-  }
+  },
 });
+
+

@@ -170,7 +170,7 @@ export default {
       v-for="apartment in apartments"
         :key="apartment.id"
         :apartment="apartment"
-        :link_name="'apartment-detail'"/>
+        :link_name="'apartment-detail-admin'"/>
     </div>
   </div>
 

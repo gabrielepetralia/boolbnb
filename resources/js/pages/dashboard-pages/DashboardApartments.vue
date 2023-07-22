@@ -282,7 +282,7 @@ export default {
                   id="title"
                   name="title"
                   class="form-control"
-
+                  title="Titolo"
                   placeholder="Titolo"
                 />
                 <label for="title" class="form-label mb-0"
@@ -307,6 +307,8 @@ export default {
                 name="num_rooms"
                 class="form-control"
                 placeholder="N. Stanze"
+                title="N. Stanze"
+
               />
               <label for="num_rooms" class="form-label mb-0"
                 ><i class="fa-solid fa-door-open"></i
@@ -328,6 +330,8 @@ export default {
                 name="num_beds"
                 class="form-control"
                 placeholder="N. Letti"
+                title="N. Letti"
+
               />
               <label for="num_beds" class="form-label mb-0"
                 ><i class="fa-solid fa-bed"></i
@@ -349,6 +353,8 @@ export default {
                 name="num_bathrooms"
                 class="form-control"
                 placeholder="N. Bagni"
+                title="N. Bagni"
+
               />
               <label for="num_bathrooms" class="form-label mb-0"
                 ><i class="fa-solid fa-bath"></i
@@ -369,6 +375,8 @@ export default {
                 name="square_meters"
                 class="form-control"
                 placeholder="m²"
+                title="Metri Quadri"
+
               />
               <label for="square_meters" class="form-label mb-0"
                 ><i class="fa-solid fa-expand"></i
@@ -390,6 +398,8 @@ export default {
                 class="form-control"
                 autocomplete="off"
                 placeholder="Indirizzo"
+                title="Indirizzo"
+
               />
               <label for="address" class="form-label mb-0"
                 ><i class="fa-solid fa-location-dot"></i
@@ -418,6 +428,8 @@ export default {
                 class="form-control"
                 placeholder="Descrizione"
                 rows="3"
+                title="Descrizione"
+
               ></textarea>
               <label for="description" class="form-label mb-0 mt-2"
                 ><i class="fa-solid fa-comment-dots"></i
@@ -438,6 +450,8 @@ export default {
                 name="price"
                 class="form-control"
                 placeholder="Prezzo Per Notte"
+                title="Prezzo Per Notte"
+
               />
               <label for="price" class="form-label mb-0"
                 ><i class="fa-solid fa-euro-sign"></i
@@ -457,6 +471,8 @@ export default {
                 :class="{ 'my-static-class': hasError }"
                 class="form-control ms-2"
                 placeholder="Immagine"
+                title="Copertina"
+
               />
               <label for="img_path" class="form-label mb-0"
                 ><i class="fa-solid fa-image"></i
@@ -467,17 +483,16 @@ export default {
             </div>
 
               <div class="mb-3 d-flex justify-content-end align-items-center flex-row-reverse input-box border-0 pb-2">
-                <label class="switch">
+                <label class="switch" >
                   <input type="checkbox"
                     v-model="apartmentForm.visible"
                     id="visible"
                     name="visible"
                     class="form-control ms-1"
-                    title="Visibile"
                     >
                   <span class="slider round"></span>
                 </label>
-                <label for="visible" class="form-label mb-0"><i class="fa-solid fa-eye"></i></label>
+                <label for="visible" title="Visibile"  class="form-label mb-0"><i  class="fa-solid fa-eye"></i></label>
               </div>
 
               <div class="mb-3 d-flex justify-content-end align-items-center flex-row-reverse input-box border-0 pb-2">

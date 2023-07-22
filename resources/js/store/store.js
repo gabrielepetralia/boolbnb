@@ -13,6 +13,7 @@ export const store = reactive ({
   user : null,
   errors: {},
   errorslogin: {},
+  credentialError: null,
 
 // Autocomplete fields
   suggestions: null,
@@ -71,10 +72,10 @@ export const store = reactive ({
 
   handleLogin(){
     this.errorslogin = {}
+    this.credentialError = null
 
     if (!this.formLogin.loginEmail.includes("@")) {
       this.errorslogin.email = "Inserisci un indirizzo email valido";
-      console.log(this.errorslogin)
     }
     //  if (this.formLogin.loginPassword.length > 7) {
     //   this.errorslogin.push("La password deve essere di almeno 8 caratteri")
@@ -98,8 +99,10 @@ export const store = reactive ({
         })
 
         .catch(error => {
-          this.errorslogin = error.response.data.errors;
-          console.log('errore',error.response)
+          if(error.response.data.message == 'Le credenziali non sono corrette.'){
+            this.credentialError = error.response.data.message
+          }
+          console.log(error.response)
         });
       })
 

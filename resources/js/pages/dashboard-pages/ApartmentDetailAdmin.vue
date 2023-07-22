@@ -187,10 +187,6 @@ methods: {
         })
      }
   },
-
-  getImage(img) {
-      return new URL(`../../assets/img/services-icons/${img}.png`, import.meta.url).href
-    }
 },
 
 mounted(){
@@ -201,86 +197,88 @@ mounted(){
 </script>
 
 <template>
-<div v-if="!loading" class="t4-container py-5 px-5 apartment-detail">
+  <div v-if="!loading" class="apartment-detail">
+    <div class="t4-container py-5 px-5">
 
-  <div class="d-flex justify-content-between align-items-center my-4">
-    <h2  class="fs-3 fw-semibold mb-0 title">{{ apartment.title }}</h2>
-    <div>
-      <button @click="redirectToPreviousPage()" title="Torna Indietro" class="btn t4-btn btn-add me-2">
-        <i class="fa-solid fa-left-long"></i>
-      </button>
-      <button title="Modifica Appartamento" class="btn t4-btn btn-add me-2" data-bs-toggle="modal" data-bs-target="#edit-apartment-modal">
-        <i class="fa-solid fa-pencil"></i>
-      </button>
-      <button @click="deleteApartment(this.apartment.id)" title="Elimina Appartamento" class="btn t4-btn btn-add" data-bs-toggle="modal" data-bs-target="">
-        <i class="fa-solid fa-trash"></i>
-      </button>
-    </div>
-  </div>
-
-  <div class="row row-cols-2">
-    <div class="col pe-4">
-      <div class="img-wrapper">
-        <img class="w-100 mb-3" :src="apartment.img_path ?? '/img/house-placeholder.png'" alt="">
-        <div class="price">
-          <p><span class="fw-semibold fs-4">{{ apartment.price }} &euro;</span> a notte</p>
+      <div class="d-flex justify-content-between align-items-center my-4">
+        <h2  class="fs-3 fw-semibold mb-0 title">{{ apartment.title }}</h2>
+        <div>
+          <button @click="redirectToPreviousPage()" title="Torna Indietro" class="btn t4-btn btn-add me-2">
+            <i class="fa-solid fa-left-long"></i>
+          </button>
+          <button title="Modifica Appartamento" class="btn t4-btn btn-add me-2" data-bs-toggle="modal" data-bs-target="#edit-apartment-modal">
+            <i class="fa-solid fa-pencil"></i>
+          </button>
+          <button @click="deleteApartment(this.apartment.id)" title="Elimina Appartamento" class="btn t4-btn btn-add" data-bs-toggle="modal" data-bs-target="">
+            <i class="fa-solid fa-trash"></i>
+          </button>
         </div>
       </div>
-    </div>
-    <div class="col ps-4">
 
-      <div>
-        <h4 class="fw-semibold">Descrizione :</h4>
-        <p>{{ apartment.description  }}</p>
+      <div class="row row-cols-2">
+        <div class="col pe-4">
+          <div class="img-wrapper">
+            <img class="w-100 mb-3" :src="apartment.img_path ?? '/img/house-placeholder.png'" alt="">
+            <div class="price">
+              <p><span class="fw-semibold fs-4">{{ apartment.price }} &euro;</span> a notte</p>
+            </div>
+          </div>
+        </div>
+        <div class="col ps-4">
+
+          <div>
+            <h4 class="fw-semibold">Descrizione :</h4>
+            <p>{{ apartment.description  }}</p>
+          </div>
+          <hr>
+          <div>
+            <h4 class="fw-semibold">Dettagli :</h4>
+            <ul class="d-flex details">
+              <li>
+                <i class="fa-solid fa-door-open"></i>
+                <span>{{ apartment.num_rooms }}</span>
+              </li>
+              <li>
+                <i class="fa-solid fa-bed"></i>
+                <span>{{ apartment.num_beds }}</span>
+              </li>
+              <li>
+                <i class="fa-solid fa-bath"></i>
+                <span>{{ apartment.num_bathrooms }}</span>
+              </li>
+              <li>
+                <i class="fa-solid fa-expand"></i>
+                <span>{{ apartment.square_meters }} mt<sup>2</sup> </span>
+              </li>
+            </ul>
+          </div>
+          <hr>
+          <div>
+            <h4 class="fw-semibold">Servizi :</h4>
+            <ul class="d-flex">
+              <li v-for="service in this.apartment.services" :key="service.id">
+                <img style="height: 20px;" :src="`/img/services-icons/${ service.slug }.png`" :alt="service.name">
+                <span>{{ service.name }}</span>
+              </li>
+            </ul>
+          </div>
+
+        </div>
       </div>
-      <hr>
-      <div>
-        <h4 class="fw-semibold">Dettagli :</h4>
-        <ul class="d-flex details">
-          <li>
-            <i class="fa-solid fa-door-open"></i>
-            <span>{{ apartment.num_rooms }}</span>
-          </li>
-          <li>
-            <i class="fa-solid fa-bed"></i>
-            <span>{{ apartment.num_beds }}</span>
-          </li>
-          <li>
-            <i class="fa-solid fa-bath"></i>
-            <span>{{ apartment.num_bathrooms }}</span>
-          </li>
-          <li>
-            <i class="fa-solid fa-expand"></i>
-            <span>{{ apartment.square_meters }} mt<sup>2</sup> </span>
-          </li>
-        </ul>
+
+      <hr class="my-4">
+
+      <h4 class="fw-semibold">Mappa :</h4>
+      <div class="map my-3">
+        <a :href="map_link" target="blank">
+          <div id="map"></div>
+        </a>
       </div>
-      <hr>
-      <div>
-        <h4 class="fw-semibold">Servizi :</h4>
-        <ul class="d-flex">
-          <li v-for="service in this.apartment.services" :key="service.id">
-            <img style="height: 20px;" :src="getImage(service.slug)" alt="">
-            {{service.name}}
-          </li>
-        </ul>
-      </div>
+
+      <h5 class="fw-semibold">{{ apartment.address }}</h5>
 
     </div>
   </div>
-
-  <hr class="my-4">
-
-  <h4 class="fw-semibold">Mappa :</h4>
-  <div class="map my-3">
-    <a :href="map_link" target="blank">
-      <div id="map"></div>
-    </a>
-  </div>
-
-  <h5 class="fw-semibold">{{ apartment.address }}</h5>
-
-</div>
 
 <!-- modal -->
 <div class="modal fade" id="edit-apartment-modal" tabindex="-1" aria-hidden="true">
@@ -458,6 +456,7 @@ mounted(){
 @use "../../../scss/partials/variables" as *;
 .apartment-detail {
   font-size: 0.95rem;
+
   color: $dark-gray;
 
   img {

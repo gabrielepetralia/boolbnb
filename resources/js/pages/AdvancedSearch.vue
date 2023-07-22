@@ -12,23 +12,12 @@ export default {
   },
   data() {
     return {
-      store,
-      services_icons: [
-      "animali-ammessi",
-      "aria-condizionata",
-      "colazione",
-      "piscina",
-      "posto-macchina",
-      "riscaldamento",
-      "vista-mare",
-      "wifi",
-      ]
+      store
     }
   },
-  methods: {
-    getImage(img) {
-      return new URL(`../assets/img/services-icons/${img}.png`, import.meta.url).href
-    }
+
+  mounted() {
+    store.getServices();
   }
 }
 </script>
@@ -82,9 +71,9 @@ export default {
         <div class="services">
           <h5>Servizi:</h5>
           <div class="services-boxes">
-            <div v-for="(icon, index) in this.services_icons" :key="index" class="service">
+            <div v-for="service in store.availableServices" :key="service.id" class="service">
               <div class="icon">
-                <img :src="getImage(icon)" alt="">
+                <img :src="`/img/services-icons/${ service.slug }.png`" :alt="service.name">
               </div>
               <div class="input">
                 <input type="checkbox">

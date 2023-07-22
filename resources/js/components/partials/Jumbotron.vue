@@ -12,7 +12,8 @@ export default {
     getImage(img) {
       return new URL(`../../assets/img/home-carousel/${img}`, import.meta.url).href
     }
-  }
+  },
+
 }
 
 </script>

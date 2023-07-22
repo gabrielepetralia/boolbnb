@@ -50,7 +50,7 @@ export default {
           v-for="apartment in apartments"
             :key="apartment.id"
             :apartment="apartment"
-            :link_name="'home'"/>
+            :link_name="'apartment-detail-guest'"/>
         </div>
 
       </div>

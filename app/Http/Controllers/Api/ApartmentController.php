@@ -4,7 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Apartment;
+use App\Models\Service;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Helpers\CustomHelper;
+
+
 
 class ApartmentController extends Controller
 {
@@ -26,13 +31,37 @@ class ApartmentController extends Controller
 
   public function getUserApartments($user_id)
   {
-    $apartments = Apartment::where('user_id', $user_id)->get()->makeHidden('coordinates');
+    $apartments = Apartment::where('user_id', $user_id)->orderBy('id', 'desc')->get()->makeHidden('coordinates');
     return response()->json(compact('apartments'));
   }
 
   public function getApartmentDetail($slug)
   {
-    $apartment = Apartment::where('slug', $slug)->get()->makeHidden('coordinates');
+    $apartment = Apartment::where('slug', $slug)->with('services')->get()->makeHidden('coordinates');
     return response()->json(compact('apartment'));
+  }
+
+  public function getServices()
+  {
+    $services = Service::all();
+
+    return response()->json(compact("services"));
+  }
+
+  public function getApartmentFromPlaces($address, $radiusInMeters)
+  {
+    $coordinates = CustomHelper::getCoordinatesForDistances($address);
+    $apartments = Apartment::select('*')->selectRaw("
+        ST_X(coordinates) AS lat,
+        ST_Y(coordinates) AS lng,
+        ST_DISTANCE(
+            coordinates,
+            POINT($coordinates)
+        ) / 1000 AS distance_in_km
+    ")
+    ->whereRaw("ST_DISTANCE(coordinates, POINT($coordinates)) <= $radiusInMeters")
+    ->get()->makeHidden('coordinates');
+
+    return response()->json(compact('apartments'));
   }
 }

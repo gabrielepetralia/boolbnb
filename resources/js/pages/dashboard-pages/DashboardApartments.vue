@@ -18,7 +18,10 @@ export default {
       tt,
       store,
       apartments: [],
-      coordinates: "",
+
+      apartmentServices: [],
+      coordinates: '',
+      errors : null,
 
       apiUrl: "https://api.tomtom.com/",
       apartmentForm: ref({
@@ -30,6 +33,7 @@ export default {
         address: "",
         description: "",
         img_path: "",
+
         visible: true,
         price: "",
         user_id: store.user.id,
@@ -49,6 +53,7 @@ export default {
     },
 
     addApartment(){
+
       this.errors = {}
       this.generalFormError = null
 
@@ -198,7 +203,6 @@ export default {
 
             // console.log(result)
             this.getMyApartments()
-
           })
         }else{
           this.generalFormError = "Per salvare una bozza completa titolo e indirizzo"
@@ -207,16 +211,18 @@ export default {
     }
   },
 
-  mounted() {
-    this.getMyApartments();
-  },
-};
+  mounted(){
+    this.getMyApartments()
+    store.getServices();
+
+  }
+}
 </script>
 
 <template>
   <div class="t4-container py-5 px-5">
     <div class="d-flex justify-content-between my-4">
-      <h2 class="fs-3 mb-0 title">Appartamenti</h2>
+      <h2 class="fs-3 fw-semibold mb-0 title">Appartamenti</h2>
       <div>
         <button
           title="Aggiungi Appartamento"
@@ -234,7 +240,7 @@ export default {
         v-for="apartment in apartments"
         :key="apartment.id"
         :apartment="apartment"
-      />
+        :link_name="'apartment-detail-admin'"/>
     </div>
   </div>
 
@@ -265,20 +271,24 @@ export default {
           <div v-if="generalFormError" class="text-danger general-error">
               {{ generalFormError }}
           </div>
+
           <form enctype="multipart/form-data">
             <div class="mb-3">
               <div class="d-flex align-items-center flex-row-reverse input-box">
+
                 <input
                   v-model="apartmentForm.title"
                   type="text"
                   id="title"
                   name="title"
                   class="form-control"
+
                   placeholder="Titolo"
                 />
                 <label for="title" class="form-label mb-0"
                   ><i class="fa-solid fa-heading"></i
                 ></label>
+
               </div>
               <div v-if="errors.title" class="text-danger">
                 <p>{{ errors.title }}</p>
@@ -456,32 +466,41 @@ export default {
               <p>{{ errors.num_rooms }}</p>
             </div>
 
-            <div
-              class="mt-3 d-flex justify-content-end align-items-center flex-row-reverse input-box border-0 pb-2"
-            >
-              <label class="switch">
-                <input
-                  type="checkbox"
-                  v-model="apartmentForm.visible"
-                  id="visible"
-                  name="visible"
-                  class="form-control ms-1"
-                  title="Visibile"
-                />
-                <span class="slider round"></span>
-              </label>
-              <label for="visible" class="form-label mb-0"
-                ><i class="fa-solid fa-eye"></i
-              ></label>
-            </div>
-          </form>
-        </div>
+              <div class="mb-3 d-flex justify-content-end align-items-center flex-row-reverse input-box border-0 pb-2">
+                <label class="switch">
+                  <input type="checkbox"
+                    v-model="apartmentForm.visible"
+                    id="visible"
+                    name="visible"
+                    class="form-control ms-1"
+                    title="Visibile"
+                    >
+                  <span class="slider round"></span>
+                </label>
+                <label for="visible" class="form-label mb-0"><i class="fa-solid fa-eye"></i></label>
+              </div>
 
-        <div class="modal-footer pe-4">
-          <button @click="addApartment()" class="btn t4-btn">
-            <i class="fa-solid fa-floppy-disk"></i>
-          </button>
-        </div>
+              <div class="mb-3 d-flex justify-content-end align-items-center flex-row-reverse input-box border-0 pb-2">
+                <div role="group"  class="row">
+                    <div v-for="service in store.availableServices" :key="service.id" class="col">
+                      <input type="checkbox"
+                      v-model="apartmentServices"
+                      :value="service.id"
+                      :id="service.slug"
+                      :title="service.slug"
+                      >
+                      <label :for="service.slug" class="form-label mb-0">{{ service?.name }}</label>
+                    </div>
+
+                </div>
+              </div>
+
+            </form>
+          </div>
+          <div class="modal-footer pe-4">
+            <button @click="addApartment()" class="btn t4-btn"  title="Salva"><i class="fa-solid fa-floppy-disk"></i></button>
+          </div>
+
       </div>
     </div>
   </div>
@@ -497,68 +516,6 @@ export default {
   font-size: 13px;
 }
 
-// Toggle
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-
-  transform: scale(0.7);
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-}
-
-input:checked + .slider {
-  background-color: $light_blue;
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px $light_blue;
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
-
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
-}
-
 .autocomplete-box {
   position: absolute;
   top: 102%;
@@ -567,7 +524,6 @@ input:checked + .slider:before {
   color: $dark-gray;
   width: 100%;
   border-radius: 0 0 12px 12px;
-  box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
   overflow: hidden;
 
   ul {
@@ -589,4 +545,10 @@ input:checked + .slider:before {
     }
   }
 }
+
+
+.box-shadow {
+  box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
+}
+
 </style>

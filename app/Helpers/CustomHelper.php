@@ -40,8 +40,36 @@ class CustomHelper
           $latitude = $data['results'][0]['position']['lat'];
           $longitude = $data['results'][0]['position']['lon'];
 
-
           $coordinates = $latitude.' '.$longitude;
+
+          return $coordinates;
+
+          } catch (\Exception $e) {
+            $errorMessage = $e->getMessage();
+
+            return response()->json(['error' => $errorMessage], 500);
+          }
+  }
+
+  public static function getCoordinatesForDistances($request)
+  {
+      $client = new Client(['verify' => false]);
+
+      try {
+          $response = $client->get('https://api.tomtom.com/search/2/geocode/'. $request .'.json', [
+              'query' => [
+                  'view' => 'Unified',
+                  'key' => 'BJn2pmnX1Y20KpKZAZYCLf4m1Gzqu2bG',
+              ],
+          ]);
+
+
+          $data = json_decode($response->getBody()->getContents(), true);
+
+          $latitude = $data['results'][0]['position']['lat'];
+          $longitude = $data['results'][0]['position']['lon'];
+
+          $coordinates = $latitude.', '.$longitude;
 
           return $coordinates;
 

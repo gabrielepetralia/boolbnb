@@ -23,6 +23,10 @@ class Apartment extends Model
     'user_id'
   ];
 
+  protected $spatialFields = [
+    'coordinate',
+  ];
+
 
   public function user()
   {

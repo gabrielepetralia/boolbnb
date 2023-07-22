@@ -41,6 +41,9 @@ export default {
           <li class="header-menu-item me-4">
             <router-link :to="{ name: 'home' }" class="nav-link fw-semibold">Home</router-link>
           </li>
+          <li class="header-menu-item me-4">
+            <router-link :to="{ name: 'advanced-search' }" class="nav-link fw-semibold">Ricerca Avanzata</router-link>
+          </li>
           <li v-if="store.user" class="header-menu-item">
             <router-link :to="{ name: 'apartments' }" class="nav-link fw-semibold">Gestione Appartamenti</router-link>
           </li>

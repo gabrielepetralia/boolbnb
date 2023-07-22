@@ -5,7 +5,7 @@ export default {
 </script>
 
 <template>
-  <h2 class="p-5">Messaggi</h2>
+  <h2 class="p-5 fw-semibold">Messaggi</h2>
 </template>
 
 <style lang="scss" scoped>

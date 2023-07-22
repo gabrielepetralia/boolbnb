@@ -18,6 +18,7 @@ export default {
       tt,
       store,
       apartments: [],
+      apartmentServices: [],
       coordinates: '',
       errors : null,
 
@@ -64,7 +65,6 @@ export default {
         }else{
 
           axios.get('sanctum/csrf-cookie')
-
           .then(() => {
             axios.post('/admin/apartments', {
               title: this.apartmentForm.title,
@@ -77,11 +77,10 @@ export default {
               img_path: this.apartmentForm.img_path,
               visible: this.apartmentForm.visible,
               price: this.apartmentForm.price,
+              services: this.apartmentServices,
               user_id: this.apartmentForm.user_id
             })
           })
-
-
           .then(result => {
             this.apartmentForm = ref({
               title: '',
@@ -96,9 +95,9 @@ export default {
               price: '',
               user_id: store.user.id
             })
-            .then(result => {
-                  this.$router.push("/my-apartments/apartments");
-                })
+
+            this.$router.push("/my-apartments/apartments");
+
             // console.log(result)
             this.getMyApartments()
 
@@ -123,6 +122,7 @@ export default {
               img_path: this.apartmentForm.img_path,
               visible: this.apartmentForm.visible,
               price: this.apartmentForm.price,
+              services: this.apartmentServices,
               user_id: this.apartmentForm.user_id
             })
           })
@@ -151,6 +151,8 @@ export default {
 
   mounted(){
     this.getMyApartments()
+    store.getServices();
+
   }
 }
 
@@ -313,6 +315,21 @@ export default {
                   <span class="slider round"></span>
                 </label>
                 <label for="visible" class="form-label mb-0"><i class="fa-solid fa-eye"></i></label>
+              </div>
+
+              <div class="mb-3 d-flex justify-content-end align-items-center flex-row-reverse input-box border-0 pb-2">
+                <div role="group"  class="row">
+                    <div v-for="service in store.availableServices" :key="service.id" class="col">
+                      <input type="checkbox"
+                      v-model="apartmentServices"
+                      :value="service.id"
+                      :id="service.slug"
+                      :title="service.slug"
+                      >
+                      <label :for="service.slug" class="form-label mb-0">{{ service?.name }}</label>
+                    </div>
+
+                </div>
               </div>
 
             </form>

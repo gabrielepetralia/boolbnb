@@ -51,6 +51,10 @@ class ApartmentController extends Controller
     $form_data['slug'] = CustomHelper::generateUniqueSlug($form_data['title'], new Apartment());
     $form_data['coordinates'] = DB::raw("ST_GeomFromText('POINT(" . CustomHelper::getCoordinates($form_data['address']) . ")')");
     $new_apartment = Apartment::create($form_data);
+
+    if(array_key_exists('services', $form_data)){
+      $new_apartment->services()->attach($form_data['services']);
+  }
     // Da reindirizzare direttamente alla show
     return response()->json('ok');
   }
@@ -104,8 +108,14 @@ class ApartmentController extends Controller
 
       $form_data['image_path'] = Storage::put('uploads', $form_data['image']);
   }
+  $apartment->update($form_data);
 
-    $apartment->update($form_data);
+  if(array_key_exists('services', $form_data)){
+      $apartment->services()->sync($form_data['services']);
+  }else {
+      $apartment->services()->detach();
+  }
+
   }
 
   /**

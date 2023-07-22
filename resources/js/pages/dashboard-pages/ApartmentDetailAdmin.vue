@@ -8,6 +8,7 @@ name: 'ApartmentDetailAdmin',
 data(){
   return {
     store,
+    apartmentServices: [],
     apartment: null,
     errors: null,
     map_link: null,
@@ -29,14 +30,13 @@ data(){
         img_path: '',
         visible: true,
         price: '',
-        user_id: store.user.id
+        user_id: store.user.id,
       }),
       coordinate_x: null,
       coordinate_Y: null,
   }
 },
 methods: {
-
   redirectToPreviousPage() {
       this.$router.back();
     },
@@ -67,6 +67,11 @@ methods: {
             this.loading = false;
             this.fillForm();
             this.getMap();
+            console.log(this.apartment);
+            let prova = []
+            result.data.apartment[0].services.forEach(service =>{
+              this.apartmentServices.push(service.id)
+            })
           })
       })
   },
@@ -129,11 +134,12 @@ methods: {
                 img_path: this.apartmentForm.img_path,
                 visible: this.apartmentForm.visible,
                 price: this.apartmentForm.price,
+                services: this.apartmentServices,
                 user_id: this.apartmentForm.user_id
               })
-                .then(result => {
-                  // this.$router.push("/my-apartments/apartments");
-                })
+            })
+            .then(result => {
+              this.getApi();
             })
         }
 
@@ -154,6 +160,7 @@ methods: {
             img_path: this.apartmentForm.img_path,
             visible: this.apartmentForm.visible,
             price: this.apartmentForm.price,
+            services: this.apartmentServices,
             user_id: this.apartmentForm.user_id
           })
         })
@@ -174,16 +181,21 @@ methods: {
           // console.log(result)
 
           this.getApi();
-          this.$router.push("/my-apartments/apartments");
+          // this.$router.push("/my-apartments/apartments");
 
 
         })
      }
-  }
+  },
+
+  getImage(img) {
+      return new URL(`../../assets/img/services-icons/${img}.png`, import.meta.url).href
+    }
 },
 
 mounted(){
   this.getApi();
+  store.getServices();
 }
   }
 </script>
@@ -247,11 +259,10 @@ mounted(){
       <div>
         <h4 class="fw-semibold">Servizi :</h4>
         <ul class="d-flex">
-          <li>servizio</li>
-          <li>servizio</li>
-          <li>servizio</li>
-          <li>servizio</li>
-          <li>servizio</li>
+          <li v-for="service in this.apartment.services" :key="service.id">
+            <img style="height: 20px;" :src="getImage(service.slug)" alt="">
+            {{service.name}}
+          </li>
         </ul>
       </div>
 
@@ -411,6 +422,21 @@ mounted(){
                   <span class="slider round"></span>
                 </label>
                 <label for="visible" class="form-label mb-0"><i class="fa-solid fa-eye"></i></label>
+              </div>
+
+              <div class="mb-3 d-flex justify-content-end align-items-center flex-row-reverse input-box border-0 pb-2">
+                <div role="group"  class="row">
+                    <div v-for="service in store.availableServices" :key="service.id" class="col">
+                      <input type="checkbox"
+                      v-model="apartmentServices"
+                      :value="service.id"
+                      :id="service.slug"
+                      :title="service.slug"
+                      >
+                      <label :for="service.slug" class="form-label mb-0">{{ service?.name }}</label>
+                    </div>
+
+                </div>
               </div>
 
             </form>

@@ -3,8 +3,12 @@ import axios from "axios";
 import { store } from '../../store/store';
 import { ref } from 'vue';
 import tt from '@tomtom-international/web-sdk-maps';
+import AddGallery from "../../components/partials/cards/AddGallery.vue";
 export default {
 name: 'ApartmentDetailAdmin',
+components:{
+  AddGallery
+},
 data(){
   return {
     store,
@@ -27,10 +31,11 @@ data(){
         square_meters: '',
         address: '',
         description: '',
-        img_path: '',
+        image: '',
         visible: true,
         price: '',
         user_id: store.user.id,
+        services: this.apartmentServices
       }),
       coordinate_x: null,
       coordinate_Y: null,
@@ -50,7 +55,7 @@ methods: {
         square_meters: this.apartment.square_meters,
         address: this.apartment.address,
         description: this.apartment.description,
-        img_path: this.apartment.img_path,
+        image: this.apartment.img_path,
         visible: this.apartment.visible === 1 ? true : false,
         price: this.apartment.price,
         user_id: store.user.id
@@ -67,8 +72,6 @@ methods: {
             this.loading = false;
             this.fillForm();
             this.getMap();
-            console.log(this.apartment);
-            let prova = []
             result.data.apartment[0].services.forEach(service =>{
               this.apartmentServices.push(service.id)
             })
@@ -108,6 +111,8 @@ methods: {
   },
 
   updateApartment($id){
+
+    console.log(this.apartmentForm);
     this.errors = null
       if(this.apartmentForm.visible == true){
         if(
@@ -123,7 +128,8 @@ methods: {
         }else{
           axios.get('sanctum/csrf-cookie')
             .then(() => {
-              axios.put(store.adminUrl + 'apartments/' + $id, {
+              axios.post(store.adminUrl + 'apartments/' + $id, {
+                _method: 'PUT',
                 title: this.apartmentForm.title,
                 num_rooms: this.apartmentForm.num_rooms,
                 num_beds: this.apartmentForm.num_beds,
@@ -131,15 +137,24 @@ methods: {
                 square_meters: this.apartmentForm.square_meters,
                 address: this.apartmentForm.address,
                 description: this.apartmentForm.description,
-                img_path: this.apartmentForm.img_path,
+                image: this.apartmentForm.image,
                 visible: this.apartmentForm.visible,
                 price: this.apartmentForm.price,
-                services: this.apartmentServices,
+                services: JSON.stringify(this.apartmentServices),
                 user_id: this.apartmentForm.user_id
+              }, {
+                headers:{
+                  'content-type' : 'multipart/form-data'
+                }
               })
-            })
+        })
             .then(result => {
+              this.apartmentServices=[]
+              this.$router.push("/my-apartments/apartments");
+
               this.getApi();
+
+
             })
         }
 
@@ -149,7 +164,8 @@ methods: {
     }else{
       axios.get('sanctum/csrf-cookie')
         .then(() => {
-          axios.put(store.adminUrl + 'apartments/' + $id, {
+          axios.post(store.adminUrl + 'apartments/' + $id, {
+            _method: 'PUT',
             title: this.apartmentForm.title,
             num_rooms: this.apartmentForm.num_rooms,
             num_beds: this.apartmentForm.num_beds,
@@ -157,14 +173,22 @@ methods: {
             square_meters: this.apartmentForm.square_meters,
             address: this.apartmentForm.address,
             description: this.apartmentForm.description,
-            img_path: this.apartmentForm.img_path,
+            image: this.apartmentForm.image,
             visible: this.apartmentForm.visible,
             price: this.apartmentForm.price,
-            services: this.apartmentServices,
+            services: JSON.stringify(this.apartmentServices),
             user_id: this.apartmentForm.user_id
-          })
+          }, {
+            headers: {
+            'Content-Type': 'multipart/form-data',
+          }
+
+              })
         })
         .then(result => {
+          console.log(result);
+          this.apartmentServices=[]
+
           this.apartmentForm = ref({
             title: '',
             num_rooms: '',
@@ -173,7 +197,7 @@ methods: {
             square_meters: '',
             address: '',
             description: '',
-            img_path: '',
+            image: '',
             visible: true,
             price: '',
             user_id: store.user.id
@@ -181,12 +205,18 @@ methods: {
           // console.log(result)
 
           this.getApi();
-          // this.$router.push("/my-apartments/apartments");
+          this.$router.push("/my-apartments/apartments");
+
 
 
         })
      }
   },
+
+  onChange(event){
+      this.apartmentForm.image = event.target.files[0]
+      console.log(this.apartmentForm.image);
+    }
 },
 
 mounted(){
@@ -201,7 +231,7 @@ mounted(){
     <div class="t4-container py-5 px-5">
 
       <div class="d-flex justify-content-between align-items-center my-4">
-        <h2  class="fs-3 fw-semibold mb-0 title">{{ apartment.title }}</h2>
+        <h2 v-if="apartment.title" class="fs-3 fw-semibold mb-0 title">{{ apartment?.title }}</h2>
         <div>
           <button @click="redirectToPreviousPage()" title="Torna Indietro" class="btn t4-btn btn-add me-2">
             <i class="fa-solid fa-left-long"></i>
@@ -218,7 +248,7 @@ mounted(){
       <div class="row row-cols-2">
         <div class="col pe-4">
           <div class="img-wrapper">
-            <img class="w-100 mb-3" :src="apartment.img_path ?? '/img/house-placeholder.png'" alt="">
+            <img class="w-100 mb-3" :src="apartment.img_path ? apartment.img_path : '/img/house-placeholder.png'" alt="">
             <div class="price">
               <p><span class="fw-semibold fs-4">{{ apartment.price }} &euro;</span> a notte</p>
             </div>
@@ -262,6 +292,11 @@ mounted(){
               </li>
             </ul>
           </div>
+
+
+          <!-- ADD GALLERY
+          <AddGallery :apartment_id="this.apartment.id"/> -->
+
 
         </div>
       </div>
@@ -407,6 +442,7 @@ mounted(){
 
               <div class="mb-3 d-flex align-items-center flex-row-reverse input-box pb-2">
                 <input
+                @change="onChange"
                   type="file"
                   title="Copertina"
                   id="img_path"
@@ -415,6 +451,7 @@ mounted(){
                   placeholder="Immagine">
                 <label for="img_path" class="form-label mb-0"><i class="fa-solid fa-image"></i></label>
               </div>
+
 
               <div class="mb-3 d-flex justify-content-end align-items-center flex-row-reverse input-box border-0 pb-2">
                 <label class="switch">
@@ -441,6 +478,7 @@ mounted(){
                       >
                       <label :for="service.slug" class="form-label mb-0">{{ service?.name }}</label>
                     </div>
+
 
                 </div>
               </div>

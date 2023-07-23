@@ -19,6 +19,7 @@ class Apartment extends Model
     'coordinates',
     'address',
     'visible',
+    'img_path',
     'price',
     'user_id'
   ];

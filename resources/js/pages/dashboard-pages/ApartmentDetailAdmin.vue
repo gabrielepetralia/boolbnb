@@ -75,6 +75,7 @@ methods: {
             result.data.apartment[0].services.forEach(service =>{
               this.apartmentServices.push(service.id)
             })
+            console.log(result);
           })
       })
   },
@@ -294,8 +295,8 @@ mounted(){
           </div>
 
 
-          <!-- ADD GALLERY
-          <AddGallery :apartment_id="this.apartment.id"/> -->
+
+          <AddGallery :apartment="this.apartment"/>
 
 
         </div>

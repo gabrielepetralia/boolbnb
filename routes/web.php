@@ -31,9 +31,9 @@ Route::middleware(['auth', 'verified'])
   // Route::get('/', [DashboardController::class, 'index'])->name('home');
     Route::get('/user-auth', [UserController::class, 'index']);
     Route::resource('apartments', AdminApartmentController::class);
-    Route::resource('images', ImageController::class);
     Route::get('/{user_id}', [ApartmentController::class, 'getUserApartments']);
     Route::get('/apartment/{slug}', [ApartmentController::class, 'getApartmentDetail']);
+    Route::post('/image',[ ImageController::class, 'store']);
   });
 
 require __DIR__ . '/auth.php';

@@ -171,7 +171,7 @@ export default {
       <div class="row row-cols-2">
         <div class="col pe-4">
           <div class="img-wrapper">
-            <img class="w-100 mb-3" :src="apartment.img_path ?? '/img/house-placeholder.png'" alt="">
+            <img class="w-100 mb-3" :src="apartment.img_path ? apartment.img_path : '/img/house-placeholder.png'" alt="">
             <div class="price">
               <p><span class="fw-semibold fs-4">{{ apartment.price }} &euro;</span> a notte</p>
             </div>

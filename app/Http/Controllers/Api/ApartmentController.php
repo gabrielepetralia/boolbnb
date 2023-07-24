@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Apartment;
+use App\Models\Image;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -38,7 +39,8 @@ class ApartmentController extends Controller
   public function getApartmentDetail($slug)
   {
     $apartment = Apartment::where('slug', $slug)->with('services')->get()->makeHidden('coordinates');
-    return response()->json(compact('apartment'));
+    $gallery = Image::where('apartment_id', $apartment[0]->id)->get();
+    return response()->json(compact('apartment', 'gallery'));
   }
 
   public function getServices()

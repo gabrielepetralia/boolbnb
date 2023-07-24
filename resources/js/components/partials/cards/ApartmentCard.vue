@@ -15,7 +15,7 @@ export default {
       <div class="apartment-card mb-4">
 
         <div class="apartment-img mb-2">
-          <img :src="apartment.img_path ?? '/img/house-placeholder.png'" alt="">
+          <img :src="apartment.img_path ? apartment.img_path : '/img/house-placeholder.png'" alt="">
         </div>
         <div class="apartment-text">
           <h6 class="mb-1 fw-semibold">{{ apartment.title }}</h6>

@@ -32,8 +32,7 @@ export default {
         square_meters: "",
         address: "",
         description: "",
-        img_path: "",
-
+        image: '',
         visible: true,
         price: "",
         user_id: store.user.id,
@@ -123,8 +122,6 @@ export default {
         }
 
 
-
-
         axios.get('sanctum/csrf-cookie')
         .then(() => {
           axios.post('/admin/apartments', {
@@ -135,13 +132,18 @@ export default {
             square_meters: this.apartmentForm.square_meters,
             address: this.apartmentForm.address,
             description: this.apartmentForm.description,
-            img_path: this.apartmentForm.img_path,
+            image: this.apartmentForm.image,
             visible: this.apartmentForm.visible,
             price: this.apartmentForm.price,
-            services: this.apartmentServices,
-            user_id: this.apartmentForm.user_id
+            user_id: this.apartmentForm.user_id,
+            services: JSON.stringify(this.apartmentServices),
+          }, {
+            headers:{
+              'content-type' : 'multipart/form-data'
+            }
           })
         })
+
         .then(result => {
           this.apartmentForm = ref({
             title: '',
@@ -151,25 +153,30 @@ export default {
             square_meters: '',
             address: '',
             description: '',
-            img_path: '',
+            image: '',
             visible: true,
             price: '',
-            user_id: store.user.id
+            user_id: store.user.id,
+
           })
 
-          this.$router.push("/my-apartments/apartments");
-
-          // console.log(result)
           this.getMyApartments()
 
-        })
+          // console.log(result)
 
+        }).then(()=>{
+
+          this.$router.push("/my-apartments/apartments");
+        })
+        .catch(error=>{
+            console.log(error);
+          })
       }else{
 
         if(this.apartmentForm.title !== "" && this.apartmentForm.address !== ""){
 
+          console.log(this.apartmentForm)
           axios.get('sanctum/csrf-cookie')
-
           .then(() => {
             axios.post('/admin/apartments', {
               title: this.apartmentForm.title,
@@ -179,12 +186,16 @@ export default {
               square_meters: this.apartmentForm.square_meters,
               address: this.apartmentForm.address,
               description: this.apartmentForm.description,
-              img_path: this.apartmentForm.img_path,
+              image: this.apartmentForm.image,
               visible: this.apartmentForm.visible,
               price: this.apartmentForm.price,
-              services: this.apartmentServices,
-              user_id: this.apartmentForm.user_id
-            })
+              user_id: this.apartmentForm.user_id,
+              services: JSON.stringify(this.apartmentServices),
+            }, {
+            headers:{
+              'content-type' : 'multipart/form-data'
+            }
+          })
           })
           .then(result => {
             this.apartmentForm = ref({
@@ -195,20 +206,29 @@ export default {
               square_meters: '',
               address: '',
               description: '',
-              img_path: '',
+              image: {},
               visible: true,
               price: '',
-              user_id: store.user.id
+              user_id: store.user.id,
+
             })
 
             // console.log(result)
             this.getMyApartments()
           })
+          .catch(error=>{
+            console.log(error);
+          })
         }else{
           this.generalFormError = "Per salvare una bozza completa titolo e indirizzo"
         }
       }
+    },
+    onChange(event){
+      this.apartmentForm.image = event.target.files[0]
+      console.log(this.apartmentForm.image);
     }
+
   },
 
   mounted(){
@@ -286,8 +306,7 @@ export default {
                   placeholder="Titolo"
                 />
                 <label for="title" class="form-label mb-0"
-                  ><i class="fa-solid fa-heading"></i
-                ></label>
+                  ><i class="fa-solid fa-heading"></i></label>
 
               </div>
               <div v-if="errors.title" class="text-danger">
@@ -465,14 +484,13 @@ export default {
               class="mt-3 d-flex align-items-center flex-row-reverse input-box pb-2"
             >
               <input
+                @change="onChange"
                 type="file"
                 id="img_path"
                 name="img_path"
-                :class="{ 'my-static-class': hasError }"
                 class="form-control ms-2"
                 placeholder="Immagine"
                 title="Copertina"
-
               />
               <label for="img_path" class="form-label mb-0"
                 ><i class="fa-solid fa-image"></i

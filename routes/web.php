@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Guest\PageController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Admin\ApartmentController as AdminApartmentController;
 use App\Http\Controllers\Api\ApartmentController;
@@ -27,11 +28,12 @@ Route::middleware(['auth', 'verified'])
 ->name('admin.')
 ->prefix('admin')
 ->group(function () {
-    // Route::get('/', [DashboardController::class, 'index'])->name('home');
+  // Route::get('/', [DashboardController::class, 'index'])->name('home');
     Route::get('/user-auth', [UserController::class, 'index']);
     Route::resource('apartments', AdminApartmentController::class);
     Route::get('/{user_id}', [ApartmentController::class, 'getUserApartments']);
     Route::get('/apartment/{slug}', [ApartmentController::class, 'getApartmentDetail']);
+    Route::post('/image',[ ImageController::class, 'store']);
   });
 
 require __DIR__ . '/auth.php';

@@ -47,13 +47,22 @@ class ApartmentController extends Controller
     // if(in_array('visible', $form_data)){
     //   $form_data = $visiblecheck->all();
     // }
-
+    $form_data['visible'] = ($form_data['visible'] == true) ? 1 : '';
     $form_data['slug'] = CustomHelper::generateUniqueSlug($form_data['title'], new Apartment());
-    $form_data['coordinates'] = DB::raw("ST_GeomFromText('POINT(" . CustomHelper::getCoordinates($form_data['address']) . ")')");
+    $form_data['coordinates'] = DB::raw("ST_GeomFromText('POINT(" . CustomHelper::getCoordinates($request->input('address')) . ")')");
+
+    if($request->hasFile('image')){
+
+      $form_data['img_path'] ="/storage" . "/" . Storage::put('uploads', $form_data['image']);
+    }
+
     $new_apartment = Apartment::create($form_data);
 
-    if(array_key_exists('services', $form_data)){
-      $new_apartment->services()->attach($form_data['services']);
+
+  $services = json_decode($request->input('services'), true);
+  if($request->input('services')){
+    $new_apartment->services()->attach($services);
+
   }
     // Da reindirizzare direttamente alla show
     return response()->json('ok');
@@ -90,8 +99,20 @@ class ApartmentController extends Controller
    */
   public function update(Request $request, $id)
   {
-    $form_data = $request->all();
+
+
     $apartment = Apartment::where('id', $id)->first();
+
+
+    $form_data = $request->all();
+    $form_data['visible'] = ($form_data['visible'] == true) ? 1 : '';
+
+
+    if($request->hasFile('image')){
+    if($request->image){
+      $form_data['img_path'] ="/storage" . "/" . Storage::put('uploads', $request->image);
+    }
+  }
 
     if($apartment->title !== $form_data['title']){
       $form_data['slug'] = CustomHelper::generateUniqueSlug($form_data['title'], new Apartment());
@@ -100,21 +121,15 @@ class ApartmentController extends Controller
       $form_data['coordinates'] = DB::raw("ST_GeomFromText('POINT(" . CustomHelper::getCoordinates($form_data['address']) . ")')");
     }
 
-    if(array_key_exists('image_path', $form_data)){
 
-      if($apartment->image_path){
-          Storage::disk('public')->delete($apartment->image_path);
-      }
+    $services = json_decode($request->input('services'), true);
+    if($request->input('services')){
+        $apartment->services()->sync($services);
+    }else {
+        $apartment->services()->detach();
+    }
 
-      $form_data['image_path'] = Storage::put('uploads', $form_data['image']);
-  }
-  $apartment->update($form_data);
-
-  if(array_key_exists('services', $form_data)){
-      $apartment->services()->sync($form_data['services']);
-  }else {
-      $apartment->services()->detach();
-  }
+  $apartment->update($form_data);;
 
   }
 
@@ -127,9 +142,9 @@ class ApartmentController extends Controller
   public function destroy($id)
   {
     $apartment = Apartment::where('id', $id)->first();
-    // if($apartment->image_path){
-    //   Storage::disk('public')->delete($apartment->image_path);
-    // }
+    if($apartment->image_path){
+      Storage::disk('public')->delete($apartment->image_path);
+    }
 
     $apartment->delete();
 

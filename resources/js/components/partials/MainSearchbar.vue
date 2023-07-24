@@ -10,21 +10,21 @@ export default {
   },
 
   methods: {
-  selectAddressToSearch(suggest) {
-    store.search = suggest.address.freeformAddress;
-    store.showSuggestions = false;
-  }
-
+    selectAddressToSearch(suggest) {
+      store.search = suggest.address.freeformAddress;
+      store.showSuggestions = false;
+    }
   }
 }
 </script>
 
 <template>
-<p></p>
 <div class="d-flex align-items-center position-relative">
   <input
+  
     v-model="store.search"
     @input="store.getSuggestions()"
+    @keyup.enter="store.getSearchedApartments(this.search)"
     class="searchbar me-2"
     type="text"
     name="searchbar"
@@ -59,7 +59,6 @@ export default {
   padding: 0 20px;
   border-radius: 50px;
   border: 0;
-  margin-left: 58px;
   box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
 
   &:focus {
@@ -78,10 +77,10 @@ export default {
   z-index: -1;
   position: absolute;
   top: 50%;
-  left: 14%;
+  left: 0;
   background-color: white;
   color: $dark-gray;
-  width: 72.2%;
+  width: 84.05%;
   border-radius: 0 0 12px 12px;
   overflow: hidden;
 

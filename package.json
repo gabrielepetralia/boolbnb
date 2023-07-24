@@ -17,6 +17,7 @@
         "@tomtom-international/web-sdk-maps": "^6.23.0",
         "@vitejs/plugin-vue": "^4.2.3",
         "bootstrap": "^5.2.2",
+        "swiper": "^10.0.4",
         "vue": "^3.2.36",
         "vue-router": "^4.2.4"
     }

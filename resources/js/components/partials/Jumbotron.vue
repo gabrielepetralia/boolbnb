@@ -37,7 +37,9 @@ export default {
     <div class="content d-flex flex-column align-items-center">
       <img class="logo" src="/img/logo-big-light.svg" alt="Logo">
       <p class="text-center mb-3">Cerca la destinazione della tua prossima vacanza e trova subito l'alloggio perfetto per te!</p>
-      <MainSearchbar/>
+      <div class="searchbar">
+        <MainSearchbar/>
+      </div>
     </div>
 
   </div>
@@ -78,6 +80,10 @@ export default {
     .logo {
       width: 300px;
     }
+  }
+
+  .searchbar {
+    margin-left: 58px;
   }
 
 }

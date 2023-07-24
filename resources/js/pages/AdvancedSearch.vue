@@ -346,9 +346,9 @@ export default {
 
         <!-- range -->
         <div class="range pb-3">
-          <label for="customRange1" class="form-label"><h5 class="fw-semibold">Raggio :</h5></label>
+          <label for="customRange" class="form-label"><h5 class="fw-semibold mb-1">Raggio :</h5></label>
           <div class="d-flex">
-            <input type="range" class="form-range custom-range" v-model="max_radius" min="20" max="60" step="10" id="customRange1">
+            <input type="range" class="form-range custom-range" v-model="max_radius" min="20" max="60" step="10" id="customRange">
           </div>
           <div class="d-flex justify-content-between">
             <div class="km fw-semibold">20km</div>
@@ -358,7 +358,6 @@ export default {
             <div class="km fw-semibold">60km</div>
           </div>
         </div>
-        {{ max_radius }}
         <!-- /range -->
 
 

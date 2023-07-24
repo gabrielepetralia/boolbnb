@@ -3,14 +3,19 @@ import axios from "axios";
 import { store } from '../store/store';
 import { ref } from 'vue';
 import tt from '@tomtom-international/web-sdk-maps';
+import Slider from '../components/partials/Slider.vue';
 export default {
   name: 'ApartmentDetailAdmin',
+  components: {
+    Slider
+  },
   data() {
     return {
       store,
       apartment: null,
       errors: null,
       map_link: null,
+      gallery: [],
       apiUrl: 'https://api.tomtom.com/search/2/',
       apiKey: 'gdZGu9e4M0xCvL3gtsUxcBcG8KtOb1fQ',
       _map: {
@@ -33,6 +38,7 @@ export default {
             axios.get(store.apiUrl + 'apartments/apartment-detail/' + this.$route.params.slug)
               .then(result => {
                 this.apartment = result.data.apartment[0];
+                this.gallery = result.data.gallery;
                 this.loading = false;
                 this.getMap();
               })
@@ -171,7 +177,9 @@ export default {
       <div class="row row-cols-2">
         <div class="col pe-4">
           <div class="img-wrapper">
-            <img class="w-100 mb-3" :src="apartment.img_path ? apartment.img_path : '/img/house-placeholder.png'" alt="">
+            <div class="slider-container mb-3">
+              <Slider :apartment="this.apartment" :gallery="this.gallery" />
+            </div>
             <div class="price">
               <p><span class="fw-semibold fs-4">{{ apartment.price }} &euro;</span> a notte</p>
             </div>
@@ -237,6 +245,12 @@ export default {
 <style lang="scss" scoped>
 @use "../../scss/partials/variables" as *;
 
+.slider-container {
+  width: 100%;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
+}
 .apartment-detail {
   font-size: 0.95rem;
   background-color: $dark-white;

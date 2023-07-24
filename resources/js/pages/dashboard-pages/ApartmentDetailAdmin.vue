@@ -4,14 +4,17 @@ import { store } from '../../store/store';
 import { ref } from 'vue';
 import tt from '@tomtom-international/web-sdk-maps';
 import AddGallery from "../../components/partials/cards/AddGallery.vue";
+import Slider from '../../components/partials/Slider.vue';
 export default {
 name: 'ApartmentDetailAdmin',
 components:{
-  AddGallery
+  AddGallery,
+  Slider
 },
 data(){
   return {
     store,
+    gallery: [],
     apartmentServices: [],
     apartment: null,
     errors: null,
@@ -69,6 +72,7 @@ methods: {
         axios.get(store.adminUrl + 'apartment/' + this.$route.params.slug)
           .then(result => {
             this.apartment = result.data.apartment[0];
+            this.gallery = result.data.gallery;
             this.loading = false;
             this.fillForm();
             this.getMap();
@@ -249,7 +253,9 @@ mounted(){
       <div class="row row-cols-2">
         <div class="col pe-4">
           <div class="img-wrapper">
-            <img class="w-100 mb-3" :src="apartment.img_path ? apartment.img_path : '/img/house-placeholder.png'" alt="">
+            <div class="slider-container mb-3">
+              <Slider :apartment="this.apartment" :gallery="this.gallery" />
+            </div>
             <div class="price">
               <p><span class="fw-semibold fs-4">{{ apartment.price }} &euro;</span> a notte</p>
             </div>
@@ -501,6 +507,13 @@ mounted(){
 
 <style lang="scss" scoped>
 @use "../../../scss/partials/variables" as *;
+
+.slider-container {
+  width: 100%;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
+}
 .apartment-detail {
   font-size: 0.95rem;
 

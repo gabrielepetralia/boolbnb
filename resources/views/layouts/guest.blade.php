@@ -9,10 +9,21 @@
 
         <title>BoolBnB @yield('title')</title>
 
+
+
         {{-- Google Font --}}
         {{-- <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet"> --}}
+
+        {{-- Swiper --}}
+        <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"
+        />
+
+        <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">

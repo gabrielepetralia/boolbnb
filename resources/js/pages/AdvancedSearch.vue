@@ -15,7 +15,6 @@ export default {
       store
     }
   },
-
   mounted() {
     store.getServices();
   }
@@ -70,13 +69,13 @@ export default {
         <!-- services -->
         <div class="services">
           <h5>Servizi:</h5>
-          <div class="services-boxes">
-            <div v-for="service in store.availableServices" :key="service.id" class="service">
-              <div class="icon">
-                <img :src="`/img/services-icons/${ service.slug }.png`" :alt="service.name">
-              </div>
-              <div class="input">
-                <input type="checkbox">
+          <div class="services-box">
+            <div v-for="(service, index) in store.availableServices" :key="service.id" class="service">
+              <div class="icon btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                <input type="checkbox" class="btn-check" :id="'btncheck' + (index+1)" autocomplete="off">
+                <label class="btn btn-outline-secondary" :for="'btncheck' + (index+1)">
+                  <img :src="`/img/services-icons/${ service.slug }.png`" :alt="service.name">
+                </label>
               </div>
             </div>
           </div>
@@ -208,20 +207,20 @@ export default {
   }
   .services {
     border-bottom: 1px solid $dark-gray;
-    .services-boxes {
+    .services-box {
       display: flex;
       flex-wrap: wrap;
       padding: 5px 0;
       .service {
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        width: 14%;
-        margin: 10px 15px;
+        justify-content: center;
+        width: 60px;
+        margin: 10px 0;
         .icon {
-          margin-right: 5px;
+          width: 45px;
           img {
-            width: 30px;
+            width: 20px;
           }
         }
       }

@@ -77,9 +77,12 @@ export default {
         <div class="modal-body">
           <h1 class="modal-title fs-3 fw-semibold text-center mt-2 mb-4">Accedi</h1>
 
+          <div v-if="store.credentialError" class="text-danger">
+               <p>{{ store.credentialError }}</p>
+          </div>
 
           <form @submit.prevent="store.handleLogin()">
-            <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
+            <div class="d-flex align-items-center flex-row-reverse input-box">
               <input
                 v-model="this.store.formLogin.loginEmail"
                 required
@@ -92,18 +95,16 @@ export default {
               <label for="loginEmail" class="form-label mb-0">
                 <i class="fa-solid fa-envelope"></i>
               </label>
-              <div v-if="store.errorslogin.email" class="error-message">
-                 <p>{{ store.errorslogin.email }}</p>
-              </div>
-
+            </div>
+            <div v-if="store.errorslogin.email" class="text-danger">
+               <p>{{ store.errorslogin.email }}</p>
             </div>
 
-            <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
+            <div class="mt-2 d-flex align-items-center flex-row-reverse input-box">
               <input
                 v-model="this.store.formLogin.loginPassword"
                 type="password"
                 required
-                @blur="validateEmail"
                 name="loginPassword"
                 id="loginPassword"
                 class="form-control"
@@ -112,10 +113,9 @@ export default {
               <label for="loginPassword" class="form-label mb-0">
                 <i class="fa-solid fa-key"></i>
               </label>
-              <div v-if="store.errorslogin.password" class="error-message">
-                 <p>{{ store.errorslogin.password }}</p>
-              </div>
-              <!-- <p v-if="this.store.errors" class="error-message">{{ errors }}</p> -->
+            </div>
+            <div v-if="store.errorslogin.password" class="text-danger ">
+               <p>{{ store.errorslogin.password }}</p>
             </div>
 
             <button   type="submit" class="btn t4-btn my-3 w-100 btn-modal">Sign In</button>

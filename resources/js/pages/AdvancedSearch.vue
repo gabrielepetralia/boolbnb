@@ -113,7 +113,8 @@ export default {
               <label for="min_price"><i class="fa-solid fa-euro-sign"></i></label>
               <input
               v-model="min_price"
-              placeholder="Inserire un prezzo minimo"
+              class="form-control"
+              placeholder="Min."
               name="min_price"
               id="min_price"
               type="number"
@@ -123,7 +124,8 @@ export default {
               <label for="max_price"><i class="fa-solid fa-euro-sign"></i></label>
               <input
               v-model="max_price"
-              placeholder="Inserire un prezzo massimo"
+              class="form-control"
+              placeholder="Max."
               name="max_price"
               id="max_price"
               type="number"
@@ -132,7 +134,7 @@ export default {
           </div>
         </div>
         <!-- /price -->
-        
+
         <!-- sqrmeters -->
         <div class="sqr-meters pb-2">
           <h5 class="fw-semibold">Mt <sup>2</sup> :</h5>
@@ -140,7 +142,8 @@ export default {
             <label for="sqr_meters"><i class="fa-solid fa-expand"></i></label>
             <input
               v-model="min_square_meters"
-              placeholder="Inserire una metratura minima"
+              class="form-control"
+              placeholder="Metratura minima"
               name="sqr_meters"
               id="sqr_meters"
               type="number"
@@ -148,7 +151,7 @@ export default {
           </div>
         </div>
         <!-- /sqrmeters -->
-        
+
         <!-- services -->
         <div class="services pb-2">
           <h5 class="fw-semibold mb-3">Servizi :</h5>
@@ -170,7 +173,7 @@ export default {
           </div>
         </div>
         <!-- /services -->
-        
+
         <!-- details -->
         <div class="details pb-2">
           <div class="rooms mb-3">
@@ -346,12 +349,12 @@ export default {
           </div>
         </div>
         <!-- /rooms and beds -->
-        
+
         <!-- range -->
         <div class="range pb-3">
-          <label for="customRange1" class="form-label"><h5 class="fw-semibold">Raggio :</h5></label>
+          <label for="customRange1" class="form-label"><h5 class="fw-semibold mb-1">Raggio :</h5></label>
           <div class="d-flex">
-            <input type="range" v-model="max_radius" class="form-range custom-range" min="0" max="5" step="1" value="0" id="customRange1">
+            <input type="range" class="form-range custom-range" min="0" max="5" step="1" value="0" id="customRange1">
           </div>
           <div class="d-flex justify-content-between">
             <div class="km fw-semibold">20km</div>
@@ -363,9 +366,17 @@ export default {
           </div>
         </div>
         <!-- /range -->
-        
+
+
       </div>
-      <div class="btn" @click="filterApartments">Invia</div>
+
+      <div class="d-flex justify-content-center offcanvas-footer py-3">
+        <button @click="filterApartments" class="btn btn-filters t4-btn d-flex align-items-center">
+          <i class="fa-solid fa-gears me-2 fs-6"></i>
+          <span class="me-1">Filtra</span>
+        </button>
+      </div>
+
     </div>
     <!-- ------ /offcanvas ------ -->
   </div>
@@ -380,10 +391,6 @@ export default {
   min-height: calc(100vh - 431px);
   color: $dark_gray;
   background-color: $dark_white;
-
-  .km {
-    font-size: 0.8rem;
-  }
 
   .searchbar {
     margin-left: 148px;
@@ -410,6 +417,10 @@ export default {
         outline: none;
         box-shadow: none;
       }
+    }
+
+    .km {
+      font-size: 0.8rem;
     }
 
     .btn-check-label {
@@ -447,7 +458,7 @@ export default {
       background-color: $dark-gray;
       border: 0;
       color: white;
-      font-size: 1rem;
+      font-size: 0.95rem;
 
       &::placeholder {
         color: $dark-white;
@@ -462,10 +473,8 @@ export default {
 
     .price,
     .sqr-meters,
-    .range,
     .services,
-    .details,
-    .range {
+    .details {
       border-bottom: 1px solid gray;
       margin-bottom: 20px;
     }
@@ -478,6 +487,10 @@ export default {
           width: 100%;
         }
       }
+    }
+
+    .offcanvas-footer {
+      background-color: $dark_white;
     }
 
   }

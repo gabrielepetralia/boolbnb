@@ -8,6 +8,8 @@ export const store = reactive ({
 // Arrays
   searchedApartments : null,
   availableServices: null,
+  sponsorizedApartments: [],
+
 
   // TomTom Api Datas
   apiUrl: 'http://127.0.0.1:8000/api/',

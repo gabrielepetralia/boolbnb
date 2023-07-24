@@ -17,7 +17,6 @@ export default {
   data() {
     return {
       store,
-      apartments: []
     }
   },
 
@@ -25,7 +24,7 @@ export default {
     getApi() {
       axios.get(store.apiUrl + 'apartments')
         .then(res => {
-          this.apartments = res.data.apartments;
+          store.sponsorizedApartments = res.data.apartments;
         })
     }
   },
@@ -47,7 +46,7 @@ export default {
 
         <div class="row row-cols-6">
           <ApartmentCard
-          v-for="apartment in apartments"
+          v-for="apartment in store.sponsorizedApartments"
             :key="apartment.id"
             :apartment="apartment"
             :link_name="'apartment-detail-guest'"/>

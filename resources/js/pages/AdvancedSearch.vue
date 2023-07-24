@@ -21,7 +21,7 @@ export default {
       min_rooms: 1,
       min_bathrooms: 1,
       min_beds: 1,
-      max_radius: 0,
+      max_radius: 20,
 
     }
   },
@@ -35,20 +35,14 @@ export default {
         default_max_price = this.max_price
       }
 
-      let default_max_radius;
-      if(this.max_radius == 0){
-        default_max_radius = 0.01
-      }else {
-        default_max_radius = this.max_radius / 100
-      }
-      if(this.services.lenth >= 0){
 
-        axios.get("http://127.0.0.1:8000/api/apartments/" + this.min_price + '/' + default_max_price + '/' + this.min_square_meters + '/' + this.min_bathrooms + '/' + this.min_beds + '/' + this.min_rooms + '/' + this.services + '/' + store.search + '/' + default_max_radius)
+      if(this.services.length > 0){
+        axios.get("http://127.0.0.1:8000/api/apartments/" + this.min_price + '/' + default_max_price + '/' + this.min_square_meters + '/' + this.min_bathrooms + '/' + this.min_beds + '/' + this.min_rooms + '/' + this.services + '/' + store.search + '/' + this.max_radius / 100)
         .then(result => {
           store.searchedApartments = result.data.apartments
         })
       }else{
-        axios.get("http://127.0.0.1:8000/api/apartments/" + this.min_price + '/' + default_max_price + '/' + this.min_square_meters + '/' + this.min_bathrooms + '/' + this.min_beds + '/' + this.min_rooms + '/' + store.search + '/' + default_max_radius)
+        axios.get("http://127.0.0.1:8000/api/apartments/" + this.min_price + '/' + default_max_price + '/' + this.min_square_meters + '/' + this.min_bathrooms + '/' + this.min_beds + '/' + this.min_rooms + '/' + store.search + '/' + this.max_radius / 100)
         .then(result => {
           store.searchedApartments = result.data.apartments
         })
@@ -352,19 +346,19 @@ export default {
 
         <!-- range -->
         <div class="range pb-3">
-          <label for="customRange1" class="form-label"><h5 class="fw-semibold mb-1">Raggio :</h5></label>
+          <label for="customRange1" class="form-label"><h5 class="fw-semibold">Raggio :</h5></label>
           <div class="d-flex">
-            <input type="range" class="form-range custom-range" min="0" max="5" step="1" value="0" id="customRange1">
+            <input type="range" class="form-range custom-range" v-model="max_radius" min="20" max="60" step="10" id="customRange1">
           </div>
           <div class="d-flex justify-content-between">
             <div class="km fw-semibold">20km</div>
-            <div class="km fw-semibold">30km</div>
-            <div class="km fw-semibold">40km</div>
+            <div class="km fw-semibold ">30km</div>
+            <div class="km fw-semibold ">40km</div>
             <div class="km fw-semibold">50km</div>
             <div class="km fw-semibold">60km</div>
-            <div class="km fw-semibold">70km</div>
           </div>
         </div>
+        {{ max_radius }}
         <!-- /range -->
 
 

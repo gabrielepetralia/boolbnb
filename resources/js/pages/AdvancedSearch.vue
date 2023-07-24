@@ -37,7 +37,7 @@ export default {
 
       let default_max_radius;
       if(this.max_radius == 0){
-        default_max_radius = 10
+        default_max_radius = 0.01
       }else {
         default_max_radius = this.max_radius / 100
       }

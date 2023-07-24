@@ -6,13 +6,12 @@ export default {
   data(){
     return {
       store,
-      search: '',
     }
   },
 
   methods: {
   selectAddressToSearch(suggest) {
-    this.search = suggest.address.freeformAddress;
+    store.search = suggest.address.freeformAddress;
     store.showSuggestions = false;
   }
 
@@ -24,8 +23,8 @@ export default {
 <p></p>
 <div class="d-flex align-items-center position-relative">
   <input
-    v-model="search"
-    @input="store.getSuggestions(this.search)"
+    v-model="store.search"
+    @input="store.getSuggestions()"
     class="searchbar me-2"
     type="text"
     name="searchbar"
@@ -43,7 +42,7 @@ export default {
   </div>
 
   <router-link :to="{ name: 'advanced-search' }">
-    <button @click="store.getSearchedApartments(this.search)" class="btn t4-btn btn-search d-flex justify-content-center align-items-center" name="btn_search">
+    <button @click="store.getSearchedApartments(store.search)" class="btn t4-btn btn-search d-flex justify-content-center align-items-center" name="btn_search">
       <i class="fa-solid fa-magnifying-glass"></i>
     </button>
   </router-link>

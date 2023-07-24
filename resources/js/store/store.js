@@ -23,6 +23,7 @@ export const store = reactive ({
 // Autocomplete fields
   suggestions: null,
   showSuggestions: false,
+  search: '',
 
 // Login and register forms fields
   form : ref({
@@ -133,11 +134,11 @@ export const store = reactive ({
   },
 
 // Getting suggestions for adressed autocomplete w/ TomTom Api
-  getSuggestions(address){
-    if(address.length >= 3){
+  getSuggestions(){
+    if(this.search.length >= 3){
 
       axios
-      .get('https://api.tomtom.com/search/2/search/' + address + '.json', {
+      .get('https://api.tomtom.com/search/2/search/' + this.search + '.json', {
         params: {
           key: this.apiKey,
           language: 'it-IT',

@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\Api\ApartmentController;
+use App\Http\Controllers\Api\MessageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 
 
 /*
@@ -26,5 +28,7 @@ Route::namespace('Api')
   Route::get('/{min_price}/{max_price}/{min_square_meters}/{min_bathrooms}/{min_beds}/{min_rooms}/{id}/{address}/{radiusInMeters}', [ApartmentController::class, 'getFilteredApartmentsWithServicesAndRadius']);
   Route::get('/{min_price}/{max_price}/{min_square_meters}/{min_bathrooms}/{min_beds}/{min_rooms}/{address}/{radiusInMeters}', [ApartmentController::class, 'getFilteredApartmentsWithoutServices']);
 });
+
+Route::resource('/message', MessageController::class);
 
 

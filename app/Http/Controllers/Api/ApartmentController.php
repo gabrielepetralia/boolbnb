@@ -36,7 +36,7 @@ class ApartmentController extends Controller
   // get all apartments of a user
   public function getUserApartments($user_id)
   {
-    $apartments = Apartment::where('user_id', $user_id)->orderBy('id', 'desc')->get()->makeHidden('coordinates');
+    $apartments = Apartment::with('messages')->where('user_id', $user_id)->orderBy('id', 'desc')->get()->makeHidden('coordinates');
     return response()->json(compact('apartments'));
   }
 

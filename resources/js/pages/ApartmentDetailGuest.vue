@@ -23,9 +23,47 @@ export default {
         lon: null
       },
       loading: true,
+      errorMessageForm: {},
+      messageForm: {
+        name: '',
+        email: '',
+
+        msg_text: ''
+      }
     }
   },
   methods: {
+
+    sendMessage(){
+      if(this.messageForm.name.length < 3){
+        this.errorMessageForm.name = 'Il nome deve contenere almeno 3 caratteri'
+
+      }else if( this.messageForm.email.length < 3){
+        this.errorMessageForm.name = null
+        this.errorMessageForm.email = 'La mail deve contenere almeno 5 caratteri'
+
+      }else if( this.messageForm.msg_text.length < 5){
+        this.errorMessageForm.email = null
+        this.errorMessageForm.msg_text = 'Il messaggio deve contenere almeno 5 caratteri'
+
+      }else {
+        this.errorMessageForm = {}
+
+        axios.post('http://127.0.0.1:8000/' + "message", {
+          email: this.messageForm.email,
+          name: this.messageForm.name,
+          msg_text: this.messageForm.msg_text,
+          apartment_id: this.apartment.id,
+        })
+              .then(result => {
+                console.log(result);
+              })
+      }
+
+
+
+
+    },
 
     redirectToPreviousPage() {
       this.$router.back();
@@ -227,6 +265,21 @@ export default {
         </div>
       </div>
 
+
+        <input  v-model="messageForm.name" type="text" placeholder="Inserisci il tuo nome"> <br>
+        <div v-if="this.errorMessageForm.name">
+          {{ this.errorMessageForm.name }}
+        </div>
+        <input  v-model="messageForm.email" type="email" placeholder="Inserisci la tua mail"> <br>
+        <div v-if="this.errorMessageForm.email">
+          {{ this.errorMessageForm.email }}
+        </div>
+        <textarea  v-model="messageForm.msg_text" name="" id="" cols="30" rows="10" >
+        </textarea>
+        <div v-if="this.errorMessageForm.msg_text">
+          {{ this.errorMessageForm.msg_text }}
+        </div>
+        <button @click="sendMessage">Invia</button>
       <hr class="my-4">
 
       <h4 class="fw-semibold">Mappa :</h4>

@@ -5,6 +5,9 @@ import axios from 'axios';
 
 export const store = reactive ({
 
+// Filters
+currentFilters : {},
+
 // Arrays
   searchedApartments : null,
   availableServices: null,
@@ -165,6 +168,7 @@ export const store = reactive ({
   },
 
   getSearchedApartments(address) {
+    this.currentFilters = {};
     axios.get(store.apiUrl + "apartments/" + address + "/" + "0.2")
       .then(res => {
         this.searchedApartments = res.data.apartments;

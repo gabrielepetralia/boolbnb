@@ -14,19 +14,31 @@ export default {
   data() {
     return {
       store,
-      min_price: 0,
-      max_price: 0,
-      min_square_meters: 0,
-      services: [],
-      min_rooms: 1,
-      min_bathrooms: 1,
-      min_beds: 1,
-      max_radius: 20,
+      min_price: store.currentFilters.min_price ? store.currentFilters.min_price : 0,
+      max_price: store.currentFilters.max_price ? store.currentFilters.max_price : 0,
+      min_square_meters: store.currentFilters.min_square_meters ? store.currentFilters.min_square_meters : 0,
+      services: store.currentFilters.services ? store.currentFilters.services : [],
+      min_rooms: store.currentFilters.min_rooms ? store.currentFilters.min_rooms : 1,
+      min_bathrooms: store.currentFilters.min_bathrooms ? store.currentFilters.min_bathrooms : 1,
+      min_beds: store.currentFilters.min_beds ? store.currentFilters.min_beds : 1,
+      max_radius: store.currentFilters.max_radius ? store.currentFilters.max_radius : 20,
 
     }
   },
 
   methods: {
+
+    clearFilter(){
+      this.min_price=  0,
+      this.max_price=  0,
+      this.min_square_meters=  0,
+      this.services=  [],
+      this.min_rooms=  1,
+      this.min_bathrooms= 1,
+      this.min_beds=  1,
+      this.max_radius=  20
+    },
+
     filterApartments(){
       let default_max_price;
       if(this.max_price == 0 ){
@@ -35,16 +47,38 @@ export default {
         default_max_price = this.max_price
       }
 
-
+      store.currentFilters = {}
       if(this.services.length > 0){
         axios.get("http://127.0.0.1:8000/api/apartments/" + this.min_price + '/' + default_max_price + '/' + this.min_square_meters + '/' + this.min_bathrooms + '/' + this.min_beds + '/' + this.min_rooms + '/' + this.services + '/' + store.search + '/' + this.max_radius / 100)
         .then(result => {
           store.searchedApartments = result.data.apartments
+
+          store.currentFilters = {
+        min_price: this.min_price,
+        max_price: this.max_price,
+        min_square_meters: this.min_square_meters,
+        services: this.services,
+        min_rooms: this.min_rooms,
+        min_bathrooms: this.min_bathrooms,
+        min_beds:this.min_beds ,
+        max_radius: this.max_radius,
+      }
         })
       }else{
         axios.get("http://127.0.0.1:8000/api/apartments/" + this.min_price + '/' + default_max_price + '/' + this.min_square_meters + '/' + this.min_bathrooms + '/' + this.min_beds + '/' + this.min_rooms + '/' + store.search + '/' + this.max_radius / 100)
         .then(result => {
           store.searchedApartments = result.data.apartments
+
+          store.currentFilters = {
+          min_price: this.min_price,
+          max_price: this.max_price,
+          min_square_meters: this.min_square_meters,
+          services: this.services,
+          min_rooms: this.min_rooms,
+          min_bathrooms: this.min_bathrooms,
+          min_beds:this.min_beds ,
+          max_radius: this.max_radius,
+      }
         })
 
       }
@@ -367,6 +401,9 @@ export default {
         <button @click="filterApartments" class="btn btn-filters t4-btn d-flex align-items-center">
           <i class="fa-solid fa-gears me-2 fs-6"></i>
           <span class="me-1">Filtra</span>
+        </button>
+        <button @click="clearFilter" class="btn btn-filters t4-btn d-flex align-items-center ms-4">
+          <span class="me-1">Pulisci il filtro</span>
         </button>
       </div>
 

@@ -141,8 +141,8 @@ export default {
   width: 100%;
   height: 15%;
   padding: 20px;
+  margin-bottom: 10px;
   background: $dark-white;
-  border-bottom: 1px solid $dark-gray;
   box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
   .apartment {
     .img {
@@ -166,6 +166,7 @@ export default {
 }
 .bottom {
   height: 85%;
+  box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
   .side {
   width: 18%;
   height: 100%;

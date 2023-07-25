@@ -32,16 +32,91 @@ export default {
 <template>
   <div class="t4-container py-5 px-5">
     <h2 class="fs-3 fw-semibold mb-3 title">Messaggi</h2>
-    <div v-if="!this.loading" class="container vf-container debug">
-      <div class="side debug">
-        <ul>
-          <li @click="this.counter = index" v-for="(apartment, index) in this.apartments" :key="index">{{apartment.title}}</li>
-          <li @click="this.counter = index" v-for="(apartment, index) in this.apartments" :key="index">{{apartment.title}}</li>
-        </ul>
+
+    <div v-if="!this.loading" class="container vf-container">
+      <!-- top -->
+      <div class="top d-flex align-items-center">
+        <div class="apartment d-flex align-items-center">
+          <div class="img">
+            <img :src="this.apartments[counter].img_path" alt="">
+          </div>
+          <h5 class=" name m-0">{{ this.apartments[counter].title }}</h5>
+        </div>
       </div>
-      <div class="main debug">
-        <h1>{{ this.apartments[counter].title }}</h1>
+      <!-- /top -->
+      <!-- bottom -->
+      <div class="bottom d-flex">
+        <!-- side -->
+        <div class="side">
+          <ul>
+            <li @click="this.counter = index" v-for="(apartment, index) in this.apartments" :key="index">
+              <div>
+                {{apartment.title}}
+              </div>
+            </li>
+          </ul>
+        </div>
+        <!-- /side -->
+        <!-- main -->
+        <div class="main">
+
+          <div class="no-messages" v-if="this.apartments[counter].messages.length === 0">Non hai ancora ricevuto nessun messaggio per questo appartamento</div>
+
+          <div v-else v-for="(message,index) in this.apartments[counter].messages" :key="index" class="msg-card">
+            <div class="sender d-flex align-items-start">
+              <div class="img">
+                <img src="../../assets/img/home-carousel/user-placeholder.png" alt="">
+              </div>
+              <div class="text">
+                <h5 class="name d-block m-0">{{ message.name }}</h5>
+                <span class="mail">{{ message.email }}</span>
+              </div>
+            </div>
+            <hr>
+            <div class="text">
+              <p>{{ message.msg_text }}</p>
+              <span class="sent-time">{{ message.sent_date }}</span>
+            </div>
+          </div>
+
+          <!-- msg-fake--------------------------------------------------------------- -->
+          <!-- <div class="msg-card">
+            <div class="sender d-flex align-items-start">
+              <div class="img">
+                <img src="../../assets/img/home-carousel/user-placeholder.png" alt="">
+              </div>
+              <div class="text">
+                <h5 class="name d-block m-0">Utente 1</h5>
+                <span class="mail">utente@gmail.com</span>
+              </div>
+            </div>
+            <hr>
+            <div class="text">
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed vero harum doloribus perspiciatis ea aliquid earum debitis laborum. Fuga, libero! Unde non, assumenda maxime qui accusantium nemo, eos dignissimos rem sunt quibusdam nostrum ducimus ea quo deserunt beatae harum reprehenderit sapiente, repudiandae id molestiae exercitationem soluta quasi est impedit? Magnam?</p>
+              <span class="sent-time">30/07/2023 10.00.00</span>
+            </div>
+          </div>
+          <div class="msg-card">
+            <div class="sender d-flex align-items-start">
+              <div class="img">
+                <img src="../../assets/img/home-carousel/user-placeholder.png" alt="">
+              </div>
+              <div class="text">
+                <h5 class="name d-block m-0">Utente 1</h5>
+                <span class="mail">utente@gmail.com</span>
+              </div>
+            </div>
+            <hr>
+            <div class="text">
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed vero harum doloribus perspiciatis ea aliquid earum debitis laborum. Fuga, libero! Unde non, assumenda maxime qui accusantium nemo, eos dignissimos rem sunt quibusdam nostrum ducimus ea quo deserunt beatae harum reprehenderit sapiente, repudiandae id molestiae exercitationem soluta quasi est impedit? Magnam?</p>
+              <span class="sent-time">30/07/2023 10.00.00</span>
+            </div>
+          </div> -->
+          <!-- msg-fake--------------------------------------------------------------- -->
+        </div>
+        <!-- /main -->
       </div>
+      <!-- /bottom -->
     </div>
   </div>
 </template>
@@ -53,20 +128,120 @@ export default {
   color: $dark-gray;
 }
 .vf-container {
-  height: 500px;
+  height: 700px;
   padding: 0;
+  box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
+  border-radius: 15px;
+  overflow: hidden;
 }
-.side {
-  width: 150px;
-  height: 100%;
-  float: left;
-  overflow: auto;
-}
-.main {
+.top {
   width: 100%;
-  height: 100%;
+  height: 15%;
+  padding: 20px;
+  background: $dark-white;
+  border-bottom: 1px solid $dark-gray;
+  box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
+  .apartment {
+    .img {
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .name {
+      font-size: 30px;
+      padding-left: 15px;
+      color: $dark-gray;
+    }
+
+  }
 }
-.debug {
-  background: rgba($color: #b319195a, $alpha: .5);
+.bottom {
+  height: 85%;
+  .side {
+  width: 18%;
+  height: 100%;
+  overflow: auto;
+  background: $dark-gray;
+  color: white;
+  li {
+    div {
+      display: inline-block;
+      height: 100%;
+      width: 100%;
+      color: white;
+      font-size: 1rem;
+      border-left: 5px solid transparent;
+      padding: 15px;
+      transition: all 0.3s;
+      cursor: pointer;
+
+      &:hover,
+      &.active {
+        border-left: 5px solid $light_blue;
+        background-color: $gray;
+      }
+    }
+  }
+}
+  .main {
+    width: 82%;
+    padding: 15px;
+    height: 100%;
+    background: $dark-white;
+    overflow: auto;
+    .no-messages {
+      font-size: 30px;
+      padding: 50px;
+      color: $dark-gray;
+    }
+    .msg-card {
+      width: 80%;
+      margin: 9px;
+      padding: 25px;
+      border-radius: 0 9px 9px 9px;
+      background: $light-blue;
+      color: $dark-gray;
+      box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
+      .sender {
+        .img {
+          width: 38px;
+          border-radius: 50%;
+          overflow: hidden;
+          margin-right: 8px;
+          img {
+            width: 100%;
+          }
+        }
+        .text {
+          .name {
+            font-size: 18px;
+          }
+          .mail {
+            font-size: 14px;
+            font-weight: 100;
+          }
+        }
+      }
+      .text {
+        position: relative;
+        p {
+          margin-bottom: 15px;
+        }
+        .sent-time {
+          position: absolute;
+          right: 0;
+          font-size: 11px;
+          font-weight: 100;
+        }
+      }
+
+    }
+  }
 }
 </style>

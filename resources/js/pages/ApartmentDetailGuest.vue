@@ -45,26 +45,28 @@ export default {
           })
     },
 
-    getMap() {
-      axios.get(this.apiUrl + 'geocode/' + this.apartment.address + '.json?view=Unified&key=' + this.apiKey)
-        .then(result => {
+    getMap(){
+    axios.get( 'https://api.tomtom.com/search/2/' + 'geocode/'+this.apartment.address+'.json?view=Unified&key='+ 'gdZGu9e4M0xCvL3gtsUxcBcG8KtOb1fQ' )
+    .then(result => {
 
-          this._map.lat = result.data.results[0].position.lat;
-          this._map.lon = result.data.results[0].position.lon;
+      this._map.lat = result.data.results[0].position.lat;
+      this._map.lon = result.data.results[0].position.lon;
+      this.coordinates = [this._map.lon,this._map.lat];
+      this.map_link = `https://www.google.it/maps/@${this._map.lat},${this._map.lon},18z/data=!5m1!1e1?entry=ttu`;
 
-          this.map_link = `https://www.google.it/maps/@${this._map.lat},${this._map.lon},18z/data=!5m1!1e1?entry=ttu`;
+      tt.setProductInfo("maps", "1");
 
-          tt.setProductInfo("maps", "1");
-
-          var map = tt.map({
-            key: this.apiKey,
-            container: "map",
-            center: [this._map.lon, this._map.lat],
-            zoom: 18
-
-          })
-        })
-    },
+      var map = tt.map({
+        key: 'gdZGu9e4M0xCvL3gtsUxcBcG8KtOb1fQ',
+        container: "map",
+        center: this.coordinates,
+        zoom: 18
+      })
+      map.on('load', () =>{
+        new tt.Marker().setLngLat(this.coordinates).addTo(map)
+      })
+    })
+  },
 
     deleteApartment(id) {
       axios.get('sanctum/csrf-cookie')

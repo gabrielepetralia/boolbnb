@@ -255,12 +255,12 @@ export default {
       </div>
     </div>
 
-    <div class="row row-cols-6">
-      <ApartmentCard
-        v-for="apartment in apartments"
-        :key="apartment.id"
-        :apartment="apartment"
-        :link_name="'apartment-detail-admin'"/>
+    <div class="row d-flex justify-content-center">
+      <div v-for="apartment in apartments" :key="apartment.id" class="col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
+        <ApartmentCard
+          :apartment="apartment"
+          :link_name="'apartment-detail-admin'"/>
+      </div>
     </div>
   </div>
 

@@ -8,16 +8,28 @@ export default {
   <aside>
     <ul class="list-unstyled">
       <li>
-        <router-link :to="{ name: 'apartments' }" class="fw-semibold"><i class="fa-solid fa-house me-2"></i> Appartamenti</router-link>
+        <router-link :to="{ name: 'apartments' }" class="fw-semibold">
+          <i class="fa-solid fa-house me-2"></i>
+          <span class="aside-link-text">Appartamenti</span>
+        </router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'messages' }" class="fw-semibold"><i class="fa-solid fa-envelope me-2"></i> Messagi</router-link>
+        <router-link :to="{ name: 'messages' }" class="fw-semibold">
+          <i class="fa-solid fa-envelope me-2"></i>
+          <span class="aside-link-text">Messaggi</span>
+        </router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'stats' }" class="fw-semibold"><i class="fa-solid fa-chart-line me-2"></i> Statistiche</router-link>
+        <router-link :to="{ name: 'stats' }" class="fw-semibold">
+          <i class="fa-solid fa-chart-line me-2"></i>
+          <span class="aside-link-text">Statistiche</span>
+        </router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'sponsorships' }" class="fw-semibold"><i class="fa-solid fa-circle-dollar-to-slot me-2"></i> Sponsorizzazioni</router-link>
+        <router-link :to="{ name: 'sponsorships' }" class="fw-semibold">
+          <i class="fa-solid fa-circle-dollar-to-slot me-2"></i>
+          <span class="aside-link-text">Sponsorizzazioni</span>
+        </router-link>
       </li>
     </ul>
   </aside>
@@ -48,6 +60,17 @@ aside {
         background-color: $gray;
       }
     }
+  }
+}
+
+// media-query
+@media screen and (max-width: 1000px) {
+  aside{
+    min-width: 55px;
+    .aside-link-text {
+      display: none;
+    }
+
   }
 }
 </style>

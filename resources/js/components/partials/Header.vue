@@ -30,40 +30,85 @@ export default {
 <!-- Fixare il redirect dello store quando si effettua un logout  -->
 <template>
   <header>
-    <div class="t4-container d-flex justify-content-between align-items-center h-100">
-
-      <nav class="d-flex align-items-center">
-        <router-link  :to="{ name: 'home' }" class="me-5">
-          <img class="logo" src="/img/logo-big.svg" alt="Logo">
-        </router-link>
-
-        <ul class="d-flex align-items-center mb-0 h-100">
-          <li class="header-menu-item me-4">
-            <router-link :to="{ name: 'home' }" class="nav-link fw-semibold">Home</router-link>
-          </li>
-          <li class="header-menu-item me-4">
-            <router-link :to="{ name: 'advanced-search' }" class="nav-link fw-semibold">Ricerca Avanzata</router-link>
-          </li>
-          <li v-if="store.user" class="header-menu-item">
-            <router-link :to="{ name: 'apartments' }" class="nav-link fw-semibold">Gestione Appartamenti</router-link>
-          </li>
-        </ul>
+    <!-- mobile-navbar ----------------------------------------------------------------------->
+    <div class="mobile-navbar">
+      <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <router-link  :to="{ name: 'home' }" class="me-5">
+            <img class="logo" src="/img/logo-big.svg" alt="Logo">
+          </router-link>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse vf-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <router-link :to="{ name: 'home' }" class="nav-link fw-semibold">Home</router-link>
+              </li>
+              <li class="nav-item">
+                <router-link :to="{ name: 'advanced-search' }" class="nav-link fw-semibold">Ricerca Avanzata</router-link>
+              </li>
+              <li v-if="store.user" class="nav-item">
+                <router-link :to="{ name: 'apartments' }" class="nav-link fw-semibold">Gestione Appartamenti</router-link>
+              </li>
+              <li class="nav-item log-btn">
+                <div>
+                  <button v-if="!store.user" class="btn btn-login t4-btn d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#login-modal">
+                    <i class="fa-solid fa-circle-user me-2 fs-6"></i>
+                    <span class="me-1">Login</span>
+                  </button>
+                  <a v-else href="/" @click="store.handleLogout()" type="submit" class="btn btn-logout t4-btn d-flex align-items-center">
+                    <i class="fa-solid fa-right-from-bracket me-2 fs-6"></i>
+                    <span class="me-1">Logout</span>
+                  </a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
       </nav>
+    </div>
+    <!-- /mobile-navbar ----------------------------------------------------------------------->
+    <!-- display-navbar ----------------------------------------------------------------------->
+    <div class="display-navbar">
+      <div class="t4-container d-flex justify-content-between align-items-center h-100">
 
-      <div>
-        <button v-if="!store.user" class="btn btn-login t4-btn d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#login-modal">
-          <i class="fa-solid fa-circle-user me-2 fs-6"></i>
-          <span class="me-1">Login</span>
-        </button>
+        <nav class="d-flex align-items-center">
+          <router-link  :to="{ name: 'home' }" class="me-5">
+            <img class="logo" src="/img/logo-big.svg" alt="Logo">
+          </router-link>
 
-        <a v-else href="/" @click="store.handleLogout()" type="submit" class="btn btn-logout t4-btn d-flex align-items-center">
-          <i class="fa-solid fa-right-from-bracket me-2 fs-6"></i>
-          <span class="me-1">Logout</span>
-        </a>
+          <ul class="d-flex align-items-center mb-0 h-100">
+            <li class="header-menu-item me-4">
+              <router-link :to="{ name: 'home' }" class="nav-link fw-semibold">Home</router-link>
+            </li>
+            <li class="header-menu-item me-4">
+              <router-link :to="{ name: 'advanced-search' }" class="nav-link fw-semibold">Ricerca Avanzata</router-link>
+            </li>
+            <li v-if="store.user" class="header-menu-item">
+              <router-link :to="{ name: 'apartments' }" class="nav-link fw-semibold">Gestione Appartamenti</router-link>
+            </li>
+          </ul>
+        </nav>
+
+        <div>
+
+          <button v-if="!store.user" class="btn btn-login t4-btn d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#login-modal">
+            <i class="fa-solid fa-circle-user me-2 fs-6"></i>
+            <span class="me-1">Login</span>
+          </button>
+
+          <a v-else href="/" @click="store.handleLogout()" type="submit" class="btn btn-logout t4-btn d-flex align-items-center">
+            <i class="fa-solid fa-right-from-bracket me-2 fs-6"></i>
+            <span class="me-1">Logout</span>
+          </a>
+
+        </div>
 
       </div>
-
     </div>
+    <!-- /display-navbar ----------------------------------------------------------------------->
+
   </header>
 
 
@@ -198,6 +243,10 @@ export default {
 
 <style lang="scss" scoped>
 @use "../../../scss/partials/variables" as *;
+.mobile-navbar {
+    display: none;
+  }
+
 
 header {
   position: fixed;
@@ -209,6 +258,9 @@ header {
   background-color: $dark_white;
   box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
 
+  .display-navbar {
+    height: 100%;
+  }
   nav {
     .logo {
       width: 100px;
@@ -230,6 +282,22 @@ header {
   .btn-login,
   .btn-logout {
     font-size: 0.9rem;
+  }
+}
+// media-query
+@media screen and (max-width: 1000px) {
+  header {
+    height: 0;
+  }
+  .display-navbar {
+    display: none;
+  }
+  .mobile-navbar {
+    display: block;
+  }
+  .log-btn {
+    width: 100px;
+    margin-top: 20px;
   }
 }
 

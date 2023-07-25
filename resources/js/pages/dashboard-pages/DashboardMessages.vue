@@ -30,7 +30,7 @@ export default {
 </script>
 
 <template>
-  <div class="t4-container py-5 px-5">
+  <div class="t4-container">
     <h2 class="fs-3 fw-semibold mb-3 title">Messaggi</h2>
 
     <div v-if="!this.loading" class="container vf-container">
@@ -123,6 +123,9 @@ export default {
 
 <style lang="scss" scoped>
 @use "../../../scss/partials/variables" as *;
+.t4-container {
+  padding: 50px;
+}
 
 .title {
   color: $dark-gray;
@@ -246,6 +249,16 @@ export default {
 }
 //media-query
 @media screen and (max-width: 992px) {
+  .t4-container {
+  padding: 0;
+}
+.top {
+  .apartment {
+    .name {
+    font-size: 19px;
+  }
+  }
+}
 .bottom {
   flex-direction: column;
   .side {

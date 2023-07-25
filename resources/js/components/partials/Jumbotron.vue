@@ -20,6 +20,7 @@ export default {
 
 <template>
   <div class="jumbotron">
+    <img class="mobile-background" src="../../assets/img/home-carousel/slide-1.jpg" alt="">
     <div id="jumbotronCarousel" class="carousel slide" data-bs-pause="false" data-bs-ride="carousel">
       <div class="carousel-inner">
         <div class="carousel-item active">
@@ -46,6 +47,9 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+  .mobile-background {
+    display: none;
+  }
 .jumbotron {
   position: relative;
   height: calc(100vh - 70px);
@@ -87,4 +91,22 @@ export default {
   }
 
 }
+
+// media query
+
+@media screen and (max-width: 1000px) {
+  .jumbotron {
+    height: 100vh;
+  }
+  #jumbotronCarousel {
+    display: none;
+  }
+  .mobile-background {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
 </style>

@@ -236,9 +236,9 @@ mounted(){
 <template>
 
   <div v-if="!loading" class="apartment-detail">
-    <div class="t4-container py-5 px-5">
+    <div class="t4-container py-lg-5 px-lg-5">
 
-      <div class="d-flex justify-content-between align-items-center my-4">
+      <div class="detail-header d-flex justify-content-between align-items-center my-4">
         <h2 v-if="apartment.title" class="fs-3 fw-semibold mb-0 title">{{ apartment?.title }}</h2>
         <div>
           <button @click="redirectToPreviousPage()" title="Torna Indietro" class="btn t4-btn btn-add me-2">
@@ -253,8 +253,8 @@ mounted(){
         </div>
       </div>
 
-      <div class="row row-cols-2">
-        <div class="col pe-4">
+      <div class="row">
+        <div class="col-12 col-xl-6 pe-lg-4">
           <div class="img-wrapper">
             <div class="slider-container mb-3">
               <Slider :apartment="this.apartment" :gallery="this.gallery" />
@@ -264,7 +264,7 @@ mounted(){
             </div>
           </div>
         </div>
-        <div class="col ps-4">
+        <div class="col-12 col-xl-6">
 
           <div>
             <h4 class="fw-semibold">Descrizione :</h4>
@@ -575,5 +575,17 @@ mounted(){
 
     }
   }
+}
+//media-query
+@media screen and (max-width: 1200px) {
+.img-wrapper {
+  margin-bottom: 50px;
+}
+.detail-header {
+  flex-direction: column;
+  h2 {
+    padding-bottom: 15px;
+  }
+}
 }
 </style>

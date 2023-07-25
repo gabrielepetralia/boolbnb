@@ -3,7 +3,7 @@ import axios from "axios";
 import { store } from '../../store/store';
 import { ref } from 'vue';
 import tt from '@tomtom-international/web-sdk-maps';
-import AddGallery from "../../components/partials/cards/AddGallery.vue";
+import AddGallery from "../../components/partials/AddGallery.vue";
 import Slider from '../../components/partials/Slider.vue';
 export default {
 name: 'ApartmentDetailAdmin',
@@ -292,15 +292,15 @@ mounted(){
           <hr>
           <div>
             <h4 class="fw-semibold">Servizi :</h4>
-            <ul class="d-flex">
-              <li v-for="service in this.apartment.services" :key="service.id">
-                <img style="height: 20px;" :src="`/img/services-icons/${ service.slug }.png`" :alt="service.name">
+            <ul class="d-flex flex-wrap">
+              <li v-for="service in this.apartment.services" :key="service.id" class="service d-flex mb-2 me-4">
+                <img style="height: 20px;" :src="`/img/services-icons/${ service.slug }.png`" :alt="service.name" class="me-2">
                 <span>{{ service.name }}</span>
               </li>
             </ul>
           </div>
 
-
+          <hr>
 
           <AddGallery :apartment="this.apartment"/>
 
@@ -519,12 +519,7 @@ mounted(){
 
   color: $dark-gray;
 
-  img {
-    border-radius: 15px;
-    box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
-  }
-
-  li:not(:last-child) {
+  li:not(:last-child):not(.service) {
     &:after {
       content: '-';
       margin: 10px;

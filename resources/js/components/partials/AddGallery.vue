@@ -1,7 +1,7 @@
 
 <script>
 import axios from 'axios';
-import { store } from '../../../store/store';
+import { store } from '../../store/store';
 export default {
   name: 'AddGallery',
 
@@ -57,7 +57,7 @@ export default {
 <template>
 
 
-  <label class="mt-5 d-block" for="img_path_gallery">Aggiungi un immagine alla galleria</label>
+  <label class="mt-3  mb-2 d-block fw-semibold" for="img_path_gallery">Aggiungi un immagine alla galleria</label>
 <div class=" d-flex align-items-center input-box pb-2">
   <input
   @change="onChangeMultiple"
@@ -65,19 +65,19 @@ export default {
   title="Galleria"
   id="img_path_gallery"
   name="img_path_gallery"
-  class="form-control ms-2"
+  class="form-control"
   placeholder="Immagine">
-  <div class="btn " @click="addGallery">+</div>
+  <div class="btn ms-2" @click="addGallery">+</div>
 </div>
 
 
 </template>
 
 <style lang="scss" scoped>
-@use "../../../../scss/partials/variables" as *;
+@use "../../../scss/partials/variables" as *;
 
-  #img_path_gallery{
-    width: 50%;
+#img_path_gallery{
+  width: 50%;
 }
 .btn{
   height: 30px;

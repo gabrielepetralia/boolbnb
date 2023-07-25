@@ -216,9 +216,9 @@ export default {
           <hr>
           <div>
             <h4 class="fw-semibold">Servizi :</h4>
-            <ul class="d-flex">
-              <li v-for="service in this.apartment.services" :key="service.id">
-                <img style="height: 20px;" :src="`/img/services-icons/${service.slug}.png`" :alt="service.name">
+            <ul class="d-flex flex-wrap">
+              <li v-for="service in this.apartment.services" :key="service.id" class="service d-flex mb-2 me-4">
+                <img style="height: 20px;" :src="`/img/services-icons/${service.slug}.png`" :alt="service.name" class="me-2">
                 <span>{{ service.name }}</span>
               </li>
             </ul>
@@ -256,12 +256,7 @@ export default {
   background-color: $dark-white;
   color: $dark-gray;
 
-  img {
-    border-radius: 15px;
-    box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
-  }
-
-  li:not(:last-child) {
+  li:not(:last-child):not(.service) {
     &:after {
       content: '-';
       margin: 10px;

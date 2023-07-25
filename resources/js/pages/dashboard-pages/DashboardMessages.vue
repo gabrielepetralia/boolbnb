@@ -48,7 +48,7 @@ export default {
       <div class="bottom d-flex">
         <!-- side -->
         <div class="side">
-          <ul>
+          <ul class="d-flex d-lg-block">
             <li @click="this.counter = index" v-for="(apartment, index) in this.apartments" :key="index">
               <div>
                 {{apartment.title}}
@@ -243,5 +243,24 @@ export default {
 
     }
   }
+}
+//media-query
+@media screen and (max-width: 992px) {
+.bottom {
+  flex-direction: column;
+  .side {
+    width: 100%;
+    height: 91px;
+    li {
+      padding-right: 10px;
+    }
+  }
+  .main {
+    width: 100%;
+    .msg-card{
+      width: 90%;
+    }
+  }
+}
 }
 </style>

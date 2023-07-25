@@ -64,7 +64,7 @@ aside {
 }
 
 // media-query
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1200px) {
   aside{
     min-width: 55px;
     .aside-link-text {

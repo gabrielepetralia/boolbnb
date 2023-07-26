@@ -31,7 +31,7 @@ export default {
 
 <template>
   <div class="t4-container">
-    <h2 class="fs-3 fw-semibold mb-3 title">Messaggi</h2>
+    <h2 class="fs-3 fw-semibold mb-3 mt-3 mt-lg-0 title">Messaggi</h2>
 
     <div v-if="!this.loading" class="container vf-container">
       <!-- top -->
@@ -253,6 +253,9 @@ export default {
   .t4-container {
   padding: 0;
 }
+.title {
+  margin-bottom: 20px;
+}
 .top {
   .apartment {
     .name {
@@ -265,8 +268,19 @@ export default {
   .side {
     width: 100%;
     height: 91px;
+    ul {
+      height: 80px;
+    }
     li {
-      padding-right: 10px;
+      div {
+        border-left: 0;
+        border-bottom: 5px solid transparent;
+        padding-right: 20px;
+        &:hover {
+          border-left: 0;
+          border-bottom: 5px solid $light-blue;
+        }
+      }
     }
   }
   .main {

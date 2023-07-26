@@ -21,6 +21,7 @@ export default {
 <template>
   <div class="jumbotron">
     <img class="mobile-background" src="../../assets/img/home-carousel/slide-1.jpg" alt="">
+    <div class="overlay"></div>
     <div id="jumbotronCarousel" class="carousel slide" data-bs-pause="false" data-bs-ride="carousel">
       <div class="carousel-inner">
         <div class="carousel-item active">
@@ -94,9 +95,17 @@ export default {
 
 // media query
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1400px) {
   .jumbotron {
     height: 100vh;
+    .overlay {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background-color: rgba(0,0,0,0.5);
+    }
   }
   #jumbotronCarousel {
     display: none;

@@ -9,7 +9,7 @@ export default {
 </script>
 
 <template>
-  <div class="col px-5">
+  <div class="col px-0 px-md-5">
     <div class="sponsorship-card mb-5 p-4">
 
       <div class="card-header">

@@ -32,7 +32,7 @@ export default {
   <header>
     <!-- mobile-navbar ----------------------------------------------------------------------->
     <div class="mobile-navbar">
-      <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <nav style="background-color: #ebebeb !important" class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
           <router-link  :to="{ name: 'home' }" class="me-5">
             <img class="logo" src="/img/logo-big.svg" alt="Logo">
@@ -245,8 +245,8 @@ export default {
 @use "../../../scss/partials/variables" as *;
 .mobile-navbar {
     display: none;
+    box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
   }
-
 
 header {
   position: fixed;

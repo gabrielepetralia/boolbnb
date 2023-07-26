@@ -42,14 +42,16 @@ export default {
     <section class="sponsorized-apartments pb-4">
       <div class="t4-container">
 
-        <h2 class="mb-4 mt-5 mb-4 fw-semibold">Appartamenti In Evidenza</h2>
+        <h2 class="mt-5 mb-4 text-center text-md-start fw-semibold">Appartamenti In Evidenza</h2>
 
-        <div class="row row-cols-6">
-          <ApartmentCard
-          v-for="apartment in store.sponsorizedApartments"
-            :key="apartment.id"
-            :apartment="apartment"
-            :link_name="'apartment-detail-guest'"/>
+        <div class="row">
+          <div class="col-12 col-md-4 col-lg-2 p-5 p-md-0">
+            <ApartmentCard
+            v-for="apartment in store.sponsorizedApartments"
+              :key="apartment.id"
+              :apartment="apartment"
+              :link_name="'apartment-detail-guest'"/>
+          </div>
         </div>
 
       </div>

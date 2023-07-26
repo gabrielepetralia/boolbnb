@@ -38,7 +38,7 @@ export default {
       <div class="top d-flex align-items-center">
         <div class="apartment d-flex align-items-center">
           <div class="img">
-            <img :src="this.apartments[counter].img_path" alt="">
+            <img :src="this.apartments[counter].img_path ?? '/img/house-placeholder.png'" alt="">
           </div>
           <h5 class=" name m-0">{{ this.apartments[counter].title }}</h5>
         </div>

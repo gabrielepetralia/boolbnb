@@ -267,9 +267,9 @@ export default {
   flex-direction: column;
   .side {
     width: 100%;
-    height: 91px;
+    max-height: 97px;
     ul {
-      height: 80px;
+      height: 100%;
     }
     li {
       div {

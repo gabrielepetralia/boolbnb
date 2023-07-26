@@ -24,16 +24,17 @@ export default {
       },
       loading: true,
       errorMessageForm: {},
+      sendMessageErrors: null,
       messageForm: {
         name: '',
         email: '',
-
         msg_text: ''
       }
     }
   },
   methods: {
 
+    // Send message to owner
     sendMessage(){
       if(this.messageForm.name.length < 3){
         this.errorMessageForm.name = 'Il nome deve contenere almeno 3 caratteri'
@@ -57,6 +58,13 @@ export default {
         })
               .then(result => {
                 console.log(result);
+                this.messageForm= {
+                  name: '',
+                  email: '',
+                  msg_text: ''
+                }
+
+                this.sendMessageErrors = "Messaggio inviato con successo!"
               })
       }
 
@@ -65,10 +73,13 @@ export default {
 
     },
 
+    // Redirect Back
+
     redirectToPreviousPage() {
       this.$router.back();
     },
 
+    // Get apartment details
     getApi() {
       this.loading = true,
         axios.get('sanctum/csrf-cookie')
@@ -77,12 +88,14 @@ export default {
               .then(result => {
                 this.apartment = result.data.apartment[0];
                 this.gallery = result.data.gallery;
+                console.log(this.apartment, this.gallery);
                 this.loading = false;
                 this.getMap();
               })
           })
     },
 
+    // Get map
     getMap(){
     axios.get( 'https://api.tomtom.com/search/2/' + 'geocode/'+this.apartment.address+'.json?view=Unified&key='+ 'gdZGu9e4M0xCvL3gtsUxcBcG8KtOb1fQ' )
     .then(result => {
@@ -106,6 +119,7 @@ export default {
     })
   },
 
+  // Delete this apartment
     deleteApartment(id) {
       axios.get('sanctum/csrf-cookie')
         .then(() => {
@@ -116,6 +130,7 @@ export default {
         })
     },
 
+    // Update this apartment
     updateApartment($id) {
       this.errors = null
       if (this.apartmentForm.visible == true) {
@@ -202,7 +217,7 @@ export default {
 </script>
 
 <template>
-  <div v-if="!loading" class="apartment-detail">
+  <div v-if="!loading" class="apartment-detail position-relative">
     <div class="t4-container py-lg-5 px-lg-5">
 
       <div class="detail-header d-flex justify-content-between align-items-center py-4">
@@ -225,6 +240,8 @@ export default {
             </div>
           </div>
         </div>
+
+
         <div class="col-12 col-xl-6">
 
           <div>
@@ -264,24 +281,78 @@ export default {
             </ul>
           </div>
 
-        </div>
-      </div>
+            <!-- Button trigger modal -->
+            <button type="button" class="contact-modal" data-bs-toggle="modal" data-bs-target="#exampleModal" title="Contatta il proprietario">
+              <i class="fa-brands fa-whatsapp"></i>
+            </button>
+
+              <!-- Modal -->
+              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header bg-white">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">Contatta il proprietario</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="p-3 ">
+                      <div  class="d-flex justify-content-end">
+                        <div class="message-form me-4 py-4">
+                          <div class="text-center pb-4" v-if="this.sendMessageErrors !== null">
+                            <span class="text-success d-block">
+                              {{sendMessageErrors }}
+                            </span>
+                            <span class="text-success d-block">
+                              Verrai ricontattato tramite mail
+                            </span>
+                          </div>
+                          <div class="d-flex">
+                            <div class="input-box me-3 ">
+
+                              <label for="description" class="form-label "><strong> Nome </strong> </label>
+                              <input class="name-input form-control "  v-model="messageForm.name" type="text" placeholder="Inserisci il tuo nome"> <br>
+                              <div v-if="this.errorMessageForm.name">
+                                {{ this.errorMessageForm.name }}
+                              </div>
+
+                            </div>
+                            <div class="  input-box ">
+
+                              <label for="description" class="form-label  "> <strong>Email</strong></label>
+                              <input class="email-input form-control "  v-model="messageForm.email" type="email" placeholder="Inserisci la tua mail"> <br>
+                              <div v-if="this.errorMessageForm.email">
+                                {{ this.errorMessageForm.email }}
+                              </div>
+
+                            </div>
+                          </div>
+
+                          <div class="  input-box ">
+                            <label for="description" class="form-label "> <strong>Inserisci un messaggio</strong></label>
+                            <textarea placeholder="Scrivi al proprietario..." class="msg_text-input form-control "   v-model="messageForm.msg_text" cols="30" rows="5" >
+                            </textarea>
+
+                            <div v-if="this.errorMessageForm.msg_text">
+                              {{ this.errorMessageForm.msg_text }}
+                            </div>
+                          </div>
 
 
-        <input  v-model="messageForm.name" type="text" placeholder="Inserisci il tuo nome"> <br>
-        <div v-if="this.errorMessageForm.name">
-          {{ this.errorMessageForm.name }}
+                          <button @click="sendMessage" class="btn  mt-3">Invia</button>
+
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <!-- endmodal -->
+          </div>
         </div>
-        <input  v-model="messageForm.email" type="email" placeholder="Inserisci la tua mail"> <br>
-        <div v-if="this.errorMessageForm.email">
-          {{ this.errorMessageForm.email }}
-        </div>
-        <textarea  v-model="messageForm.msg_text" name="" id="" cols="30" rows="10" >
-        </textarea>
-        <div v-if="this.errorMessageForm.msg_text">
-          {{ this.errorMessageForm.msg_text }}
-        </div>
-        <button @click="sendMessage">Invia</button>
+
+
+
       <hr class="my-4">
 
       <h4 class="fw-semibold">Mappa :</h4>
@@ -293,12 +364,16 @@ export default {
       <h5 class="fw-semibold">{{ apartment.address }}</h5>
 
     </div>
+
+
+
   </div>
 </template>
 
 
 <style lang="scss" scoped>
 @use "../../scss/partials/variables" as *;
+@use "../../scss/partials/_modal" as *;
 
 .slider-container {
   width: 100%;
@@ -331,6 +406,47 @@ export default {
     border-radius: 15px;
     overflow: hidden;
   }
+}
+
+.contact-modal{
+  position: fixed;
+  display: block;
+  right: 10px;
+  bottom: 20vh;
+  border: 0;
+  background: transparent;
+  background-color: rgb(49, 68, 49);
+  color: white;
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  font-size: 35px;
+  box-shadow: 0 0 5px black;
+}
+
+.message-form{
+
+  .name-input,
+  .email-input,
+  .msg_text-input{
+    padding-bottom: 10px;
+
+    max-width: 400px;
+    &:focus {
+      border: 1px solid grey;
+      outline: none;
+      box-shadow: none;
+    }
+  }
+
+.btn {
+  background-color: $dark-gray;
+  color: white;
+}
 }
 
 .autocomplete-box {

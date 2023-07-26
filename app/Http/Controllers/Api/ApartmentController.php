@@ -40,7 +40,7 @@ class ApartmentController extends Controller
     return response()->json(compact('apartments'));
   }
 
-// get apartment from slug
+  // get apartment from slug
   public function getApartmentDetail($slug)
   {
     $apartment = Apartment::where('slug', $slug)->with('services')->get()->makeHidden('coordinates');
@@ -55,7 +55,6 @@ class ApartmentController extends Controller
 
     return response()->json(compact("services"));
   }
-
 
   // get apartment in a certain radius
   public function getApartmentFromPlaces($address, $radiusInMeters)

@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Admin\ApartmentController as AdminApartmentController;
+use App\Http\Controllers\Admin\SponsorshipController;
 use App\Http\Controllers\Api\ApartmentController;
 
 
@@ -34,6 +35,7 @@ Route::middleware(['auth', 'verified'])
     Route::get('/{user_id}', [ApartmentController::class, 'getUserApartments']);
     Route::get('/apartment/{slug}', [ApartmentController::class, 'getApartmentDetail']);
     Route::post('/image',[ ImageController::class, 'store']);
+    Route::get('/sponsorships', [SponsorshipController::class, 'index']);
   });
 
 require __DIR__ . '/auth.php';

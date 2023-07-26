@@ -21,7 +21,7 @@ export default {
 <template>
 <div class="d-flex align-items-center position-relative">
   <input
-  
+
     v-model="store.search"
     @input="store.getSuggestions()"
     @keyup.enter="store.getSearchedApartments(this.search)"
@@ -108,5 +108,15 @@ export default {
 
 .box-shadow {
   box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
+}
+
+// media-query
+@media screen and (max-width: 500px) {
+  .searchbar {
+    width: 204px;
+  }
+  .autocomplete-box {
+    width: 78.05%;
+  }
 }
 </style>

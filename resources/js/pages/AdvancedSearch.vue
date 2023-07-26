@@ -96,15 +96,13 @@ export default {
 
   <div class="advanced-search">
     <!-- button+searchbar -->
-    <div class="t4-container d-flex justify-content-between pt-4 ">
-      <div></div>
+    <div class="t4-container d-flex flex-column flex-md-row justify-content-between align-items-center pt-4 ">
+      <div class="d-none d-lg-block"></div>
       <div class="searchbar">
         <MainSearchbar />
-      <div>
-    </div>
       </div>
       <div>
-        <a class="btn btn-filters t4-btn d-flex align-items-center" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+        <a class="btn btn-filters t4-btn d-flex align-items-center m-3 m-md-0" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
           <i class="fa-solid fa-gears me-2 fs-6"></i>
           <span class="me-1">Filtri</span>
         </a>
@@ -114,12 +112,12 @@ export default {
 
     <div v-if="store.searchedApartments" class="t4-container">
       <h2 class="mb-4 pt-3 mb-4 fw-semibold">Risultati della ricerca</h2>
-      <div class="row row-cols-6">
-        <ApartmentCard
-        v-for="apartment in store.searchedApartments"
-          :key="apartment.id"
-          :apartment="apartment"
-          :link_name="'apartment-detail-guest'"/>
+      <div class="row">
+        <div v-for="apartment in store.searchedApartments" :key="apartment.id" class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+          <ApartmentCard
+            :apartment="apartment"
+            :link_name="'apartment-detail-guest'"/>
+        </div>
       </div>
     </div>
     <div v-else>
@@ -525,6 +523,18 @@ export default {
 
   }
 
+}
+
+//media-query
+@media screen and (max-width: 1000px) {
+  .advanced-search {
+    .searchbar {
+      margin-left: 0;
+    }
+    .btn-filters {
+    width: 90px;
+  }
+  }
 }
 
 </style>

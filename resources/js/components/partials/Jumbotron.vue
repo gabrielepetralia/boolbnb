@@ -117,5 +117,11 @@ export default {
     object-fit: cover;
   }
 }
+@media screen and (max-width: 400px) {
+  .jumbotron
+    .searchbar {
+      margin-left: 0;
+    }
+}
 
 </style>

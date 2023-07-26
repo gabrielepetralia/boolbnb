@@ -257,7 +257,7 @@ export default {
     </div>
 
     <div class="row">
-      <div v-for="apartment in apartments" :key="apartment.id" class="col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
+      <div v-for="apartment in apartments" :key="apartment.id" class="col-12 col-sm-6 col-md-4 col-lg-3 col-xxl-2">
         <ApartmentCard
           :apartment="apartment"
           :link_name="'apartment-detail-admin'"/>

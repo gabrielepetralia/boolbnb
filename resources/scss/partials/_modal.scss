@@ -4,6 +4,9 @@
   color: $dark-gray;
 
   .modal-header {
+    background-color: $dark-white;
+    border-bottom: 1px solid $dark-gray;
+
     .btn-close {
       &:focus {
         border: none;
@@ -14,7 +17,14 @@
   }
 
   .modal-body {
+    background-color: $dark-white;
+    border-bottom: 1px solid $dark-gray;
     padding: 20px 80px;
+
+    input,
+    textarea {
+      background-color: $dark-white;
+    }
 
     .input-box {
       border-bottom: 1px solid $dark-gray;
@@ -35,6 +45,7 @@
   }
 
   .modal-footer {
+    background-color: $dark-white;
     .redirect {
       color: $dark_gray;
       text-decoration: underline;

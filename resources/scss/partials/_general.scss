@@ -22,6 +22,17 @@ body {
   }
 }
 
+.t4-btn-light {
+  color: $dark-gray;
+  background-color: $dark-white;
+  transition: all 0.3s;
+
+  &:hover {
+    color: white;
+    background-color: $light_blue;
+  }
+}
+
 a {
   text-decoration: none;
   color: white;

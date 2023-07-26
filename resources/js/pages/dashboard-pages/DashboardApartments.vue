@@ -256,7 +256,7 @@ export default {
       </div>
     </div>
 
-    <div class="row d-flex justify-content-center">
+    <div class="row">
       <div v-for="apartment in apartments" :key="apartment.id" class="col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
         <ApartmentCard
           :apartment="apartment"

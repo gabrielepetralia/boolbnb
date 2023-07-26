@@ -397,7 +397,7 @@ export default {
 
       </div>
 
-      <div class="d-flex justify-content-center offcanvas-footer py-3">
+      <div class="d-flex justify-content-end offcanvas-footer py-3 pe-4">
         <button @click="filterApartments" class="btn btn-filters t4-btn d-flex align-items-center">
           <i class="fa-solid fa-gears me-2 fs-6"></i>
           <span class="me-1">Filtra</span>

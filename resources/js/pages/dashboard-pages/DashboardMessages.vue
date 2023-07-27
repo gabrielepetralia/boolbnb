@@ -169,7 +169,7 @@ export default {
   }
 }
 .bottom {
-  height: 85%;
+  height: 83%;
   box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
   .side {
   width: 18%;

@@ -377,7 +377,7 @@ export default {
         <!-- /rooms and beds -->
 
         <!-- range -->
-        <div class="range pb-3">
+        <div class="range pb-4">
           <label for="customRange" class="form-label"><h5 class="fw-semibold mb-1">Raggio :</h5></label>
           <div class="d-flex">
             <input type="range" class="form-range custom-range" v-model="max_radius" min="20" max="60" step="10" id="customRange">
@@ -392,18 +392,19 @@ export default {
         </div>
         <!-- /range -->
 
+        <div class="d-flex justify-content-between py-2">
+          <button @click="clearFilter" class="btn btn-filters t4-btn-light d-flex align-items-center">
+            <i class="fa-solid fa-rotate-left me-2 fs-6"></i>
+            <span class="me-1">Resetta Filtro</span>
+          </button>
+          <button @click="filterApartments" class="btn btn-filters t4-btn-light d-flex align-items-center">
+            <i class="fa-solid fa-gears me-2 fs-6"></i>
+            <span class="me-1">Filtra</span>
+          </button>
+        </div>
 
       </div>
 
-      <div class="d-flex justify-content-end offcanvas-footer py-3 pe-4">
-        <button @click="filterApartments" class="btn btn-filters t4-btn d-flex align-items-center">
-          <i class="fa-solid fa-gears me-2 fs-6"></i>
-          <span class="me-1">Filtra</span>
-        </button>
-        <button @click="clearFilter" class="btn btn-filters t4-btn d-flex align-items-center ms-4">
-          <span class="me-1">Pulisci il filtro</span>
-        </button>
-      </div>
 
     </div>
     <!-- ------ /offcanvas ------ -->
@@ -502,7 +503,8 @@ export default {
     .price,
     .sqr-meters,
     .services,
-    .details {
+    .details,
+    .range {
       border-bottom: 1px solid gray;
       margin-bottom: 20px;
     }

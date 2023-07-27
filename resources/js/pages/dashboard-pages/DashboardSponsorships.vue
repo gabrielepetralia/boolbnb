@@ -50,7 +50,7 @@ export default {
 </script>
 
 <template>
-  <div class="t4-container py-0 px-0 py-sm-5 py-sm-5">
+  <div class="t4-container py-5 px-5">
     <h2 class="fs-3 fw-semibold my-4 title">Sponsorizzazioni</h2>
 
     <div class="row row-cols-12 row-cols-lg-2 row-cols-xxl-3 mt-5">

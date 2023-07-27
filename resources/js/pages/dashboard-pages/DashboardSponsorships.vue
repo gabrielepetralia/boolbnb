@@ -21,18 +21,21 @@ export default {
 
   methods: {
     getSponsorships() {
-      axios.get("sanctum/csrf-cookie").then(() => {
-        axios.get("http://127.0.0.1:8000/admin/sponsorships").then((res) => {
+      axios.get("sanctum/csrf-cookie")
+        .then(() => {
+        axios.get("http://127.0.0.1:8000/admin/sponsorships").then(res => {
           this.sponsorships = res.data;
-          console.log(res.data)
+
         });
       });
     },
 
     getMyApartments() {
-      axios.get("sanctum/csrf-cookie").then(() => {
+      axios.get("sanctum/csrf-cookie")
+        .then(() => {
         axios.get(`/admin/${store.user.id}`).then((result) => {
           this.apartments = result.data.apartments;
+          console.log(this.apartments);
         });
       });
     },
@@ -40,7 +43,7 @@ export default {
   },
 
   mounted() {
-    // this.getSponsorships();
+    this.getSponsorships();
     this.getMyApartments()
   }
 }
@@ -51,15 +54,10 @@ export default {
     <h2 class="fs-3 fw-semibold my-4 title">Sponsorizzazioni</h2>
 
     <div class="row row-cols-12 row-cols-lg-2 row-cols-xxl-3 mt-5">
-      <div>
-        <SponsorshipCard/>
+      <div v-for="sponsorship in sponsorships" :key="sponsorship.id">
+        <SponsorshipCard :sponsorship="sponsorship"/>
       </div>
-      <div>
-        <SponsorshipCard/>
-      </div>
-      <div>
-        <SponsorshipCard/>
-      </div>
+
     </div>
 
   </div>
@@ -74,7 +72,7 @@ export default {
         </div>
         <div class="t4-modal-body">
           <ul>
-            <li v-for="apartment in apartments" :key="apartment.id">
+            <li data-bs-dismiss="modal" v-for="apartment in apartments" :key="apartment.id">
               <a href="#" class="p-3">{{ apartment.title }}</a>
               <hr class="m-0">
             </li>

@@ -32,7 +32,7 @@ export default {
   <div class="t4-container py-0 px-0 py-md-5 px-md-5">
     <h2 class="fs-3 fw-semibold my-4 title">Messaggi</h2>
 
-    <div v-if="!this.loading" class="container vf-container mt-5">
+    <div v-if="!this.loading" class="container vf-container mt-4">
       <!-- top -->
       <router-link :to="{ name: 'apartment-detail-admin', params: { slug: this.apartments[counter].slug } }" class="top d-flex align-items-center p-4">
         <div class="apartment d-flex align-items-center">

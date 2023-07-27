@@ -279,8 +279,8 @@ export default {
           </div>
 
             <!-- Button trigger modal -->
-            <button type="button" class="contact-modal" data-bs-toggle="modal" data-bs-target="#exampleModal" title="Contatta il proprietario">
-              <i class="fa-brands fa-whatsapp"></i>
+            <button type="button" class="contact-modal" data-bs-toggle="modal" data-bs-target="#exampleModal" title="Contatta l'Host">
+              <i class="fa-regular fa-message fs-5 mt-1"></i>
             </button>
 
               <!-- Modal -->
@@ -288,12 +288,12 @@ export default {
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header bg-white">
-                      <h1 class="modal-title fs-5" id="exampleModalLabel">Contatta il proprietario</h1>
+                      <h1 class="modal-title fs-5 fw-semibold" id="exampleModalLabel">Contatta l'Host</h1>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="p-3 ">
-                      <div  class="d-flex justify-content-end">
-                        <div class="message-form me-4 py-4">
+                      <div>
+                        <div class="message-form p-2">
                           <div class="text-center pb-4" v-if="this.sendMessageErrors !== null">
                             <span class="text-success d-block">
                               {{sendMessageErrors }}
@@ -302,20 +302,20 @@ export default {
                               Verrai ricontattato tramite mail
                             </span>
                           </div>
-                          <div class="d-flex">
-                            <div class="input-box me-3 ">
+                          <div class="d-flex justify-content-between">
+                            <div class="input-box">
 
-                              <label for="description" class="form-label "><strong> Nome </strong> </label>
-                              <input class="name-input form-control "  v-model="messageForm.name" type="text" placeholder="Inserisci il tuo nome"> <br>
+                              <label for="description" class="form-label"><strong> Nome </strong> </label>
+                              <input class="name-input form-control "  v-model="messageForm.name" type="text" placeholder="Nome e Cognome"> <br>
                               <div v-if="this.errorMessageForm.name">
                                 {{ this.errorMessageForm.name }}
                               </div>
 
                             </div>
-                            <div class="  input-box ">
+                            <div class="input-box">
 
-                              <label for="description" class="form-label  "> <strong>Email</strong></label>
-                              <input class="email-input form-control "  v-model="messageForm.email" type="email" placeholder="Inserisci la tua mail"> <br>
+                              <label for="description" class="form-label"> <strong>Email</strong></label>
+                              <input class="email-input form-control "  v-model="messageForm.email" type="email" placeholder="Email"> <br>
                               <div v-if="this.errorMessageForm.email">
                                 {{ this.errorMessageForm.email }}
                               </div>
@@ -324,8 +324,8 @@ export default {
                           </div>
 
                           <div class="  input-box ">
-                            <label for="description" class="form-label "> <strong>Inserisci un messaggio</strong></label>
-                            <textarea placeholder="Scrivi al proprietario..." class="msg_text-input form-control "   v-model="messageForm.msg_text" cols="30" rows="5" >
+                            <label for="description" class="form-label "> <strong>Messaggio</strong></label>
+                            <textarea placeholder="Inserisci un messaggio" class="msg_text-input form-control "   v-model="messageForm.msg_text" cols="30" rows="5" >
                             </textarea>
 
                             <div v-if="this.errorMessageForm.msg_text">
@@ -333,8 +333,12 @@ export default {
                             </div>
                           </div>
 
-
-                          <button @click="sendMessage" class="btn  mt-3">Invia</button>
+                          <div class="d-flex justify-content-end">
+                            <button @click="sendMessage" class="btn t4-btn mt-4">
+                              <i class="fa-solid fa-paper-plane me-2 fs-6"></i>
+                              <span class="me-1">Invia</span>
+                            </button>
+                          </div>
 
                         </div>
                       </div>
@@ -409,10 +413,9 @@ export default {
   position: fixed;
   display: block;
   right: 10px;
-  bottom: 20vh;
+  bottom: 10vh;
   border: 0;
-  background: transparent;
-  background-color: rgb(49, 68, 49);
+  background-color: $dark_gray;
   color: white;
   height: 60px;
   width: 60px;
@@ -421,8 +424,12 @@ export default {
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  font-size: 35px;
-  box-shadow: 0 0 5px black;
+  box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s;
+
+  &:hover {
+    background-color: $light_blue;
+  }
 }
 
 .message-form{
@@ -430,20 +437,13 @@ export default {
   .name-input,
   .email-input,
   .msg_text-input{
-    padding-bottom: 10px;
 
-    max-width: 400px;
     &:focus {
       border: 1px solid grey;
       outline: none;
       box-shadow: none;
     }
   }
-
-.btn {
-  background-color: $dark-gray;
-  color: white;
-}
 }
 
 .autocomplete-box {

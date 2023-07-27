@@ -36,7 +36,9 @@ Route::middleware(['auth', 'verified'])
     Route::get('/{user_id}', [ApartmentController::class, 'getUserApartments']);
     Route::get('/apartment/{slug}', [ApartmentController::class, 'getApartmentDetail']);
     Route::post('/image',[ ImageController::class, 'store']);
+    Route::post('/sponsorize/{apartmentId}/{sponsorshipId}', [AdminApartmentController::class, 'sponsorizeApartment'] );
   });
+
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/api.php';

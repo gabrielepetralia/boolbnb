@@ -30,7 +30,7 @@ export default {
 </script>
 
 <template>
-  <div class="t4-container py-5 px-5">
+  <div class="t4-container py-0 px-0 py-md-5 px-md-5">
     <h2 class="fs-3 fw-semibold my-4 title">Messaggi</h2>
 
     <div v-if="!this.loading" class="container vf-container mt-5">

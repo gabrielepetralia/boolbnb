@@ -16,7 +16,6 @@ export default {
       axios.get("sanctum/csrf-cookie").then(() => {
         axios.get(`/admin/${store.user.id}`).then((result) => {
           this.apartments = result.data.apartments;
-          console.log(this.apartments[0]);
           this.loading = false;
         });
       });

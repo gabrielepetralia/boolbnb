@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Helpers\CustomHelper;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Builder;
 
 class ApartmentController extends Controller
 {
@@ -29,12 +30,37 @@ class ApartmentController extends Controller
   public function sponsorizeApartment($apartmentId, $sponsorshipId){
 
     date_default_timezone_set('Europe/Rome');
+
     $duration = Sponsorship::where('id', $sponsorshipId)->value('duration');
-    $start_date = date('Y-m-d H:i');
-    $end_date = date('Y-m-d H:i:s', strtotime($start_date . ' +' . $duration . ' hours'));
+    // $start_date = date('Y-m-d H:i:s');
+    // $end_date = date('Y-m-d H:i:s', strtotime($start_date . ' +' . $duration . ' hours'));
 
 
     $apartment = Apartment::where('id', $apartmentId)->first();
+
+    $end_dates = DB::table('apartment_sponsorship')
+      ->select('end_date')
+      ->where('apartment_id', $apartmentId)
+      ->get();
+
+
+    $lastEndDate = $end_dates[0]->end_date;
+
+    foreach ($end_dates as $end_date) {
+      if($end_date->end_date > $lastEndDate)
+      {
+        $lastEndDate = $end_date->end_date;
+      }
+    }
+
+    if($lastEndDate > date('Y-m-d H:i:s')) {
+      $start_date = $lastEndDate;
+    } else {
+      $start_date = date('Y-m-d H:i:s');
+    }
+
+    $end_date = date('Y-m-d H:i:s', strtotime($start_date . ' +' . $duration . ' hours'));
+
     $apartment->sponsorships()->attach($sponsorshipId, [
       'start_date' => $start_date,
       'end_date' => $end_date

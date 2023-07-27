@@ -47,7 +47,6 @@ export default {
       axios.get("sanctum/csrf-cookie").then(() => {
         axios.get(`/admin/${store.user.id}`).then((result) => {
           this.apartments = result.data.apartments;
-          console.log(this.apartments);
         });
       });
     },
@@ -163,20 +162,17 @@ export default {
 
           this.getMyApartments()
 
-          // console.log(result)
-
         }).then(()=>{
 
           this.$router.push("/my-apartments/apartments");
         })
         .catch(error=>{
-            console.log(error);
+
           })
       }else{
 
         if(this.apartmentForm.title !== "" && this.apartmentForm.address !== ""){
 
-          console.log(this.apartmentForm)
           axios.get('sanctum/csrf-cookie')
           .then(() => {
             axios.post('/admin/apartments', {
@@ -214,11 +210,10 @@ export default {
 
             })
 
-            // console.log(result)
             this.getMyApartments()
           })
           .catch(error=>{
-            console.log(error);
+
           })
         }else{
           this.generalFormError = "Per salvare una bozza completa titolo e indirizzo"
@@ -227,7 +222,6 @@ export default {
     },
     onChange(event){
       this.apartmentForm.image = event.target.files[0]
-      console.log(this.apartmentForm.image);
     }
 
   },

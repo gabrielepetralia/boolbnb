@@ -35,14 +35,14 @@ export default {
 
     <div v-if="!this.loading" class="container vf-container mt-5">
       <!-- top -->
-      <div class="top d-flex align-items-center p-4">
+      <router-link :to="{ name: 'apartment-detail-admin', params: { slug: this.apartments[counter].slug } }" class="top d-flex align-items-center p-4">
         <div class="apartment d-flex align-items-center">
           <div class="img me-3">
             <img :src="this.apartments[counter].img_path ?? '/img/house-placeholder.png'" alt="">
           </div>
           <h4 class="name m-0 fw-semibold">{{ this.apartments[counter].title }}</h4>
         </div>
-      </div>
+      </router-link>
       <!-- /top -->
 
       <!-- bottom -->

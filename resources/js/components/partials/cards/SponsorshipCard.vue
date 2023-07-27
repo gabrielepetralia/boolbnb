@@ -16,8 +16,6 @@ export default {
 
     getSponsorshipId(sponsorshipId){
       store.sponsorshipId = sponsorshipId;
-      console.log(store.sponsorshipId);
-
     },
   }
 }

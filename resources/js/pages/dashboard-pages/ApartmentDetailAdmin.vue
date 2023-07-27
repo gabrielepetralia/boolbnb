@@ -79,7 +79,6 @@ methods: {
             result.data.apartment[0].services.forEach(service =>{
               this.apartmentServices.push(service.id)
             })
-            console.log(result);
           })
       })
   },
@@ -119,7 +118,6 @@ methods: {
 
   updateApartment($id){
 
-    console.log(this.apartmentForm);
     this.errors = null
       if(this.apartmentForm.visible == true){
         if(
@@ -193,7 +191,6 @@ methods: {
               })
         })
         .then(result => {
-          console.log(result);
           this.apartmentServices=[]
 
           this.apartmentForm = ref({
@@ -209,7 +206,6 @@ methods: {
             price: '',
             user_id: store.user.id
           })
-          // console.log(result)
 
           this.getApi();
           this.$router.push("/my-apartments/apartments");
@@ -222,7 +218,6 @@ methods: {
 
   onChange(event){
       this.apartmentForm.image = event.target.files[0]
-      console.log(this.apartmentForm.image);
     }
 },
 

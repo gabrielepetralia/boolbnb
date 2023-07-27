@@ -23,8 +23,10 @@ export default {
 
     sponsorizeApartment(apartment_id){
       store.apartmentId = apartment_id;
-      console.log(store.apartmentId, store.sponsorId);
       axios.post("http://127.0.0.1:8000/admin/sponsorize/" + store.apartmentId + "/" + store.sponsorshipId)
+        .then(res => {
+
+        });
     },
 
     getSponsorships() {
@@ -42,7 +44,6 @@ export default {
         .then(() => {
         axios.get(`/admin/${store.user.id}`).then((result) => {
           this.apartments = result.data.apartments;
-          console.log(this.apartments);
         });
       });
     },

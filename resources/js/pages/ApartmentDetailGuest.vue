@@ -57,7 +57,6 @@ export default {
           apartment_id: this.apartment.id,
         })
               .then(result => {
-                console.log(result);
                 this.messageForm= {
                   name: '',
                   email: '',
@@ -88,7 +87,6 @@ export default {
               .then(result => {
                 this.apartment = result.data.apartment[0];
                 this.gallery = result.data.gallery;
-                console.log(this.apartment, this.gallery);
                 this.loading = false;
                 this.getMap();
               })
@@ -199,7 +197,6 @@ export default {
               price: '',
               user_id: store.user.id
             })
-            // console.log(result)
 
             this.getApi();
             this.$router.push("/my-apartments/apartments");

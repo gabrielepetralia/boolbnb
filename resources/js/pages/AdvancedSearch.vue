@@ -111,9 +111,9 @@ export default {
     <!-- /button+searchbar -->
 
     <div v-if="store.searchedApartments" class="t4-container">
-      <h2 class="mb-4 pt-3 mb-4 fw-semibold">Risultati della ricerca</h2>
+      <h2 class="text-center text-md-start mb-4 pt-3 fw-semibold">Risultati della ricerca</h2>
       <div class="row">
-        <div v-for="apartment in store.searchedApartments" :key="apartment.id" class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+        <div v-for="apartment in store.searchedApartments" :key="apartment.id" class="px-4 px-lg-3 col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
           <ApartmentCard
             :apartment="apartment"
             :link_name="'apartment-detail-guest'"/>

@@ -241,9 +241,9 @@ export default {
 </script>
 
 <template>
-  <div class="t4-container py-5 px-5">
-    <div class="d-flex justify-content-between my-4">
-      <h2 class="fs-3 fw-semibold mb-0 title">Appartamenti</h2>
+  <div class="t4-container py-5 px-3 px-md-5">
+    <div class="d-block d-md-flex text-center justify-content-between my-4">
+      <h2 class="fs-3 fw-semibold mb-3 mb-md-0 title">Appartamenti</h2>
       <div>
         <button
           title="Aggiungi Appartamento"

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ApartmentRequest;
 use App\Http\Requests\VisibilityCheck;
 use App\Models\Apartment;
+use App\Models\Sponsorship;
 use Illuminate\Http\Request;
 use App\Helpers\CustomHelper;
 use Illuminate\Support\Facades\DB;
@@ -18,10 +19,29 @@ class ApartmentController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
+
+
   public function index()
   {
 
   }
+
+  public function sponsorizeApartment($apartmentId, $sponsorshipId){
+
+    date_default_timezone_set('Europe/Rome');
+    $duration = Sponsorship::where('id', $sponsorshipId)->value('duration');
+    $start_date = date('Y-m-d H:i');
+    $end_date = date('Y-m-d H:i:s', strtotime($start_date . ' +' . $duration . ' hours'));
+
+
+    $apartment = Apartment::where('id', $apartmentId)->first();
+    $apartment->sponsorships()->attach($sponsorshipId, [
+      'start_date' => $start_date,
+      'end_date' => $end_date
+
+    ]);
+  }
+
 
   /**
    * Show the form for creating a new resource.

@@ -5,6 +5,10 @@ import axios from 'axios';
 
 export const store = reactive ({
 
+// sponsorship
+apartmentId: null,
+sponsorshipId: null,
+
 // Filters
 currentFilters : {},
 

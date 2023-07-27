@@ -1,10 +1,24 @@
 <script>
+import { store } from '../../../store/store';
 export default {
   name: "SponsorshipCard",
+  data(){
+    return {
+      store
+    }
+  },
 
   props: {
     // apartment: Object,
     sponsorship: Object
+  },
+  methods: {
+
+    getSponsorshipId(sponsorshipId){
+      store.sponsorshipId = sponsorshipId;
+      console.log(store.sponsorshipId);
+
+    },
   }
 }
 </script>
@@ -44,7 +58,7 @@ export default {
         </ul>
 
         <div class="d-flex justify-content-center mb-3">
-          <button class="btn btn-login t4-btn-light d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#apartments-modal">
+          <button @click="getSponsorshipId(sponsorship.id)" class="btn btn-login t4-btn-light d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#apartments-modal">
             <i class="fa-solid fa-circle-dollar-to-slot me-2 fs-6"></i>
             <span class="me-1">Sponsorizza</span>
           </button>

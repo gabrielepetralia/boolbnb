@@ -20,6 +20,13 @@ export default {
   },
 
   methods: {
+
+    sponsorizeApartment(apartment_id){
+      store.apartmentId = apartment_id;
+      console.log(store.apartmentId, store.sponsorId);
+      axios.post("http://127.0.0.1:8000/admin/sponsorize/" + store.apartmentId + "/" + store.sponsorshipId)
+    },
+
     getSponsorships() {
       axios.get("sanctum/csrf-cookie")
         .then(() => {
@@ -72,7 +79,7 @@ export default {
         </div>
         <div class="t4-modal-body">
           <ul>
-            <li data-bs-dismiss="modal" v-for="apartment in apartments" :key="apartment.id">
+            <li @click="sponsorizeApartment(apartment.id)" data-bs-dismiss="modal" v-for="apartment in apartments" :key="apartment.id">
               <a href="#" class="p-3">{{ apartment.title }}</a>
               <hr class="m-0">
             </li>

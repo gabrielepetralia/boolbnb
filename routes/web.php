@@ -30,12 +30,12 @@ Route::middleware(['auth', 'verified'])
 ->prefix('admin')
 ->group(function () {
   // Route::get('/', [DashboardController::class, 'index'])->name('home');
+  Route::resource('/sponsorships', SponsorshipController::class);
     Route::get('/user-auth', [UserController::class, 'index']);
     Route::resource('apartments', AdminApartmentController::class);
     Route::get('/{user_id}', [ApartmentController::class, 'getUserApartments']);
     Route::get('/apartment/{slug}', [ApartmentController::class, 'getApartmentDetail']);
     Route::post('/image',[ ImageController::class, 'store']);
-    Route::get('/sponsorships', [SponsorshipController::class, 'index']);
   });
 
 require __DIR__ . '/auth.php';

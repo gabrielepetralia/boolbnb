@@ -16,7 +16,7 @@ class SponsorshipController extends Controller
     public function index()
     {
       $sponsorships = Sponsorship::all();
-      return response()->json(compact('sponsorships'));
+      return response()->json($sponsorships);
     }
 
     /**

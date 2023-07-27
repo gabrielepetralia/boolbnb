@@ -2,9 +2,10 @@
 export default {
   name: "SponsorshipCard",
 
-  // props: {
-  //   apartment: Object,
-  // }
+  props: {
+    // apartment: Object,
+    sponsorship: Object
+  }
 }
 </script>
 
@@ -13,10 +14,10 @@ export default {
     <div class="sponsorship-card mb-5 p-4">
 
       <div class="card-header">
-        <h5 class="fw-semibold text-center mt-2 mb-3 name">Bronze</h5>
+        <h5 class="fw-semibold text-center mt-2 mb-3 name">{{sponsorship.name}}</h5>
         <div class="price-container text-center pb-3">
           <span class="euro">&euro; </span>
-          <span class="price fw-semibold"> 2.99</span>
+          <span class="price fw-semibold"> {{sponsorship.price}}</span>
         </div>
       </div>
 
@@ -26,7 +27,7 @@ export default {
             <div>
               <div class="check me-3"><i class="fa-solid fa-check"></i></div>
             </div>
-            <p>Durata sponsorizzazione di 24h</p>
+            <p>Durata sponsorizzazione di {{sponsorship.duration}}h</p>
           </li>
           <li class="d-flex align-items-center mb-4">
             <div>
@@ -38,7 +39,7 @@ export default {
             <div>
               <div class="check me-3"><i class="fa-solid fa-check"></i></div>
             </div>
-            <p>Mostra appartamento in alto tra i risultati</p>
+            <p>Mostra appartamento tra i primi risultati</p>
           </li>
         </ul>
 
@@ -90,8 +91,9 @@ export default {
     align-items: center;
     width: 25px;
     height: 25px;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     border-radius: 50%;
+    padding: 0;
     background-color: $light-blue;
   }
 }

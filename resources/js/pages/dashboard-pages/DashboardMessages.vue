@@ -30,17 +30,17 @@ export default {
 </script>
 
 <template>
-  <div class="t4-container">
-    <h2 class="fs-3 fw-semibold mb-3 mt-3 mt-lg-0 title">Messaggi</h2>
+  <div class="t4-container py-0 px-0 py-sm-5 py-sm-5">
+    <h2 class="fs-3 fw-semibold my-4 title">Messaggi</h2>
 
-    <div v-if="!this.loading" class="container vf-container">
+    <div v-if="!this.loading" class="container vf-container mt-5">
       <!-- top -->
       <div class="top d-flex align-items-center">
         <div class="apartment d-flex align-items-center">
           <div class="img">
             <img :src="this.apartments[counter].img_path ?? '/img/house-placeholder.png'" alt="">
           </div>
-          <h5 class=" name m-0">{{ this.apartments[counter].title }}</h5>
+          <h4 class="name m-0 fw-semibold">{{ this.apartments[counter].title }}</h4>
         </div>
       </div>
       <!-- /top -->
@@ -60,7 +60,7 @@ export default {
         <!-- main -->
         <div class="main">
 
-          <div class="no-messages" v-if="this.apartments[counter].messages.length === 0">Non hai ancora ricevuto nessun messaggio per questo appartamento</div>
+          <h4 class="no-messages text-center pt-5" v-if="this.apartments[counter].messages.length === 0">Non hai ancora ricevuto nessun messaggio per questo appartamento</h4>
 
           <div v-else v-for="(message,index) in this.apartments[counter].messages" :key="index" class="msg-card">
             <div class="sender d-flex align-items-start">
@@ -127,9 +127,6 @@ export default {
 //   border-left: 5px solid $light_blue;
 //   background-color: $gray;
 // }
-.t4-container {
-  padding: 50px;
-}
 
 .title {
   color: $dark-gray;
@@ -161,7 +158,6 @@ export default {
       object-fit: cover;
     }
     .name {
-      font-size: 30px;
       padding-left: 15px;
       color: $dark-gray;
     }
@@ -204,10 +200,9 @@ export default {
     background: $dark-white;
     overflow: auto;
     .no-messages {
-      font-size: 30px;
-      padding: 50px;
       color: $dark-gray;
     }
+
     .msg-card {
       width: 80%;
       margin: 9px;

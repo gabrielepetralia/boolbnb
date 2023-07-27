@@ -30,7 +30,7 @@ Route::middleware(['auth', 'verified'])
 ->prefix('admin')
 ->group(function () {
   // Route::get('/', [DashboardController::class, 'index'])->name('home');
-  Route::resource('/sponsorships', SponsorshipController::class);
+    Route::resource('/sponsorships', SponsorshipController::class);
     Route::get('/user-auth', [UserController::class, 'index']);
     Route::resource('apartments', AdminApartmentController::class);
     Route::get('/{user_id}', [ApartmentController::class, 'getUserApartments']);

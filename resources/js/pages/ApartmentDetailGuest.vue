@@ -288,7 +288,7 @@ export default {
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header bg-white">
-                      <h1 class="modal-title fs-5 fw-semibold" id="exampleModalLabel">Contatta l'Host</h1>
+                      <h5 class="modal-title fw-semibold" id="exampleModalLabel">Contatta l'Host</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="p-3 ">

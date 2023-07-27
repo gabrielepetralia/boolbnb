@@ -149,7 +149,7 @@ export default {
 
       &:hover,
       &.active-msg {
-        border-bottom: 5px solid $light_blue;
+        border-left: 5px solid $light_blue;
         background-color: $gray;
       }
     }
@@ -240,7 +240,8 @@ export default {
         border-bottom: 5px solid transparent;
         padding-right: 20px;
         height: 100%;
-        &:hover {
+        &:hover,
+        &.active-msg {
           border-left: 0;
           border-bottom: 5px solid $light-blue;
         }

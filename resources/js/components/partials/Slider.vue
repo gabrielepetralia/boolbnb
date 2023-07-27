@@ -96,4 +96,13 @@ body {
   margin-right: auto;
 }
 
+//media-query
+@media screen and (max-width: 1200px) {
+  .swiper-slide {
+
+  height: 100%;
+
+}
+}
+
 </style>

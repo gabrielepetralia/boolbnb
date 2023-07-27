@@ -51,9 +51,9 @@ export default {
         <div class="side">
           <ul class="d-flex d-lg-block">
             <li @click="this.counter = index" v-for="(apartment, index) in this.apartments" :key="index">
-              <a :class="{'active-msg' : this.counter == index}">
+              <div :class="{'active-msg' : this.counter == index}">
                 {{apartment.title}}
-              </a>
+              </div>
             </li>
           </ul>
         </div>
@@ -136,7 +136,7 @@ export default {
   background: $dark-gray;
   color: white;
   li {
-    a {
+    div {
       display: inline-block;
       height: 100%;
       width: 100%;
@@ -149,7 +149,7 @@ export default {
 
       &:hover,
       &.active-msg {
-        border-left: 5px solid $light_blue;
+        border-bottom: 5px solid $light_blue;
         background-color: $gray;
       }
     }
@@ -230,7 +230,7 @@ export default {
   flex-direction: column;
   .side {
     width: 100%;
-    max-height: 97px;
+    max-height: 75px;
     ul {
       height: 100%;
     }
@@ -239,6 +239,7 @@ export default {
         border-left: 0;
         border-bottom: 5px solid transparent;
         padding-right: 20px;
+        height: 100%;
         &:hover {
           border-left: 0;
           border-bottom: 5px solid $light-blue;

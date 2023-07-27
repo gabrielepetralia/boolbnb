@@ -45,10 +45,8 @@ export default {
         <h2 class="mt-5 mb-4 text-center text-md-start fw-semibold">Appartamenti In Evidenza</h2>
 
         <div class="row">
-          <div class="col-12 col-md-4 col-lg-2 p-5 p-md-0">
+          <div v-for="apartment in store.sponsorizedApartments" :key="apartment.id" class="col-12 col-md-4 col-lg-2 p-0 p-md-3">
             <ApartmentCard
-            v-for="apartment in store.sponsorizedApartments"
-              :key="apartment.id"
               :apartment="apartment"
               :link_name="'apartment-detail-guest'"/>
           </div>

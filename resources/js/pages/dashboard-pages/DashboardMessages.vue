@@ -50,9 +50,9 @@ export default {
         <div class="side">
           <ul class="d-flex d-lg-block">
             <li @click="this.counter = index" v-for="(apartment, index) in this.apartments" :key="index">
-              <div>
+              <a :class="{'active-msg' : this.counter == index}">
                 {{apartment.title}}
-              </div>
+              </a>
             </li>
           </ul>
         </div>
@@ -123,6 +123,10 @@ export default {
 
 <style lang="scss" scoped>
 @use "../../../scss/partials/variables" as *;
+// .active-msg {
+//   border-left: 5px solid $light_blue;
+//   background-color: $gray;
+// }
 .t4-container {
   padding: 50px;
 }
@@ -174,7 +178,7 @@ export default {
   background: $dark-gray;
   color: white;
   li {
-    div {
+    a {
       display: inline-block;
       height: 100%;
       width: 100%;
@@ -186,7 +190,7 @@ export default {
       cursor: pointer;
 
       &:hover,
-      &.active {
+      &.active-msg {
         border-left: 5px solid $light_blue;
         background-color: $gray;
       }

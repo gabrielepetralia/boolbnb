@@ -32,9 +32,6 @@ class ApartmentController extends Controller
     date_default_timezone_set('Europe/Rome');
 
     $duration = Sponsorship::where('id', $sponsorshipId)->value('duration');
-    // $start_date = date('Y-m-d H:i:s');
-    // $end_date = date('Y-m-d H:i:s', strtotime($start_date . ' +' . $duration . ' hours'));
-
 
     $apartment = Apartment::where('id', $apartmentId)->first();
 
@@ -44,17 +41,21 @@ class ApartmentController extends Controller
       ->get();
 
 
-    $lastEndDate = $end_dates[0]->end_date;
+    if(count($end_dates) > 0) {
+      $lastEndDate = $end_dates[0]->end_date;
 
-    foreach ($end_dates as $end_date) {
-      if($end_date->end_date > $lastEndDate)
-      {
-        $lastEndDate = $end_date->end_date;
+      foreach ($end_dates as $end_date) {
+        if($end_date->end_date > $lastEndDate)
+        {
+          $lastEndDate = $end_date->end_date;
+        }
       }
-    }
 
-    if($lastEndDate > date('Y-m-d H:i:s')) {
-      $start_date = $lastEndDate;
+      if($lastEndDate > date('Y-m-d H:i:s')) {
+        $start_date = $lastEndDate;
+      } else {
+        $start_date = date('Y-m-d H:i:s');
+      }
     } else {
       $start_date = date('Y-m-d H:i:s');
     }
@@ -66,6 +67,26 @@ class ApartmentController extends Controller
       'end_date' => $end_date
 
     ]);
+  }
+
+  public function getLastActiveSponsorship($slug) {
+    date_default_timezone_set('Europe/Rome');
+
+    $curr_date = date('Y-m-d H:i:s');
+
+    $apartmentId = Apartment::where('slug', $slug)->pluck('id')->first();
+
+    $last_end_date = DB::table('apartment_sponsorship')
+    ->where('apartment_id', $apartmentId)
+    ->max('end_date');
+
+    if($last_end_date > $curr_date) {
+      $str = 'attiva fino al ' . $last_end_date;
+    } else {
+      $str = 'non attiva';
+    }
+
+    return response()->json($str);
   }
 
 
@@ -93,7 +114,7 @@ class ApartmentController extends Controller
     // if(in_array('visible', $form_data)){
     //   $form_data = $visiblecheck->all();
     // }
-    $form_data['visible'] = ($form_data['visible'] == true) ? 1 : '';
+    $form_data['visible'] = ($form_data['visible'] == true) ? 1 : 0;
     $form_data['slug'] = CustomHelper::generateUniqueSlug($form_data['title'], new Apartment());
     $form_data['coordinates'] = DB::raw("ST_GeomFromText('POINT(" . CustomHelper::getCoordinates($request->input('address')) . ")')");
 
@@ -110,8 +131,8 @@ class ApartmentController extends Controller
     $new_apartment->services()->attach($services);
 
   }
-    // Da reindirizzare direttamente alla show
-    return response()->json('ok');
+
+    return response()->json($form_data);
   }
 
   /**
@@ -193,7 +214,6 @@ class ApartmentController extends Controller
     }
 
     $apartment->delete();
-
   }
 
 

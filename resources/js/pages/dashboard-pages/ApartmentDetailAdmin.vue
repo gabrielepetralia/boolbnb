@@ -5,11 +5,13 @@ import { ref } from 'vue';
 import tt from '@tomtom-international/web-sdk-maps';
 import AddGallery from "../../components/partials/AddGallery.vue";
 import Slider from '../../components/partials/Slider.vue';
+import Loader from '../../components/partials/Loader.vue';
 export default {
 name: 'ApartmentDetailAdmin',
 components:{
   AddGallery,
-  Slider
+  Slider,
+  Loader
 },
 data(){
   return {
@@ -19,6 +21,7 @@ data(){
     apartment: null,
     errors: null,
     map_link: null,
+    last_sponsorship: null,
     apiUrl: 'https://api.tomtom.com/search/2/',
     apiKey: 'gdZGu9e4M0xCvL3gtsUxcBcG8KtOb1fQ',
     _map: {
@@ -73,9 +76,10 @@ methods: {
           .then(result => {
             this.apartment = result.data.apartment[0];
             this.gallery = result.data.gallery;
-            this.loading = false;
+            this.getLastActiveSponsorship();
             this.fillForm();
             this.getMap();
+            this.loading = false;
             result.data.apartment[0].services.forEach(service =>{
               this.apartmentServices.push(service.id)
             })
@@ -155,11 +159,9 @@ methods: {
         })
             .then(result => {
               this.apartmentServices=[]
-              this.$router.push("/my-apartments/apartments");
 
               this.getApi();
-
-
+              this.$router.push("/my-apartments/apartment-detail/" + this.apartments[0].slug);
             })
         }
 
@@ -208,12 +210,19 @@ methods: {
           })
 
           this.getApi();
-          this.$router.push("/my-apartments/apartments");
-
-
-
+          this.$router.push("/my-apartments/apartment-detail/" + this.apartments[0].slug);
         })
      }
+  },
+
+  getLastActiveSponsorship() {
+     axios.get('sanctum/csrf-cookie')
+      .then(() => {
+        axios.get(store.adminUrl + 'last-sponsorship/' + this.$route.params.slug)
+          .then(result => {
+            this.last_sponsorship = result.data;
+          })
+      })
   },
 
   onChange(event){
@@ -230,7 +239,11 @@ mounted(){
 
 <template>
 
-  <div v-if="!loading" class="apartment-detail">
+  <div v-if="this.loading" class="d-flex justify-content-center py-5 my-5">
+    <Loader/>
+  </div>
+
+  <div v-else class="apartment-detail">
     <div class="t4-container py-lg-5 px-lg-5">
 
       <div class="detail-header d-flex justify-content-between align-items-center my-4">
@@ -290,12 +303,21 @@ mounted(){
           <hr>
           <div>
             <h4 class="fw-semibold">Servizi :</h4>
-            <ul class="d-flex flex-wrap">
-              <li v-for="service in this.apartment.services" :key="service.id" class="service d-flex mb-2 me-4">
-                <img style="height: 20px;" :src="`/img/services-icons/${ service.slug }.png`" :alt="service.name" class="me-2">
-                <span>{{ service.name }}</span>
-              </li>
-            </ul>
+            <div class="row row-cols-2">
+              <div class="col mb-1" v-for="service in this.apartment.services" :key="service.id">
+                <li class="service d-flex mb-2 me-4">
+                  <img style="height: 20px;" :src="`/img/services-icons/${ service.slug }.png`" :alt="service.name" class="me-2">
+                  <span>{{ service.name }}</span>
+                </li>
+              </div>
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="d-flex align-items-baseline">
+            <h5 class="fw-semibold me-2 mb-0">Sponsorizzazione :</h5>
+            <span>{{ last_sponsorship }}</span>
           </div>
 
           <hr>
@@ -446,7 +468,26 @@ mounted(){
                 <label for="price" class="form-label mb-0"><i class="fa-solid fa-euro-sign"></i></label>
               </div>
 
-              <div class="mb-3 d-flex align-items-center flex-row-reverse input-box pb-2">
+              <div class="services py-2 mb-3 input-box">
+                <div class="row row-cols-4 justify-content-between">
+                  <div v-for="(service, index) in store.availableServices" :key="service.id" class="col d-flex justify-content-center mb-3">
+                    <div class="icon btn-group" role="group">
+                      <input
+                        v-model="apartmentServices"
+                        type="checkbox"
+                        class="btn-check"
+                        :id="'btncheck' + (index + 1)"
+                        :value="service.id"
+                        autocomplete="off">
+                      <label class="btn btn-check-label p-2" :for="'btncheck' + (index + 1)">
+                        <img :src="`/img/services-icons/${service.slug}.png`" :alt="service.name">
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-3 d-flex align-items-center flex-row-reverse input-box pb-3">
                 <input
                 @change="onChange"
                   type="file"
@@ -471,26 +512,6 @@ mounted(){
                   <span class="slider round"></span>
                 </label>
                 <label for="visible" title="Visibile" class="form-label mb-0"><i class="fa-solid fa-eye"></i></label>
-              </div>
-
-              <div class="services pb-2 mt-3">
-              <h5 class="fw-semibold mb-3">Servizi :</h5>
-                <div class="row row-cols-4 justify-content-between">
-                  <div v-for="(service, index) in store.availableServices" :key="service.id" class="col d-flex justify-content-center mb-3">
-                    <div class="icon btn-group" role="group">
-                      <input
-                        v-model="apartmentServices"
-                        type="checkbox"
-                        class="btn-check"
-                        :id="'btncheck' + (index+1)"
-                        :value="service.id"
-                        autocomplete="off">
-                      <label class="btn btn-check-label p-2" :for="'btncheck' + (index + 1)">
-                        <img :src="`/img/services-icons/${service.slug}.png`" :alt="service.name">
-                      </label>
-                    </div>
-                  </div>
-                </div>
               </div>
 
             </form>
@@ -575,40 +596,51 @@ mounted(){
     }
   }
 }
-//media-query
-@media screen and (max-width: 1200px) {
-.img-wrapper {
-  margin-bottom: 50px;
-}
-.detail-header {
-  flex-direction: column;
-  h2 {
-    padding-bottom: 15px;
-  }
-}
-}
-
 
 .services {
-    margin-bottom: 20px;
     .icon {
-      font-size: 16px;
+      width: 65%;
 
       img {
-        height: 30px;
         width: 100%;
       }
     }
   }
 
-  .btn-check:checked+label {
-    background-color: $light-blue;
-    color: white;
-    border: 0;
-
+.btn-check-label {
+    background-color: $dark-gray;
     img {
       filter: brightness(0) invert(1);
     }
+
+    &:hover {
+      background-color: $dark-gray;
+    }
+  }
+
+.btn-check:checked+label {
+  background-color: $light-blue;
+  color: white;
+  border: 0;
+
+  img {
+    filter: brightness(0) invert(1);
+  }
 }
+
+//media-query
+@media screen and (max-width: 1200px) {
+  .img-wrapper {
+    margin-bottom: 50px;
+  }
+  .detail-header {
+    flex-direction: column;
+    h2 {
+      padding-bottom: 15px;
+    }
+  }
+}
+
+
 
 </style>

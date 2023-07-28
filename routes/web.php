@@ -38,8 +38,9 @@ Route::middleware(['auth', 'verified'])
     Route::get('/apartment/{slug}', [ApartmentController::class, 'getApartmentDetail']);
     Route::post('/image',[ ImageController::class, 'store']);
     Route::post('/sponsorize/{apartmentId}/{sponsorshipId}', [AdminApartmentController::class, 'sponsorizeApartment'] );
-
+    Route::get('/last-sponsorship/{apartmentId}', [AdminApartmentController::class, 'getLastActiveSponsorship']);
   });
+
   Route::post('/make-payment', [OrderController::class, 'makePayment']);
   Route::get('/generate-token', [OrderController::class, 'generate']);
 require __DIR__ . '/auth.php';

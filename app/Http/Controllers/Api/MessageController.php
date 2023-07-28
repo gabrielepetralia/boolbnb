@@ -37,6 +37,7 @@ class MessageController extends Controller
      */
     public function store(MessageRequest $request)
     {
+        date_default_timezone_set('Europe/Rome');
         $form_data = $request->all();
         $form_data['sent_date'] = date('Y-m-d H:i');
         $new_message = new Message();

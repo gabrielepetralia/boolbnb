@@ -55,19 +55,20 @@ export default {
 </script>
 <template>
 
-
-  <label class="mt-3  mb-2 d-block fw-semibold" for="img_path_gallery">Aggiungi un immagine alla galleria</label>
-<div class=" d-flex align-items-center input-box pb-2">
-  <input
-  @change="onChangeMultiple"
-  type="file"
-  title="Galleria"
-  id="img_path_gallery"
-  name="img_path_gallery"
-  class="form-control"
-  placeholder="Immagine">
-  <div class="btn ms-2" @click="addGallery">+</div>
-</div>
+  <label class="mb-2 d-block fw-semibold fs-5" for="img_path_gallery">Aggiungi un'immagine alla galleria :</label>
+  <div class=" d-flex align-items-center input-box pb-2">
+    <input
+    @change="onChangeMultiple"
+    type="file"
+    title="Galleria"
+    id="img_path_gallery"
+    name="img_path_gallery"
+    class="form-control"
+    placeholder="Immagine">
+    <div>
+      <button class="btn t4-btn ms-2" @click="addGallery"><i class="fa-solid fa-plus"></i></button>
+    </div>
+  </div>
 
 
 </template>
@@ -77,11 +78,5 @@ export default {
 
 #img_path_gallery{
   width: 50%;
-}
-.btn{
-  height: 30px;
-  padding: 3px 10px;
-  background-color: $dark_gray;
-  color: white;
 }
 </style>

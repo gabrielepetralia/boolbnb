@@ -79,7 +79,7 @@ export default {
   transition: all 0.2s;
 
   &:hover {
-    transform: scale(1.05)
+    transform: scale(1.03)
   }
 
   &:hover .name {

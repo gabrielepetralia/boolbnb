@@ -90,6 +90,26 @@ const router = createRouter({
         }
     ]
 
-})
+});
+
+// Memorizza l'ultima route visitata prima del refresh della pagina
+let lastRoute = null;
+window.addEventListener('beforeunload', () => {
+  const currentRoute = router.currentRoute.value;
+  if (currentRoute && currentRoute.name) {
+    lastRoute = currentRoute.name;
+  }
+});
+
+router.isReady().then(() => {
+  // Reindirizza l'utente all'ultima route memorizzata dopo il completamento del caricamento del router
+  if (lastRoute && store.user?.id) {
+    router.push({ name: lastRoute });
+  } else if (!store.user?.id && router.currentRoute.value.matched.some(record => record.meta.requiresAuth)) {
+    // Se l'utente non è autenticato e sta cercando di accedere a una route protetta,
+    // reindirizza l'utente alla home
+    router.push({ name: 'home' });
+  }
+});
 
 export { router }

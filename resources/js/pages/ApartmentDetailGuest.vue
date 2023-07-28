@@ -4,10 +4,13 @@ import { store } from '../store/store';
 import { ref } from 'vue';
 import tt from '@tomtom-international/web-sdk-maps';
 import Slider from '../components/partials/Slider.vue';
+import Loader from "../components/partials/Loader.vue";
+
 export default {
   name: 'ApartmentDetailAdmin',
   components: {
-    Slider
+    Slider,
+    Loader
   },
   data() {
     return {
@@ -56,20 +59,16 @@ export default {
           msg_text: this.messageForm.msg_text,
           apartment_id: this.apartment.id,
         })
-              .then(result => {
-                this.messageForm= {
-                  name: '',
-                  email: '',
-                  msg_text: ''
-                }
+          .then(result => {
+            this.messageForm= {
+              name: '',
+              email: '',
+              msg_text: ''
+            }
 
-                this.sendMessageErrors = "Messaggio inviato con successo!"
-              })
+            this.sendMessageErrors = "Messaggio inviato con successo!"
+          })
       }
-
-
-
-
     },
 
     // Redirect Back
@@ -95,116 +94,27 @@ export default {
 
     // Get map
     getMap(){
-    axios.get( 'https://api.tomtom.com/search/2/' + 'geocode/'+this.apartment.address+'.json?view=Unified&key='+ 'gdZGu9e4M0xCvL3gtsUxcBcG8KtOb1fQ' )
-    .then(result => {
+      axios.get( 'https://api.tomtom.com/search/2/' + 'geocode/'+this.apartment.address+'.json?view=Unified&key='+ 'gdZGu9e4M0xCvL3gtsUxcBcG8KtOb1fQ' )
+      .then(result => {
 
-      this._map.lat = result.data.results[0].position.lat;
-      this._map.lon = result.data.results[0].position.lon;
-      this.coordinates = [this._map.lon,this._map.lat];
-      this.map_link = `https://www.google.it/maps/@${this._map.lat},${this._map.lon},18z/data=!5m1!1e1?entry=ttu`;
+        this._map.lat = result.data.results[0].position.lat;
+        this._map.lon = result.data.results[0].position.lon;
+        this.coordinates = [this._map.lon,this._map.lat];
+        this.map_link = `https://www.google.it/maps/@${this._map.lat},${this._map.lon},18z/data=!5m1!1e1?entry=ttu`;
 
-      tt.setProductInfo("maps", "1");
+        tt.setProductInfo("maps", "1");
 
-      var map = tt.map({
-        key: 'gdZGu9e4M0xCvL3gtsUxcBcG8KtOb1fQ',
-        container: "map",
-        center: this.coordinates,
-        zoom: 18
-      })
-      map.on('load', () =>{
-        new tt.Marker().setLngLat(this.coordinates).addTo(map)
-      })
-    })
-  },
-
-  // Delete this apartment
-    deleteApartment(id) {
-      axios.get('sanctum/csrf-cookie')
-        .then(() => {
-          axios.delete(store.adminUrl + 'apartments/' + id)
-            .then(result => {
-              this.$router.push("/my-apartments/apartments");
-            })
+        var map = tt.map({
+          key: 'gdZGu9e4M0xCvL3gtsUxcBcG8KtOb1fQ',
+          container: "map",
+          center: this.coordinates,
+          zoom: 18
         })
+        map.on('load', () =>{
+          new tt.Marker().setLngLat(this.coordinates).addTo(map)
+        })
+      })
     },
-
-    // Update this apartment
-    updateApartment($id) {
-      this.errors = null
-      if (this.apartmentForm.visible == true) {
-        if (
-          this.apartmentForm.title == '' ||
-          this.apartmentForm.num_rooms == '' ||
-          this.apartmentForm.num_beds == '' ||
-          this.apartmentForm.num_bathrooms == '' ||
-          this.apartmentForm.square_meters == '' ||
-          this.apartmentForm.description == '' ||
-          this.apartmentForm.price == '') {
-          this.errors = 'Rendi l\'appartamento privato o completa tutti i campi';
-        } else {
-          axios.get('sanctum/csrf-cookie')
-            .then(() => {
-              axios.put(store.adminUrl + 'apartments/' + $id, {
-                title: this.apartmentForm.title,
-                num_rooms: this.apartmentForm.num_rooms,
-                num_beds: this.apartmentForm.num_beds,
-                num_bathrooms: this.apartmentForm.num_bathrooms,
-                square_meters: this.apartmentForm.square_meters,
-                address: this.apartmentForm.address,
-                description: this.apartmentForm.description,
-                img_path: this.apartmentForm.img_path,
-                visible: this.apartmentForm.visible,
-                price: this.apartmentForm.price,
-                user_id: this.apartmentForm.user_id
-              })
-                .then(result => {
-                  // this.$router.push("/my-apartments/apartments");
-                })
-            })
-        }
-
-      } else if (this.apartmentForm.address == '') {
-        this.errors = 'Devi inserire sia il titolo che l\'indirizzo'
-
-      } else {
-        axios.get('sanctum/csrf-cookie')
-          .then(() => {
-            axios.put(store.adminUrl + 'apartments/' + $id, {
-              title: this.apartmentForm.title,
-              num_rooms: this.apartmentForm.num_rooms,
-              num_beds: this.apartmentForm.num_beds,
-              num_bathrooms: this.apartmentForm.num_bathrooms,
-              square_meters: this.apartmentForm.square_meters,
-              address: this.apartmentForm.address,
-              description: this.apartmentForm.description,
-              img_path: this.apartmentForm.img_path,
-              visible: this.apartmentForm.visible,
-              price: this.apartmentForm.price,
-              user_id: this.apartmentForm.user_id
-            })
-          })
-          .then(result => {
-            this.apartmentForm = ref({
-              title: '',
-              num_rooms: '',
-              num_beds: '',
-              num_bathrooms: '',
-              square_meters: '',
-              address: '',
-              description: '',
-              img_path: '',
-              visible: true,
-              price: '',
-              user_id: store.user.id
-            })
-
-            this.getApi();
-            this.$router.push("/my-apartments/apartments");
-
-
-          })
-      }
-    }
   },
 
   mounted() {
@@ -214,7 +124,12 @@ export default {
 </script>
 
 <template>
-  <div v-if="!loading" class="apartment-detail position-relative">
+
+  <div v-if="this.loading" class="d-flex justify-content-center py-5 my-5">
+    <Loader/>
+  </div>
+
+  <div v-else class="apartment-detail position-relative">
     <div class="t4-container py-lg-5 px-lg-5">
 
       <div class="detail-header d-flex justify-content-between align-items-center py-4">
@@ -270,30 +185,32 @@ export default {
           <hr>
           <div>
             <h4 class="fw-semibold">Servizi :</h4>
-            <ul class="d-flex flex-wrap">
-              <li v-for="service in this.apartment.services" :key="service.id" class="service d-flex mb-2 me-4">
-                <img style="height: 20px;" :src="`/img/services-icons/${service.slug}.png`" :alt="service.name" class="me-2">
-                <span>{{ service.name }}</span>
-              </li>
-            </ul>
+            <div class="row row-cols-2">
+              <div class="col mb-1" v-for="service in this.apartment.services" :key="service.id">
+                <li class="service d-flex mb-2 me-4">
+                  <img style="height: 20px;" :src="`/img/services-icons/${ service.slug }.png`" :alt="service.name" class="me-2">
+                  <span>{{ service.name }}</span>
+                </li>
+              </div>
+            </div>
           </div>
 
             <!-- Button trigger modal -->
-            <button type="button" class="contact-modal" data-bs-toggle="modal" data-bs-target="#exampleModal" title="Contatta il proprietario">
-              <i class="fa-brands fa-whatsapp"></i>
+            <button type="button" class="btn-contact-modal" data-bs-toggle="modal" data-bs-target="#exampleModal" title="Contatta l'Host">
+              <i class="fa-regular fa-message fs-5 mt-1"></i>
             </button>
 
               <!-- Modal -->
               <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
-                    <div class="modal-header bg-white">
-                      <h1 class="modal-title fs-5" id="exampleModalLabel">Contatta il proprietario</h1>
+                    <div class="modal-header">
+                      <h5 class="modal-title fw-semibold" id="exampleModalLabel">Contatta l'Host</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="p-3 ">
-                      <div  class="d-flex justify-content-end">
-                        <div class="message-form me-4 py-4">
+                    <div class="modal-body modal-contact-body p-3">
+                      <div>
+                        <div class="message-form p-2">
                           <div class="text-center pb-4" v-if="this.sendMessageErrors !== null">
                             <span class="text-success d-block">
                               {{sendMessageErrors }}
@@ -302,20 +219,20 @@ export default {
                               Verrai ricontattato tramite mail
                             </span>
                           </div>
-                          <div class="d-flex">
-                            <div class="input-box me-3 ">
+                          <div class="d-flex justify-content-between">
+                            <div class="input-box">
 
-                              <label for="description" class="form-label "><strong> Nome </strong> </label>
-                              <input class="name-input form-control "  v-model="messageForm.name" type="text" placeholder="Inserisci il tuo nome"> <br>
+                              <label for="description" class="form-label"><strong> Nome e Cognome </strong> </label>
+                              <input class="name-input form-control "  v-model="messageForm.name" type="text" placeholder="Nome e Cognome"> <br>
                               <div v-if="this.errorMessageForm.name">
                                 {{ this.errorMessageForm.name }}
                               </div>
 
                             </div>
-                            <div class="  input-box ">
+                            <div class="input-box">
 
-                              <label for="description" class="form-label  "> <strong>Email</strong></label>
-                              <input class="email-input form-control "  v-model="messageForm.email" type="email" placeholder="Inserisci la tua mail"> <br>
+                              <label for="description" class="form-label"> <strong>Email</strong></label>
+                              <input class="email-input form-control "  v-model="messageForm.email" type="email" placeholder="Email"> <br>
                               <div v-if="this.errorMessageForm.email">
                                 {{ this.errorMessageForm.email }}
                               </div>
@@ -324,8 +241,8 @@ export default {
                           </div>
 
                           <div class="  input-box ">
-                            <label for="description" class="form-label "> <strong>Inserisci un messaggio</strong></label>
-                            <textarea placeholder="Scrivi al proprietario..." class="msg_text-input form-control "   v-model="messageForm.msg_text" cols="30" rows="5" >
+                            <label for="description" class="form-label "> <strong>Messaggio</strong></label>
+                            <textarea placeholder="Inserisci un messaggio" class="msg_text-input form-control "   v-model="messageForm.msg_text" cols="30" rows="5" >
                             </textarea>
 
                             <div v-if="this.errorMessageForm.msg_text">
@@ -333,8 +250,12 @@ export default {
                             </div>
                           </div>
 
-
-                          <button @click="sendMessage" class="btn  mt-3">Invia</button>
+                          <div class="d-flex justify-content-end">
+                            <button @click="sendMessage" class="btn t4-btn mt-4">
+                              <i class="fa-solid fa-paper-plane me-2 fs-6"></i>
+                              <span class="me-1">Invia</span>
+                            </button>
+                          </div>
 
                         </div>
                       </div>
@@ -405,14 +326,15 @@ export default {
   }
 }
 
-.contact-modal{
+
+
+.btn-contact-modal{
   position: fixed;
   display: block;
   right: 10px;
-  bottom: 20vh;
+  bottom: 10vh;
   border: 0;
-  background: transparent;
-  background-color: rgb(49, 68, 49);
+  background-color: $dark_gray;
   color: white;
   height: 60px;
   width: 60px;
@@ -421,8 +343,15 @@ export default {
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  font-size: 35px;
-  box-shadow: 0 0 5px black;
+  box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s;
+
+  &:hover {
+    background-color: $light_blue;
+  }
+}
+.modal-contact-body {
+  border-radius: 0 0 15px 15px;
 }
 
 .message-form{
@@ -430,20 +359,13 @@ export default {
   .name-input,
   .email-input,
   .msg_text-input{
-    padding-bottom: 10px;
 
-    max-width: 400px;
     &:focus {
       border: 1px solid grey;
       outline: none;
       box-shadow: none;
     }
   }
-
-.btn {
-  background-color: $dark-gray;
-  color: white;
-}
 }
 
 .autocomplete-box {

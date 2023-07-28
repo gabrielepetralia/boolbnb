@@ -7,5 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Sponsorship extends Model
 {
-    use HasFactory;
+  public function apartments()
+  {
+    return $this->belongsToMany(Apartment::class)->withPivot('end_date');
+  }
+
 }

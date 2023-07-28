@@ -1,22 +1,35 @@
 <script>
+import { store } from '../../../store/store';
 export default {
   name: "SponsorshipCard",
+  data(){
+    return {
+      store
+    }
+  },
 
-  // props: {
-  //   apartment: Object,
-  // }
+  props: {
+    // apartment: Object,
+    sponsorship: Object
+  },
+  methods: {
+
+    getSponsorshipId(sponsorshipId){
+      store.sponsorshipId = sponsorshipId;
+    },
+  }
 }
 </script>
 
 <template>
-  <div class="col px-5">
+  <div class="col px-0 px-md-5">
     <div class="sponsorship-card mb-5 p-4">
 
       <div class="card-header">
-        <h5 class="fw-semibold text-center mt-2 mb-3 name">Bronze</h5>
+        <h5 class="fw-semibold text-center mt-2 mb-3 name">{{sponsorship.name}}</h5>
         <div class="price-container text-center pb-3">
           <span class="euro">&euro; </span>
-          <span class="price fw-semibold"> 2.99</span>
+          <span class="price fw-semibold"> {{sponsorship.price}}</span>
         </div>
       </div>
 
@@ -26,7 +39,7 @@ export default {
             <div>
               <div class="check me-3"><i class="fa-solid fa-check"></i></div>
             </div>
-            <p>Durata sponsorizzazione di 24h</p>
+            <p>Durata sponsorizzazione di {{sponsorship.duration}}h</p>
           </li>
           <li class="d-flex align-items-center mb-4">
             <div>
@@ -38,12 +51,12 @@ export default {
             <div>
               <div class="check me-3"><i class="fa-solid fa-check"></i></div>
             </div>
-            <p>Mostra appartamento in alto tra i risultati</p>
+            <p>Mostra appartamento tra i primi risultati</p>
           </li>
         </ul>
 
         <div class="d-flex justify-content-center mb-3">
-          <button class="btn btn-login t4-btn-light d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#apartments-modal">
+          <button @click="getSponsorshipId(sponsorship.id)" class="btn btn-login t4-btn-light d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#apartments-modal">
             <i class="fa-solid fa-circle-dollar-to-slot me-2 fs-6"></i>
             <span class="me-1">Sponsorizza</span>
           </button>
@@ -66,7 +79,7 @@ export default {
   transition: all 0.2s;
 
   &:hover {
-    transform: scale(1.05)
+    transform: scale(1.03)
   }
 
   &:hover .name {
@@ -90,8 +103,9 @@ export default {
     align-items: center;
     width: 25px;
     height: 25px;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     border-radius: 50%;
+    padding: 0;
     background-color: $light-blue;
   }
 }

@@ -20,15 +20,15 @@ export default {
         </router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'stats' }" class="fw-semibold">
-          <i class="fa-solid fa-chart-line me-2"></i>
-          <span class="aside-link-text">Statistiche</span>
-        </router-link>
-      </li>
-      <li>
         <router-link :to="{ name: 'sponsorships' }" class="fw-semibold">
           <i class="fa-solid fa-circle-dollar-to-slot me-2"></i>
           <span class="aside-link-text">Sponsorizzazioni</span>
+        </router-link>
+      </li>
+      <li>
+        <router-link :to="{ name: 'stats' }" class="fw-semibold">
+          <i class="fa-solid fa-chart-line me-2"></i>
+          <span class="aside-link-text">Statistiche</span>
         </router-link>
       </li>
     </ul>

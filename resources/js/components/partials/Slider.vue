@@ -44,8 +44,8 @@
     <swiper-slide>
       <img class="w-100" :src="apartment.img_path ? apartment.img_path : '/img/house-placeholder.png'" alt="">
     </swiper-slide>
-    <swiper-slide>
-      <img class="w-100" :src="apartment.img_path ? apartment.img_path : '/img/house-placeholder.png'" alt="">
+    <swiper-slide v-for="photo in this.gallery" :key="photo.id">
+      <img class="w-100" :src="photo.img_path ? photo.img_path : '/img/house-placeholder.png'" alt="">
     </swiper-slide>
   </swiper>
 </template>
@@ -77,7 +77,7 @@ body {
   text-align: center;
   font-size: 18px;
   background: #fff;
-
+  height: 600px;
   /* Center slide text vertically */
   display: flex;
   justify-content: center;
@@ -94,6 +94,15 @@ body {
 .swiper {
   margin-left: auto;
   margin-right: auto;
+}
+
+//media-query
+@media screen and (max-width: 1200px) {
+  .swiper-slide {
+
+  height: 100%;
+
+}
 }
 
 </style>

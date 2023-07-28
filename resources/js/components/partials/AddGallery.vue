@@ -36,7 +36,7 @@ export default {
           }
         } )
         .then(result=>{
-          console.log(result);
+
         })
 
       })
@@ -45,7 +45,6 @@ export default {
 
   onChangeMultiple(event){
       this.image= event.target.files[0]
-      console.log(this.image);
     }
   },
 

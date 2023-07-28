@@ -52,6 +52,7 @@ export default {
 <style lang="scss" scoped>
 @use "../../../scss/partials/variables" as *;
 .searchbar {
+  z-index: 2;
   color: $dark-gray;
   font-size: 0.95rem;
   height: 40px;
@@ -74,7 +75,7 @@ export default {
 }
 
 .autocomplete-box {
-  z-index: -1;
+  z-index: 1;
   position: absolute;
   top: 50%;
   left: 0;
@@ -108,5 +109,15 @@ export default {
 
 .box-shadow {
   box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
+}
+
+// media-query
+@media screen and (max-width: 500px) {
+  .searchbar {
+    width: 204px;
+  }
+  .autocomplete-box {
+    width: 78.05%;
+  }
 }
 </style>

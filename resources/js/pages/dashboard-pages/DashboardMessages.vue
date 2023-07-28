@@ -16,7 +16,6 @@ export default {
       axios.get("sanctum/csrf-cookie").then(() => {
         axios.get(`/admin/${store.user.id}`).then((result) => {
           this.apartments = result.data.apartments;
-          console.log(this.apartments[0]);
           this.loading = false;
         });
       });
@@ -30,42 +29,44 @@ export default {
 </script>
 
 <template>
-  <div class="t4-container">
-    <h2 class="fs-3 fw-semibold mb-3 mt-3 mt-lg-0 title">Messaggi</h2>
+  <div class="t4-container py-0 px-0 py-md-5 px-md-5">
+    <h2 class="fs-3 fw-semibold my-4 title">Messaggi</h2>
 
-    <div v-if="!this.loading" class="container vf-container">
+    <div v-if="!this.loading" class="container vf-container mt-4">
       <!-- top -->
-      <div class="top d-flex align-items-center">
+      <router-link :to="{ name: 'apartment-detail-admin', params: { slug: this.apartments[counter].slug } }" class="top d-flex align-items-center p-4">
         <div class="apartment d-flex align-items-center">
-          <div class="img">
+          <div class="img me-3">
             <img :src="this.apartments[counter].img_path ?? '/img/house-placeholder.png'" alt="">
           </div>
-          <h5 class=" name m-0">{{ this.apartments[counter].title }}</h5>
+          <h4 class="name m-0 fw-semibold">{{ this.apartments[counter].title }}</h4>
         </div>
-      </div>
+      </router-link>
       <!-- /top -->
+
       <!-- bottom -->
       <div class="bottom d-flex">
         <!-- side -->
         <div class="side">
           <ul class="d-flex d-lg-block">
             <li @click="this.counter = index" v-for="(apartment, index) in this.apartments" :key="index">
-              <div>
+              <div :class="{'active-msg' : this.counter == index}">
                 {{apartment.title}}
               </div>
             </li>
           </ul>
         </div>
         <!-- /side -->
+
         <!-- main -->
         <div class="main">
 
-          <div class="no-messages" v-if="this.apartments[counter].messages.length === 0">Non hai ancora ricevuto nessun messaggio per questo appartamento</div>
+          <h4 class="no-messages text-center pt-5" v-if="this.apartments[counter].messages.length === 0">Non hai ancora ricevuto nessun messaggio per questo appartamento</h4>
 
-          <div v-else v-for="(message,index) in this.apartments[counter].messages" :key="index" class="msg-card">
+          <div v-else v-for="(message,index) in this.apartments[counter].messages" :key="index" class="msg-card m-3">
             <div class="sender d-flex align-items-start">
-              <div class="img">
-                <img src="../../assets/img/home-carousel/user-placeholder.png" alt="">
+              <div class="img me-2">
+                <img src="/img/user-placeholder.png" alt="">
               </div>
               <div class="text">
                 <h5 class="name d-block m-0">{{ message.name }}</h5>
@@ -79,42 +80,9 @@ export default {
             </div>
           </div>
 
-          <!-- msg-fake--------------------------------------------------------------- -->
-          <!-- <div class="msg-card">
-            <div class="sender d-flex align-items-start">
-              <div class="img">
-                <img src="../../assets/img/home-carousel/user-placeholder.png" alt="">
-              </div>
-              <div class="text">
-                <h5 class="name d-block m-0">Utente 1</h5>
-                <span class="mail">utente@gmail.com</span>
-              </div>
-            </div>
-            <hr>
-            <div class="text">
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed vero harum doloribus perspiciatis ea aliquid earum debitis laborum. Fuga, libero! Unde non, assumenda maxime qui accusantium nemo, eos dignissimos rem sunt quibusdam nostrum ducimus ea quo deserunt beatae harum reprehenderit sapiente, repudiandae id molestiae exercitationem soluta quasi est impedit? Magnam?</p>
-              <span class="sent-time">30/07/2023 10.00.00</span>
-            </div>
-          </div>
-          <div class="msg-card">
-            <div class="sender d-flex align-items-start">
-              <div class="img">
-                <img src="../../assets/img/home-carousel/user-placeholder.png" alt="">
-              </div>
-              <div class="text">
-                <h5 class="name d-block m-0">Utente 1</h5>
-                <span class="mail">utente@gmail.com</span>
-              </div>
-            </div>
-            <hr>
-            <div class="text">
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed vero harum doloribus perspiciatis ea aliquid earum debitis laborum. Fuga, libero! Unde non, assumenda maxime qui accusantium nemo, eos dignissimos rem sunt quibusdam nostrum ducimus ea quo deserunt beatae harum reprehenderit sapiente, repudiandae id molestiae exercitationem soluta quasi est impedit? Magnam?</p>
-              <span class="sent-time">30/07/2023 10.00.00</span>
-            </div>
-          </div> -->
-          <!-- msg-fake--------------------------------------------------------------- -->
         </div>
         <!-- /main -->
+
       </div>
       <!-- /bottom -->
     </div>
@@ -123,10 +91,6 @@ export default {
 
 <style lang="scss" scoped>
 @use "../../../scss/partials/variables" as *;
-.t4-container {
-  padding: 50px;
-}
-
 .title {
   color: $dark-gray;
 }
@@ -140,14 +104,13 @@ export default {
 .top {
   width: 100%;
   height: 15%;
-  padding: 20px;
   margin-bottom: 10px;
   background: $dark-white;
   box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
   .apartment {
     .img {
-      width: 65px;
-      height: 65px;
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
       overflow: hidden;
     }
@@ -157,15 +120,13 @@ export default {
       object-fit: cover;
     }
     .name {
-      font-size: 30px;
-      padding-left: 15px;
       color: $dark-gray;
     }
 
   }
 }
 .bottom {
-  height: 85%;
+  height: 83%;
   box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
   .side {
   width: 18%;
@@ -186,7 +147,7 @@ export default {
       cursor: pointer;
 
       &:hover,
-      &.active {
+      &.active-msg {
         border-left: 5px solid $light_blue;
         background-color: $gray;
       }
@@ -200,13 +161,11 @@ export default {
     background: $dark-white;
     overflow: auto;
     .no-messages {
-      font-size: 30px;
-      padding: 50px;
       color: $dark-gray;
     }
+
     .msg-card {
       width: 80%;
-      margin: 9px;
       padding: 25px;
       border-radius: 0 9px 9px 9px;
       background: $light-blue;
@@ -214,12 +173,15 @@ export default {
       box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
       .sender {
         .img {
-          width: 38px;
+          width: 40px;
+          height: 40px;
           border-radius: 50%;
           overflow: hidden;
-          margin-right: 8px;
+          object-fit: cover;
+
           img {
             width: 100%;
+            object-fit: cover;
           }
         }
         .text {
@@ -240,7 +202,7 @@ export default {
         .sent-time {
           position: absolute;
           right: 0;
-          font-size: 11px;
+          font-size: 12px;
           font-weight: 100;
         }
       }
@@ -250,7 +212,7 @@ export default {
 }
 //media-query
 @media screen and (max-width: 992px) {
-  .t4-container {
+.t4-container {
   padding: 0;
 }
 .title {
@@ -267,7 +229,7 @@ export default {
   flex-direction: column;
   .side {
     width: 100%;
-    max-height: 97px;
+    max-height: 75px;
     ul {
       height: 100%;
     }
@@ -276,7 +238,9 @@ export default {
         border-left: 0;
         border-bottom: 5px solid transparent;
         padding-right: 20px;
-        &:hover {
+        height: 100%;
+        &:hover,
+        &.active-msg {
           border-left: 0;
           border-bottom: 5px solid $light-blue;
         }

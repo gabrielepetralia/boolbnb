@@ -47,7 +47,6 @@ export default {
       axios.get("sanctum/csrf-cookie").then(() => {
         axios.get(`/admin/${store.user.id}`).then((result) => {
           this.apartments = result.data.apartments;
-          console.log(this.apartments);
         });
       });
     },
@@ -163,20 +162,17 @@ export default {
 
           this.getMyApartments()
 
-          // console.log(result)
-
         }).then(()=>{
 
           this.$router.push("/my-apartments/apartments");
         })
         .catch(error=>{
-            console.log(error);
+
           })
       }else{
 
         if(this.apartmentForm.title !== "" && this.apartmentForm.address !== ""){
 
-          console.log(this.apartmentForm)
           axios.get('sanctum/csrf-cookie')
           .then(() => {
             axios.post('/admin/apartments', {
@@ -214,11 +210,10 @@ export default {
 
             })
 
-            // console.log(result)
             this.getMyApartments()
           })
           .catch(error=>{
-            console.log(error);
+
           })
         }else{
           this.generalFormError = "Per salvare una bozza completa titolo e indirizzo"
@@ -227,7 +222,6 @@ export default {
     },
     onChange(event){
       this.apartmentForm.image = event.target.files[0]
-      console.log(this.apartmentForm.image);
     }
 
   },
@@ -241,9 +235,9 @@ export default {
 </script>
 
 <template>
-  <div class="t4-container py-5 px-5">
-    <div class="d-flex justify-content-between my-4">
-      <h2 class="fs-3 fw-semibold mb-0 title">Appartamenti</h2>
+  <div class="t4-container py-5 px-3 px-md-5">
+    <div class="d-block d-md-flex text-center justify-content-between my-4">
+      <h2 class="fs-3 fw-semibold mb-3 mb-md-0 title">Appartamenti</h2>
       <div>
         <button
           title="Aggiungi Appartamento"
@@ -257,7 +251,7 @@ export default {
     </div>
 
     <div class="row">
-      <div v-for="apartment in apartments" :key="apartment.id" class="col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
+      <div v-for="apartment in apartments" :key="apartment.id" class="col-12 col-sm-6 col-md-4 col-lg-3 col-xxl-2">
         <ApartmentCard
           :apartment="apartment"
           :link_name="'apartment-detail-admin'"/>
@@ -454,18 +448,25 @@ export default {
               <label for="visible" title="Visibile"  class="form-label mb-0"><i  class="fa-solid fa-eye"></i></label>
             </div>
 
-            <div class="mt-3 d-flex justify-content-end align-items-center flex-row-reverse input-box border-0 pb-2">
-              <div role="group"  class="row">
-                  <div v-for="service in store.availableServices" :key="service.id" class="col">
-                    <input type="checkbox"
-                    v-model="apartmentServices"
-                    :value="service.id"
-                    :id="service.slug"
-                    :title="service.slug">
-                    <label :for="service.slug" class="form-label mb-0">{{ service?.name }}</label>
+            <div class="services pb-2 mt-3">
+              <h5 class="fw-semibold mb-3">Servizi :</h5>
+                <div class="row row-cols-4 justify-content-between">
+                  <div v-for="(service, index) in store.availableServices" :key="service.id" class="col d-flex justify-content-center mb-3">
+                    <div class="icon btn-group" role="group">
+                      <input
+                        v-model="apartmentServices"
+                        type="checkbox"
+                        class="btn-check"
+                        :id="'btncheck' + (index+1)"
+                        :value="service.id"
+                        autocomplete="off">
+                      <label class="btn btn-check-label p-2" :for="'btncheck' + (index + 1)">
+                        <img :src="`/img/services-icons/${service.slug}.png`" :alt="service.name">
+                      </label>
+                    </div>
                   </div>
+                </div>
               </div>
-            </div>
 
           </form>
         </div>
@@ -522,5 +523,29 @@ export default {
 .box-shadow {
   box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
 }
+
+
+  .services {
+    margin-bottom: 20px;
+    .icon {
+      font-size: 16px;
+
+      img {
+        height: 30px;
+        width: 100%;
+      }
+    }
+  }
+
+  .btn-check:checked+label {
+    background-color: $light-blue;
+    color: white;
+    border: 0;
+
+    img {
+      filter: brightness(0) invert(1);
+    }
+}
+
 
 </style>

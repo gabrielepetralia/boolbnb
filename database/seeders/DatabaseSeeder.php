@@ -18,10 +18,11 @@ class DatabaseSeeder extends Seeder
       UsersTableSeeder::class, //to remove
       ServicesTableSeeder::class,
       SponsorshipsTableSeeder::class,
-      MessagesTableSeeder::class,
       ApartmentsTableSeeder::class, //to remove
       ApartmentsServicesTableSeeder::class, //to remove
-      ApartmentsSponsorshipsTableSeeder::class //to remove
+      ApartmentsSponsorshipsTableSeeder::class, //to remove
+      MessagesTableSeeder::class
+
     ]);
   }
 }

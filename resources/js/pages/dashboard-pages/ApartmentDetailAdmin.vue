@@ -79,7 +79,6 @@ methods: {
             result.data.apartment[0].services.forEach(service =>{
               this.apartmentServices.push(service.id)
             })
-            console.log(result);
           })
       })
   },
@@ -119,7 +118,6 @@ methods: {
 
   updateApartment($id){
 
-    console.log(this.apartmentForm);
     this.errors = null
       if(this.apartmentForm.visible == true){
         if(
@@ -193,7 +191,6 @@ methods: {
               })
         })
         .then(result => {
-          console.log(result);
           this.apartmentServices=[]
 
           this.apartmentForm = ref({
@@ -209,7 +206,6 @@ methods: {
             price: '',
             user_id: store.user.id
           })
-          // console.log(result)
 
           this.getApi();
           this.$router.push("/my-apartments/apartments");
@@ -222,7 +218,6 @@ methods: {
 
   onChange(event){
       this.apartmentForm.image = event.target.files[0]
-      console.log(this.apartmentForm.image);
     }
 },
 
@@ -478,19 +473,23 @@ mounted(){
                 <label for="visible" title="Visibile" class="form-label mb-0"><i class="fa-solid fa-eye"></i></label>
               </div>
 
-              <div class="mb-3 d-flex justify-content-end align-items-center flex-row-reverse input-box border-0 pb-2">
-                <div role="group"  class="row">
-                    <div v-for="service in store.availableServices" :key="service.id" class="col">
-                      <input type="checkbox"
-                      v-model="apartmentServices"
-                      :value="service.id"
-                      :id="service.slug"
-                      :title="service.slug"
-                      >
-                      <label :for="service.slug" class="form-label mb-0">{{ service?.name }}</label>
+              <div class="services pb-2 mt-3">
+              <h5 class="fw-semibold mb-3">Servizi :</h5>
+                <div class="row row-cols-4 justify-content-between">
+                  <div v-for="(service, index) in store.availableServices" :key="service.id" class="col d-flex justify-content-center mb-3">
+                    <div class="icon btn-group" role="group">
+                      <input
+                        v-model="apartmentServices"
+                        type="checkbox"
+                        class="btn-check"
+                        :id="'btncheck' + (index+1)"
+                        :value="service.id"
+                        autocomplete="off">
+                      <label class="btn btn-check-label p-2" :for="'btncheck' + (index + 1)">
+                        <img :src="`/img/services-icons/${service.slug}.png`" :alt="service.name">
+                      </label>
                     </div>
-
-
+                  </div>
                 </div>
               </div>
 
@@ -588,4 +587,28 @@ mounted(){
   }
 }
 }
+
+
+.services {
+    margin-bottom: 20px;
+    .icon {
+      font-size: 16px;
+
+      img {
+        height: 30px;
+        width: 100%;
+      }
+    }
+  }
+
+  .btn-check:checked+label {
+    background-color: $light-blue;
+    color: white;
+    border: 0;
+
+    img {
+      filter: brightness(0) invert(1);
+    }
+}
+
 </style>

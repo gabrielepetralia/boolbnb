@@ -69,6 +69,7 @@ class ApartmentController extends Controller
         ) / 1000 AS distance_in_km
     ")
     ->whereRaw("ST_DISTANCE(coordinates, POINT($coordinates)) <= $radiusInMeters")
+    ->where('apartments.visible', '=', 1)
     ->get()->makeHidden('coordinates');
 
     return response()->json(compact('apartments'));
@@ -93,6 +94,7 @@ class ApartmentController extends Controller
                 ->where('num_rooms', '>=', $min_rooms)
                 ->where('num_beds', '>=', $min_beds)
                 ->where('num_bathrooms', '>=', $min_bathrooms)
+                ->where('apartments.visible', '=', 1)
                 ->whereHas('services', function(Builder $query) use($id){
                   $query->where('service_id', $id);
                })
@@ -120,6 +122,7 @@ class ApartmentController extends Controller
                 ->where('num_rooms', '>=', $min_rooms)
                 ->where('num_beds', '>=', $min_beds)
                 ->where('num_bathrooms', '>=', $min_bathrooms)
+                ->where('apartments.visible', '=', 1)
                 ->get()->makeHidden('coordinates');
 
     return response()->json(compact('apartments'));

@@ -5,6 +5,10 @@ import axios from 'axios';
 
 export const store = reactive ({
 
+// sponsorship
+apartmentId: null,
+sponsorshipId: null,
+
 // Filters
 currentFilters : {},
 
@@ -64,7 +68,6 @@ currentFilters : {},
       this.errors = error.response.data.errors;
     })
     .then(response => {
-      console.log(response)
 
       axios.post('/login', {
         email: this.form.email,
@@ -90,7 +93,6 @@ currentFilters : {},
     }
     //  if (this.formLogin.loginPassword.length > 7) {
     //   this.errorslogin.push("La password deve essere di almeno 8 caratteri")
-    //   console.log(this.errorslogin)}
 
 
     if(this.formLogin.loginPassword.length > 7){
@@ -113,7 +115,6 @@ currentFilters : {},
           if(error.response.data.message == 'Le credenziali non sono corrette.'){
             this.credentialError = error.response.data.message
           }
-          console.log(error.response)
         });
       })
 

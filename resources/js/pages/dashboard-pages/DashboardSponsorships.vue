@@ -20,17 +20,28 @@ export default {
   },
 
   methods: {
+
+    sponsorizeApartment(apartment_id){
+      store.apartmentId = apartment_id;
+      axios.post("http://127.0.0.1:8000/admin/sponsorize/" + store.apartmentId + "/" + store.sponsorshipId)
+        .then(res => {
+
+        });
+    },
+
     getSponsorships() {
-      axios.get("sanctum/csrf-cookie").then(() => {
-        axios.get("http://127.0.0.1:8000/admin/sponsorships").then((res) => {
+      axios.get("sanctum/csrf-cookie")
+        .then(() => {
+        axios.get("http://127.0.0.1:8000/admin/sponsorships").then(res => {
           this.sponsorships = res.data;
-          console.log(res.data)
+
         });
       });
     },
 
     getMyApartments() {
-      axios.get("sanctum/csrf-cookie").then(() => {
+      axios.get("sanctum/csrf-cookie")
+        .then(() => {
         axios.get(`/admin/${store.user.id}`).then((result) => {
           this.apartments = result.data.apartments;
         });
@@ -40,20 +51,21 @@ export default {
   },
 
   mounted() {
-    // this.getSponsorships();
+    this.getSponsorships();
     this.getMyApartments()
   }
 }
 </script>
 
 <template>
-  <div class="t4-container py-5 px-5">
+  <div class="t4-container py-0 px-0 py-md-5 px-md-5">
     <h2 class="fs-3 fw-semibold my-4 title">Sponsorizzazioni</h2>
 
-    <div class="row row-cols-3 mt-5">
-      <SponsorshipCard/>
-      <SponsorshipCard/>
-      <SponsorshipCard/>
+    <div class="row row-cols-12 row-cols-lg-2 row-cols-xxl-3 mt-4">
+      <div v-for="sponsorship in sponsorships" :key="sponsorship.id">
+        <SponsorshipCard :sponsorship="sponsorship"/>
+      </div>
+
     </div>
 
   </div>
@@ -68,7 +80,7 @@ export default {
         </div>
         <div class="t4-modal-body">
           <ul>
-            <li v-for="apartment in apartments" :key="apartment.id">
+            <li @click="sponsorizeApartment(apartment.id)" data-bs-dismiss="modal" v-for="apartment in apartments" :key="apartment.id">
               <a href="#" class="p-3">{{ apartment.title }}</a>
               <hr class="m-0">
             </li>

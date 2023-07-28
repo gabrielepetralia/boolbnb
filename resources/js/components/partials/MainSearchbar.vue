@@ -21,7 +21,7 @@ export default {
 <template>
 <div class="d-flex align-items-center position-relative">
   <input
-  
+
     v-model="store.search"
     @input="store.getSuggestions()"
     @keyup.enter="store.getSearchedApartments(this.search)"
@@ -42,7 +42,7 @@ export default {
   </div>
 
   <router-link :to="{ name: 'advanced-search' }">
-    <button @click="store.getSearchedApartments(store.search)" class="btn t4-btn btn-search d-flex justify-content-center align-items-center" name="btn_search">
+    <button @click="store.getSearchedApartments(store.search),$emit('getMap')" class="btn t4-btn btn-search d-flex justify-content-center align-items-center" name="btn_search">
       <i class="fa-solid fa-magnifying-glass"></i>
     </button>
   </router-link>

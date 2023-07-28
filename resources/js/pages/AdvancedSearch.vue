@@ -4,6 +4,7 @@ import ApartmentCard from '../components/partials/cards/ApartmentCard.vue';
 import axios from 'axios';
 import Footer from '../components/partials/Footer.vue';
 import MainSearchbar from '../components/partials/MainSearchbar.vue';
+import tt from '@tomtom-international/web-sdk-maps';
 export default {
   name : "AdvancedSearch",
   components: {
@@ -14,6 +15,15 @@ export default {
   data() {
     return {
       store,
+      map_link: null,
+      apiUrl: 'https://api.tomtom.com/search/2/',
+      apiKey: 'gdZGu9e4M0xCvL3gtsUxcBcG8KtOb1fQ',
+      _map: {
+      lat: null,
+      lon: null
+      },
+      mapVisible: false,
+      markers: [],
       min_price: store.currentFilters.min_price ? store.currentFilters.min_price : 0,
       max_price: store.currentFilters.max_price ? store.currentFilters.max_price : 0,
       min_square_meters: store.currentFilters.min_square_meters ? store.currentFilters.min_square_meters : 0,
@@ -22,7 +32,21 @@ export default {
       min_bathrooms: store.currentFilters.min_bathrooms ? store.currentFilters.min_bathrooms : 1,
       min_beds: store.currentFilters.min_beds ? store.currentFilters.min_beds : 1,
       max_radius: store.currentFilters.max_radius ? store.currentFilters.max_radius : 20,
+      coordinate_x: null,
+      coordinate_Y: null,
+    }
+  },
 
+  watch: {
+    'store.apartmentCoordinates': {
+      immediate: true,
+      handler(newValue) {
+        // Chiamata a getMap() solo quando store.apartmentCoordinates è valido
+        if (newValue && newValue.length > 0) {
+          this.getMap();
+          this.filterApartments()
+        }
+      }
     }
   },
 
@@ -51,9 +75,11 @@ export default {
       if(this.services.length > 0){
         axios.get("http://127.0.0.1:8000/api/apartments/" + this.min_price + '/' + default_max_price + '/' + this.min_square_meters + '/' + this.min_bathrooms + '/' + this.min_beds + '/' + this.min_rooms + '/' + this.services + '/' + store.search + '/' + this.max_radius / 100)
         .then(result => {
-          store.searchedApartments = result.data.apartments
 
-          store.currentFilters = {
+        store.searchedApartments = result.data.apartments;
+        store.apartmentCoordinates
+
+        store.currentFilters = {
         min_price: this.min_price,
         max_price: this.max_price,
         min_square_meters: this.min_square_meters,
@@ -63,31 +89,66 @@ export default {
         min_beds:this.min_beds ,
         max_radius: this.max_radius,
       }
-        })
+    })
       }else{
         axios.get("http://127.0.0.1:8000/api/apartments/" + this.min_price + '/' + default_max_price + '/' + this.min_square_meters + '/' + this.min_bathrooms + '/' + this.min_beds + '/' + this.min_rooms + '/' + store.search + '/' + this.max_radius / 100)
         .then(result => {
+
           store.searchedApartments = result.data.apartments
+          store.apartmentCoordinates
 
           store.currentFilters = {
-          min_price: this.min_price,
-          max_price: this.max_price,
-          min_square_meters: this.min_square_meters,
-          services: this.services,
-          min_rooms: this.min_rooms,
-          min_bathrooms: this.min_bathrooms,
-          min_beds:this.min_beds ,
-          max_radius: this.max_radius,
-      }
+            min_price: this.min_price,
+            max_price: this.max_price,
+            min_square_meters: this.min_square_meters,
+            services: this.services,
+            min_rooms: this.min_rooms,
+            min_bathrooms: this.min_bathrooms,
+            min_beds:this.min_beds ,
+            max_radius: this.max_radius,
+          }
         })
 
       }
-    }
+    },
+
+    getMap(){
+    axios.get( 'https://api.tomtom.com/search/2/' + 'geocode/'+this.store.search+'.json?view=Unified&key='+ 'gdZGu9e4M0xCvL3gtsUxcBcG8KtOb1fQ' )
+    .then(result => {
+
+      this._map.lat = result.data.results[0].position.lat;
+      this._map.lon = result.data.results[0].position.lon;
+      this.coordinates = [this._map.lon,this._map.lat];
+
+      store.searchedApartments = result.data.apartments
+      store.apartmentCoordinates
+
+
+      tt.setProductInfo("maps", "1");
+
+      var map = tt.map({
+        key: 'gdZGu9e4M0xCvL3gtsUxcBcG8KtOb1fQ',
+        container: "map",
+        center: this.coordinates,
+        zoom: 13
+      })
+      if (this.mapMarker) {
+        this.mapMarker.remove();
+      }
+
+      for (const markerData of this.store.apartmentCoordinates) {
+        new tt.Marker().setLngLat([markerData.lon, markerData.lat]).addTo(map);
+      }
+      this.mapVisible = true;
+
+    })
+  },
+
+
   },
 
   mounted() {
     store.getServices();
-
   }
 }
 </script>
@@ -99,9 +160,9 @@ export default {
     <div class="t4-container d-flex justify-content-between pt-4 ">
       <div></div>
       <div class="searchbar">
-        <MainSearchbar />
-      <div>
-    </div>
+        <MainSearchbar @getMap = 'this.getMap()'/>
+        <div>
+        </div>
       </div>
       <div>
         <a class="btn btn-filters t4-btn d-flex align-items-center" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
@@ -112,7 +173,7 @@ export default {
     </div>
     <!-- /button+searchbar -->
 
-    <div v-if="store.searchedApartments" class="t4-container">
+    <div v-if="store.apartmentCoordinates" class="t4-container">
       <h2 class="mb-4 pt-3 mb-4 fw-semibold">Risultati della ricerca</h2>
       <div class="row row-cols-6">
         <ApartmentCard
@@ -120,14 +181,17 @@ export default {
           :key="apartment.id"
           :apartment="apartment"
           :link_name="'apartment-detail-guest'"/>
+        </div>
       </div>
-    </div>
-    <div v-else>
-      <h2 class="mb-4 pt-5 mb-4 fw-semibold d-flex justify-content-center h-100 py-5 mb-0">Cerca un appartamento !</h2>
-    </div>
+      <div v-else>
+        <h2 class="mb-4 pt-5 mb-4 fw-semibold d-flex justify-content-center h-100 py-5 mb-0">Cerca un appartamento !</h2>
+      </div>
 
-    <!-- ------ offcanvas ------ -->
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+      <div
+      class="mb-4"
+      :class="{ 't4-container': mapVisible, 'd-none': !mapVisible }" id="map"></div>
+      <!-- ------ offcanvas ------ -->
+      <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
       <div class="offcanvas-header">
         <h2 class="offcanvas-title fs-3 fw-semibold" id="offcanvasExampleLabel">Filtri</h2>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -417,6 +481,13 @@ export default {
 
 @use "../../scss/partials/variables" as *;
 
+#map {
+    width: 100%;
+    height: 500px;
+    box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
+    border-radius: 15px;
+    overflow: hidden;
+  }
 .advanced-search {
   min-height: calc(100vh - 431px);
   color: $dark_gray;

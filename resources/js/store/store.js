@@ -172,7 +172,14 @@ currentFilters : {},
     axios.get(store.apiUrl + "apartments/" + address + "/" + "0.2")
       .then(res => {
         this.searchedApartments = res.data.apartments;
+        this.apartmentCoordinates = [];
+        this.apartmentCoordinates = this.searchedApartments.map(apartment => ({
+          lat: apartment.lat,
+          lon: apartment.lng,
+          id: apartment.slug,
+        }));
       })
+      console.log(this.searchedApartments);
   },
 
   // Get All services

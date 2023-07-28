@@ -182,7 +182,16 @@ currentFilters : {},
           .then(response => {
             this.availableServices = response.data.services
           })
-  }
+  },
+
+  sponsorizeApartment(apartment_id){
+    store.apartmentId = apartment_id;
+    axios.post("http://127.0.0.1:8000/admin/sponsorize/" + store.apartmentId + "/" + store.sponsorshipId)
+      .then(res => {
+
+      });
+  },
+
 });
 
 

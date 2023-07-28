@@ -4,6 +4,7 @@ import axios from "axios";
 
 import SponsorshipCard from '../../components/partials/cards/SponsorshipCard.vue';
 
+
 export default {
   name: "DashboardSponsorships",
 
@@ -21,13 +22,6 @@ export default {
 
   methods: {
 
-    sponsorizeApartment(apartment_id){
-      store.apartmentId = apartment_id;
-      axios.post("http://127.0.0.1:8000/admin/sponsorize/" + store.apartmentId + "/" + store.sponsorshipId)
-        .then(res => {
-
-        });
-    },
 
     getSponsorships() {
       axios.get("sanctum/csrf-cookie")
@@ -64,6 +58,27 @@ export default {
     <div class="row row-cols-12 row-cols-lg-2 row-cols-xxl-3 mt-5">
       <div v-for="sponsorship in sponsorships" :key="sponsorship.id">
         <SponsorshipCard :sponsorship="sponsorship"/>
+        {{ sponsorship.id }}
+        <div class="modal fade" id="apartments-modal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header ">
+                <h5 class="fw-semibold mb-0">Seleziona l'appartamento da sponsorizzare</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="t4-modal-body">
+                <ul>
+                  <li data-bs-dismiss="modal" v-for="apartment in apartments" :key="apartment.id">
+                    <router-link :to="{ path: `/checkout/${apartment.id}/${store.sponsorshipId}`}">
+                      <a  class="p-3">{{ apartment.title }}</a>
+                    </router-link>
+                      <hr class="m-0">
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -71,24 +86,6 @@ export default {
   </div>
 
   <!-- Modal Selezione Appartamento -->
-  <div class="modal fade" id="apartments-modal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header ">
-          <h5 class="fw-semibold mb-0">Seleziona l'appartamento da sponsorizzare</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="t4-modal-body">
-          <ul>
-            <li @click="sponsorizeApartment(apartment.id)" data-bs-dismiss="modal" v-for="apartment in apartments" :key="apartment.id">
-              <a href="#" class="p-3">{{ apartment.title }}</a>
-              <hr class="m-0">
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
 
 </template>
 

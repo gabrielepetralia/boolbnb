@@ -41,17 +41,21 @@ class ApartmentController extends Controller
       ->get();
 
 
-    $lastEndDate = $end_dates[0]->end_date;
+    if(count($end_dates) > 0) {
+      $lastEndDate = $end_dates[0]->end_date;
 
-    foreach ($end_dates as $end_date) {
-      if($end_date->end_date > $lastEndDate)
-      {
-        $lastEndDate = $end_date->end_date;
+      foreach ($end_dates as $end_date) {
+        if($end_date->end_date > $lastEndDate)
+        {
+          $lastEndDate = $end_date->end_date;
+        }
       }
-    }
 
-    if($lastEndDate > date('Y-m-d H:i:s')) {
-      $start_date = $lastEndDate;
+      if($lastEndDate > date('Y-m-d H:i:s')) {
+        $start_date = $lastEndDate;
+      } else {
+        $start_date = date('Y-m-d H:i:s');
+      }
     } else {
       $start_date = date('Y-m-d H:i:s');
     }

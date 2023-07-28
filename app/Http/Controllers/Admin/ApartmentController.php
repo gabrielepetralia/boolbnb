@@ -32,9 +32,6 @@ class ApartmentController extends Controller
     date_default_timezone_set('Europe/Rome');
 
     $duration = Sponsorship::where('id', $sponsorshipId)->value('duration');
-    // $start_date = date('Y-m-d H:i:s');
-    // $end_date = date('Y-m-d H:i:s', strtotime($start_date . ' +' . $duration . ' hours'));
-
 
     $apartment = Apartment::where('id', $apartmentId)->first();
 
@@ -44,17 +41,21 @@ class ApartmentController extends Controller
       ->get();
 
 
-    $lastEndDate = $end_dates[0]->end_date;
+    if(count($end_dates) > 0) {
+      $lastEndDate = $end_dates[0]->end_date;
 
-    foreach ($end_dates as $end_date) {
-      if($end_date->end_date > $lastEndDate)
-      {
-        $lastEndDate = $end_date->end_date;
+      foreach ($end_dates as $end_date) {
+        if($end_date->end_date > $lastEndDate)
+        {
+          $lastEndDate = $end_date->end_date;
+        }
       }
-    }
 
-    if($lastEndDate > date('Y-m-d H:i:s')) {
-      $start_date = $lastEndDate;
+      if($lastEndDate > date('Y-m-d H:i:s')) {
+        $start_date = $lastEndDate;
+      } else {
+        $start_date = date('Y-m-d H:i:s');
+      }
     } else {
       $start_date = date('Y-m-d H:i:s');
     }

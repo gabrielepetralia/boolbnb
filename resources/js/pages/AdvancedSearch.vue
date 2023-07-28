@@ -145,24 +145,23 @@ export default {
   },
 
 
-  },
+},
 
-  mounted() {
-    store.getServices();
-  }
+mounted() {
+  store.getServices();
+}
 }
 </script>
 
 <template>
 
-  <div class="advanced-search">
+    <div class="advanced-search">
     <!-- button+searchbar -->
     <div class="t4-container d-flex flex-column flex-md-row justify-content-between align-items-center pt-4 ">
       <div class="d-none d-lg-block"></div>
       <div class="searchbar">
-        <MainSearchbar @getMap = 'this.getMap()'/>
-        <div>
-        </div>
+        <MainSearchbar  @getMap = 'this.getMap()'/>
+      </div>
       <div>
         <a class="btn btn-filters t4-btn d-flex align-items-center m-3 m-md-0" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
           <i class="fa-solid fa-gears me-2 fs-6"></i>
@@ -170,13 +169,13 @@ export default {
         </a>
       </div>
     </div>
-    <!-- /button+searchbar -->
+      <!-- /button+searchbar -->
 
-    <div v-if="store.apartmentCoordinates" class="t4-container">
-      <h2 class="mb-4 pt-3 mb-4 fw-semibold">Risultati della ricerca</h2>
-      <div class="row row-cols-6">
-        <ApartmentCard
-        v-for="apartment in store.searchedApartments"
+      <div v-if="store.apartmentCoordinates" class="t4-container">
+        <h2 class="mb-4 pt-3 mb-4 fw-semibold">Risultati della ricerca</h2>
+        <div class="row row-cols-6">
+          <ApartmentCard
+          v-for="apartment in store.searchedApartments"
           :key="apartment.id"
           :apartment="apartment"
           :link_name="'apartment-detail-guest'"/>
@@ -191,13 +190,13 @@ export default {
       :class="{ 't4-container': mapVisible, 'd-none': !mapVisible }" id="map"></div>
       <!-- ------ offcanvas ------ -->
       <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-      <div class="offcanvas-header">
-        <h2 class="offcanvas-title fs-3 fw-semibold" id="offcanvasExampleLabel">Filtri</h2>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-      </div>
-      <div class="offcanvas-body">
-        <!-- price -->
-        <div class="price py-2">
+        <div class="offcanvas-header">
+          <h2 class="offcanvas-title fs-3 fw-semibold" id="offcanvasExampleLabel">Filtri</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <!-- price -->
+          <div class="price py-2">
           <h5 class="fw-semibold">Fascia di prezzo :</h5>
           <div class="d-flex">
             <div class="d-flex align-items-center">
@@ -232,30 +231,30 @@ export default {
           <div class="d-flex align-items-center">
             <label for="sqr_meters"><i class="fa-solid fa-expand"></i></label>
             <input
-              v-model="min_square_meters"
-              class="form-control"
+            v-model="min_square_meters"
+            class="form-control"
               placeholder="Metratura minima"
               name="sqr_meters"
               id="sqr_meters"
               type="number"
               min="0">
+            </div>
           </div>
-        </div>
-        <!-- /sqrmeters -->
+          <!-- /sqrmeters -->
 
-        <!-- services -->
-        <div class="services pb-2">
+          <!-- services -->
+          <div class="services pb-2">
           <h5 class="fw-semibold mb-3">Servizi :</h5>
           <div class="row row-cols-4 justify-content-between">
             <div v-for="(service, index) in store.availableServices" :key="service.id" class="col d-flex justify-content-center mb-3">
               <div class="icon btn-group" role="group">
                 <input
-                  v-model="services"
-                  type="checkbox"
-                  class="btn-check"
-                  :id="'btncheck' + (index+1)"
-                  :value="service.id"
-                  autocomplete="off">
+                v-model="services"
+                type="checkbox"
+                class="btn-check"
+                :id="'btncheck' + (index+1)"
+                :value="service.id"
+                autocomplete="off">
                 <label class="btn btn-check-label p-2" :for="'btncheck' + (index + 1)">
                   <img :src="`/img/services-icons/${service.slug}.png`" :alt="service.name">
                 </label>
@@ -269,25 +268,25 @@ export default {
         <div class="details pb-2">
           <div class="rooms mb-3">
             <h5 class="fw-semibold mb-3">Stanze :</h5>
-              <input
-                v-model="min_rooms"
-                type="radio"
+            <input
+            v-model="min_rooms"
+            type="radio"
                 class="btn-check btn-outline-secondary"
                 name="rooms"
                 id="rooms_1"
                 value= "1"
                 checked
                 autocomplete="off">
-              <label class="btn btn-check-label me-4" for="rooms_1">1</label>
-              <input
+                <label class="btn btn-check-label me-4" for="rooms_1">1</label>
+                <input
                 v-model="min_rooms"
                 type="radio"
                 class="btn-check"
                 name="rooms"
                 value= "2"
                 id="rooms_2">
-              <label class="btn btn-check-label me-4" for="rooms_2">2</label>
-              <input
+                <label class="btn btn-check-label me-4" for="rooms_2">2</label>
+                <input
                 v-model="min_rooms"
                 type="radio"
                 class="btn-check"
@@ -295,8 +294,8 @@ export default {
                 id="rooms_3"
                 value= "3"
                 autocomplete="off">
-              <label class="btn btn-check-label me-4" for="rooms_3">3</label>
-              <input
+                <label class="btn btn-check-label me-4" for="rooms_3">3</label>
+                <input
                 v-model="min_rooms"
                 type="radio"
                 class="btn-check"
@@ -304,8 +303,8 @@ export default {
                 id="rooms_4"
                 value= "4"
                 autocomplete="off">
-              <label class="btn btn-check-label me-4" for="rooms_4">4</label>
-              <input
+                <label class="btn btn-check-label me-4" for="rooms_4">4</label>
+                <input
                 v-model="min_rooms"
                 type="radio"
                 class="btn-check"
@@ -327,15 +326,15 @@ export default {
           <div class="beds mb-3">
             <h5 class="fw-semibold mb-3">Letti :</h5>
             <input
-              v-model="min_beds"
-              type="radio"
-              class="btn-check"
-              name="beds"
+            v-model="min_beds"
+            type="radio"
+            class="btn-check"
+            name="beds"
               id="beds_1"
               value= "1"
               autocomplete="off">
-            <label class="btn btn-check-label me-4" for="beds_1">1</label>
-            <input
+              <label class="btn btn-check-label me-4" for="beds_1">1</label>
+              <input
               v-model="min_beds"
               type="radio"
               class="btn-check"
@@ -352,8 +351,8 @@ export default {
               id="beds_3"
               value= "3"
               autocomplete="off">
-            <label class="btn btn-check-label me-4" for="beds_3">3</label>
-             <input
+              <label class="btn btn-check-label me-4" for="beds_3">3</label>
+              <input
               v-model="min_beds"
               type="radio"
               class="btn-check"
@@ -361,8 +360,8 @@ export default {
               id="beds_4"
               value= "4"
               autocomplete="off">
-            <label class="btn btn-check-label me-4" for="beds_4">4</label>
-            <input
+              <label class="btn btn-check-label me-4" for="beds_4">4</label>
+              <input
               v-model="min_beds"
               type="radio"
               class="btn-check"
@@ -372,26 +371,26 @@ export default {
               autocomplete="off">
             <label class="btn btn-check-label me-4" for="beds_5">5</label>
             <input
-              v-model="min_beds"
-              type="radio"
+            v-model="min_beds"
+            type="radio"
               class="btn-check"
               name="beds"
               id="beds_6"
               value= "6"
               autocomplete="off">
-            <label class="btn btn-check-label" for="beds_6">6+</label>
-          </div>
+              <label class="btn btn-check-label" for="beds_6">6+</label>
+            </div>
           <div class="bathrooms mb-3">
             <h5 class="fw-semibold mb-3">Bagni :</h5>
-              <input
-                v-model="min_bathrooms"
-                type="radio"
-                class="btn-check btn-outline-secondary"
-                name="bathrooms"
-                id="bathrooms_1"
-                autocomplete="off"
+            <input
+            v-model="min_bathrooms"
+            type="radio"
+            class="btn-check btn-outline-secondary"
+            name="bathrooms"
+            id="bathrooms_1"
+            autocomplete="off"
                 value= "1">
-              <label class="btn btn-check-label me-4" for="bathrooms_1">1</label>
+                <label class="btn btn-check-label me-4" for="bathrooms_1">1</label>
               <input
                 v-model="min_bathrooms"
                 type="radio"
@@ -400,8 +399,8 @@ export default {
                 id="bathrooms_2"
                 autocomplete="off"
                 value= "2">
-              <label class="btn btn-check-label me-4" for="bathrooms_2">2</label>
-              <input
+                <label class="btn btn-check-label me-4" for="bathrooms_2">2</label>
+                <input
                 v-model="min_bathrooms"
                 type="radio"
                 class="btn-check"
@@ -409,8 +408,8 @@ export default {
                 id="bathrooms_3"
                 autocomplete="off"
                 value= "3">
-              <label class="btn btn-check-label me-4" for="bathrooms_3">3</label>
-               <input
+                <label class="btn btn-check-label me-4" for="bathrooms_3">3</label>
+                <input
                 v-model="min_bathrooms"
                 type="radio"
                 class="btn-check"
@@ -420,15 +419,15 @@ export default {
                 value= "4">
               <label class="btn btn-check-label me-4" for="bathrooms_4">4</label>
               <input
-                v-model="min_bathrooms"
+              v-model="min_bathrooms"
                 type="radio"
                 class="btn-check"
                 name="bathrooms"
                 id="bathrooms_5"
                 autocomplete="off"
                 value= "5">
-              <label class="btn btn-check-label me-4" for="bathrooms_5">5</label>
-              <input
+                <label class="btn btn-check-label me-4" for="bathrooms_5">5</label>
+                <input
                 v-model="min_bathrooms"
                 type="radio"
                 class="btn-check"
@@ -436,15 +435,15 @@ export default {
                 id="bathrooms_6"
                 autocomplete="off"
                 value= "6">
-              <label class="btn btn-check-label" for="bathrooms_6">6+</label>
-          </div>
-        </div>
-        <!-- /rooms and beds -->
+                <label class="btn btn-check-label" for="bathrooms_6">6+</label>
+              </div>
+            </div>
+            <!-- /rooms and beds -->
 
-        <!-- range -->
-        <div class="range pb-4">
-          <label for="customRange" class="form-label"><h5 class="fw-semibold mb-1">Raggio :</h5></label>
-          <div class="d-flex">
+            <!-- range -->
+            <div class="range pb-4">
+              <label for="customRange" class="form-label"><h5 class="fw-semibold mb-1">Raggio :</h5></label>
+              <div class="d-flex">
             <input type="range" class="form-range custom-range" v-model="max_radius" min="20" max="60" step="10" id="customRange">
           </div>
           <div class="d-flex justify-content-between">

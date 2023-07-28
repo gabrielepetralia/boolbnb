@@ -41,7 +41,9 @@ export default {
 
               }else {
                 this.makePayment()
-
+                dropinInstance.teardown(function(err) {
+                  if (err) { console.error('An error occurred during teardown:', err); }
+                });
               }
 
               document.getElementById('nonce').value = payload.nonce;

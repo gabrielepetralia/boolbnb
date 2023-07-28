@@ -3,17 +3,20 @@ import { store } from "../../store/store";
 import axios from "axios";
 
 import SponsorshipCard from '../../components/partials/cards/SponsorshipCard.vue';
+import Loader from "../../components/partials/Loader.vue";
 
 export default {
   name: "DashboardSponsorships",
 
   components: {
     SponsorshipCard,
+    Loader
   },
 
   data() {
     return {
       store,
+      loading: true,
       apartments: [],
       sponsorships: [],
     }
@@ -30,11 +33,12 @@ export default {
     },
 
     getSponsorships() {
+      this.loading = true,
       axios.get("sanctum/csrf-cookie")
         .then(() => {
         axios.get("http://127.0.0.1:8000/admin/sponsorships").then(res => {
           this.sponsorships = res.data;
-
+          this.loading = false;
         });
       });
     },
@@ -61,7 +65,12 @@ export default {
   <div class="t4-container py-0 px-0 py-md-5 px-md-5">
     <h2 class="fs-3 fw-semibold my-4 title">Sponsorizzazioni</h2>
 
-    <div class="row row-cols-12 row-cols-lg-2 row-cols-xxl-3 mt-4">
+
+    <div v-if="this.loading" class="d-flex justify-content-center py-5 my-5">
+      <Loader/>
+    </div>
+
+    <div v-else class="row row-cols-12 row-cols-lg-2 row-cols-xxl-3 mt-4">
       <div v-for="sponsorship in sponsorships" :key="sponsorship.id">
         <SponsorshipCard :sponsorship="sponsorship"/>
       </div>
@@ -96,8 +105,8 @@ export default {
 @use "../../../scss/partials/variables" as *;
 .title {
   color: $dark-gray;
-
 }
+
 .t4-modal-body {
   background-color: $dark-white;
   height: 500px;

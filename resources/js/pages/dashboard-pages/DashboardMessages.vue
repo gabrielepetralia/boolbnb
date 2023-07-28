@@ -1,8 +1,16 @@
 <script>
 import axios from "axios";
 import { store } from "../../store/store";
+
+import Loader from "../../components/partials/Loader.vue";
+
 export default {
   name: "DashboardMessages",
+
+  components: {
+    Loader
+  },
+
   data() {
     return {
       apartments: [],
@@ -10,6 +18,7 @@ export default {
       loading: true
     }
   },
+
   methods: {
     getMyApartments() {
       this.loading = true;
@@ -21,6 +30,7 @@ export default {
       });
     },
   },
+
   mounted(){
     this.getMyApartments()
 
@@ -32,7 +42,12 @@ export default {
   <div class="t4-container py-0 px-0 py-md-5 px-md-5">
     <h2 class="fs-3 fw-semibold my-4 title">Messaggi</h2>
 
-    <div v-if="!this.loading" class="container vf-container mt-4">
+
+    <div v-if="this.loading" class="d-flex justify-content-center py-5 my-5">
+      <Loader/>
+    </div>
+
+    <div v-else class="container vf-container mt-4">
       <!-- top -->
       <router-link :to="{ name: 'apartment-detail-admin', params: { slug: this.apartments[counter].slug } }" class="top d-flex align-items-center p-4">
         <div class="apartment d-flex align-items-center">

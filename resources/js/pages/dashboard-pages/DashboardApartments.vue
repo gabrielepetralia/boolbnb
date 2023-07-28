@@ -5,12 +5,14 @@ import axios from "axios";
 
 import tt from "@tomtom-international/web-sdk-maps";
 import ApartmentCard from "../../components/partials/cards/ApartmentCard.vue";
+import Loader from "../../components/partials/Loader.vue";
 
 export default {
   name: "DashboardApartments",
 
   components: {
     ApartmentCard,
+    Loader
   },
 
   data() {
@@ -18,6 +20,8 @@ export default {
       tt,
       store,
       apartments: [],
+
+      loading: true,
 
       apartmentServices: [],
       coordinates: '',
@@ -44,9 +48,11 @@ export default {
 
   methods: {
     getMyApartments() {
+      this.laoding = true;
       axios.get("sanctum/csrf-cookie").then(() => {
         axios.get(`/admin/${store.user.id}`).then((result) => {
           this.apartments = result.data.apartments;
+          this.loading = false;
         });
       });
     },
@@ -207,7 +213,6 @@ export default {
               visible: true,
               price: '',
               user_id: store.user.id,
-
             })
 
             this.getMyApartments()
@@ -241,16 +246,19 @@ export default {
       <div>
         <button
           title="Aggiungi Appartamento"
-          class="btn t4-btn btn-add"
+          class="btn t4-btn"
           data-bs-toggle="modal"
-          data-bs-target="#add-apartment-modal"
-        >
+          data-bs-target="#add-apartment-modal">
           <i class="fa-solid fa-plus"></i>
         </button>
       </div>
     </div>
 
-    <div class="row">
+    <div v-if="this.loading" class="d-flex justify-content-center py-5 my-5">
+      <Loader/>
+    </div>
+
+    <div v-else class="row">
       <div v-for="apartment in apartments" :key="apartment.id" class="col-12 col-sm-6 col-md-4 col-lg-3 col-xxl-2">
         <ApartmentCard
           :apartment="apartment"
@@ -421,7 +429,26 @@ export default {
               <p>{{ errors.price }}</p>
             </div>
 
-            <div class="mt-3 d-flex align-items-center flex-row-reverse input-box pb-2">
+            <div class="services my-3 py-2 input-box">
+              <div class="row row-cols-4 justify-content-between">
+                <div v-for="(service, index) in store.availableServices" :key="service.id" class="col d-flex justify-content-center mb-3">
+                  <div class="icon btn-group" role="group">
+                    <input
+                      v-model="apartmentServices"
+                      type="checkbox"
+                      class="btn-check"
+                      :id="'btncheck' + (index + 1)"
+                      :value="service.id"
+                      autocomplete="off">
+                    <label class="btn btn-check-label p-2" :for="'btncheck' + (index + 1)">
+                      <img :src="`/img/services-icons/${service.slug}.png`" :alt="service.name">
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="my-3 d-flex align-items-center flex-row-reverse input-box pb-3">
               <input
                 @change="onChange"
                 type="file"
@@ -432,11 +459,8 @@ export default {
                 title="Copertina"/>
               <label for="img_path" class="form-label mb-0"><i class="fa-solid fa-image"></i></label>
             </div>
-            <div v-if="errors.num_rooms" class="text-danger">
-              <p>{{ errors.num_rooms }}</p>
-            </div>
 
-            <div class="mt-3 d-flex justify-content-end align-items-center flex-row-reverse input-box border-0 pb-2">
+            <div class="mt-3 d-flex justify-content-end align-items-center flex-row-reverse input-box border-0 pb-3">
               <label class="switch" >
                 <input type="checkbox"
                   v-model="apartmentForm.visible"
@@ -447,26 +471,6 @@ export default {
               </label>
               <label for="visible" title="Visibile"  class="form-label mb-0"><i  class="fa-solid fa-eye"></i></label>
             </div>
-
-            <div class="services pb-2 mt-3">
-              <h5 class="fw-semibold mb-3">Servizi :</h5>
-                <div class="row row-cols-4 justify-content-between">
-                  <div v-for="(service, index) in store.availableServices" :key="service.id" class="col d-flex justify-content-center mb-3">
-                    <div class="icon btn-group" role="group">
-                      <input
-                        v-model="apartmentServices"
-                        type="checkbox"
-                        class="btn-check"
-                        :id="'btncheck' + (index+1)"
-                        :value="service.id"
-                        autocomplete="off">
-                      <label class="btn btn-check-label p-2" :for="'btncheck' + (index + 1)">
-                        <img :src="`/img/services-icons/${service.slug}.png`" :alt="service.name">
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
           </form>
         </div>
@@ -484,9 +488,6 @@ export default {
 
 .title {
   color: $dark_gray;
-}
-.general-error{
-  font-size: 13px;
 }
 
 .autocomplete-box {
@@ -524,27 +525,35 @@ export default {
   box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
 }
 
-
-  .services {
-    margin-bottom: 20px;
+.services {
     .icon {
-      font-size: 16px;
+      width: 65%;
 
       img {
-        height: 30px;
         width: 100%;
       }
     }
   }
 
-  .btn-check:checked+label {
-    background-color: $light-blue;
-    color: white;
-    border: 0;
-
+.btn-check-label {
+    background-color: $dark-gray;
     img {
       filter: brightness(0) invert(1);
     }
+
+    &:hover {
+      background-color: $dark-gray;
+    }
+  }
+
+.btn-check:checked+label {
+  background-color: $light-blue;
+  color: white;
+  border: 0;
+
+  img {
+    filter: brightness(0) invert(1);
+  }
 }
 
 

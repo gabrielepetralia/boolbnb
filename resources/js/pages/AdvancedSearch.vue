@@ -171,19 +171,19 @@ mounted() {
     </div>
       <!-- /button+searchbar -->
 
-      <div v-if="store.apartmentCoordinates" class="t4-container">
-        <h2 class="mb-4 pt-3 mb-4 fw-semibold">Risultati della ricerca</h2>
-        <div class="row row-cols-12 row-cols-md-4 row-cols-lg-6 px-4 px-md-2">
-          <ApartmentCard
-          v-for="apartment in store.searchedApartments"
-          :key="apartment.id"
-          :apartment="apartment"
-          :link_name="'apartment-detail-guest'"/>
-        </div>
+    <div v-if="store.apartmentCoordinates" class="t4-container">
+      <h2 class="mb-4 pt-3 mb-4 fw-semibold">Risultati della ricerca</h2>
+      <div class="row row-cols-12 row-cols-md-4 row-cols-lg-6 px-4 px-md-2">
+        <ApartmentCard
+        v-for="apartment in store.searchedApartments"
+        :key="apartment.id"
+        :apartment="apartment"
+        :link_name="'apartment-detail-guest'"/>
       </div>
-      <div v-else>
-        <h2 class="mb-4 pt-5 mb-4 fw-semibold d-flex justify-content-center h-100 py-5 mb-0">Cerca un appartamento !</h2>
-      </div>
+    </div>
+    <div v-else>
+      <h2 class="mb-4 pt-5 mb-4 fw-semibold d-flex justify-content-center h-100 py-5 my-5">Cerca un appartamento !</h2>
+    </div>
 
       <div class="pb-5 t4-container">
         <div style="width: 100%; height:300px" id="map"></div>

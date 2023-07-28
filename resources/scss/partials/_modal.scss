@@ -18,6 +18,9 @@
 
   .modal-body {
     background-color: $dark-white;
+  }
+
+  .modal-body:not(.modal-contact-body) {
     border-bottom: 1px solid $dark-gray;
     padding: 20px 80px;
 

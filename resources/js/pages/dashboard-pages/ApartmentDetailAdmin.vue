@@ -5,11 +5,13 @@ import { ref } from 'vue';
 import tt from '@tomtom-international/web-sdk-maps';
 import AddGallery from "../../components/partials/AddGallery.vue";
 import Slider from '../../components/partials/Slider.vue';
+import Loader from '../../components/partials/Loader.vue';
 export default {
 name: 'ApartmentDetailAdmin',
 components:{
   AddGallery,
-  Slider
+  Slider,
+  Loader
 },
 data(){
   return {
@@ -155,11 +157,9 @@ methods: {
         })
             .then(result => {
               this.apartmentServices=[]
-              this.$router.push("/my-apartments/apartments");
 
               this.getApi();
-
-
+              this.$router.push("/my-apartments/apartment-detail/" + this.apartments[0].slug);
             })
         }
 
@@ -208,10 +208,7 @@ methods: {
           })
 
           this.getApi();
-          this.$router.push("/my-apartments/apartments");
-
-
-
+          this.$router.push("/my-apartments/apartment-detail/" + this.apartments[0].slug);
         })
      }
   },
@@ -230,7 +227,11 @@ mounted(){
 
 <template>
 
-  <div v-if="!loading" class="apartment-detail">
+  <div v-if="this.loading" class="d-flex justify-content-center py-5 my-5">
+    <Loader/>
+  </div>
+
+  <div v-else class="apartment-detail">
     <div class="t4-container py-lg-5 px-lg-5">
 
       <div class="detail-header d-flex justify-content-between align-items-center my-4">
@@ -446,7 +447,26 @@ mounted(){
                 <label for="price" class="form-label mb-0"><i class="fa-solid fa-euro-sign"></i></label>
               </div>
 
-              <div class="mb-3 d-flex align-items-center flex-row-reverse input-box pb-2">
+              <div class="services py-2 mb-3 input-box">
+                <div class="row row-cols-4 justify-content-between">
+                  <div v-for="(service, index) in store.availableServices" :key="service.id" class="col d-flex justify-content-center mb-3">
+                    <div class="icon btn-group" role="group">
+                      <input
+                        v-model="apartmentServices"
+                        type="checkbox"
+                        class="btn-check"
+                        :id="'btncheck' + (index + 1)"
+                        :value="service.id"
+                        autocomplete="off">
+                      <label class="btn btn-check-label p-2" :for="'btncheck' + (index + 1)">
+                        <img :src="`/img/services-icons/${service.slug}.png`" :alt="service.name">
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-3 d-flex align-items-center flex-row-reverse input-box pb-3">
                 <input
                 @change="onChange"
                   type="file"
@@ -471,26 +491,6 @@ mounted(){
                   <span class="slider round"></span>
                 </label>
                 <label for="visible" title="Visibile" class="form-label mb-0"><i class="fa-solid fa-eye"></i></label>
-              </div>
-
-              <div class="services pb-2 mt-3">
-              <h5 class="fw-semibold mb-3">Servizi :</h5>
-                <div class="row row-cols-4 justify-content-between">
-                  <div v-for="(service, index) in store.availableServices" :key="service.id" class="col d-flex justify-content-center mb-3">
-                    <div class="icon btn-group" role="group">
-                      <input
-                        v-model="apartmentServices"
-                        type="checkbox"
-                        class="btn-check"
-                        :id="'btncheck' + (index+1)"
-                        :value="service.id"
-                        autocomplete="off">
-                      <label class="btn btn-check-label p-2" :for="'btncheck' + (index + 1)">
-                        <img :src="`/img/services-icons/${service.slug}.png`" :alt="service.name">
-                      </label>
-                    </div>
-                  </div>
-                </div>
               </div>
 
             </form>
@@ -575,40 +575,51 @@ mounted(){
     }
   }
 }
-//media-query
-@media screen and (max-width: 1200px) {
-.img-wrapper {
-  margin-bottom: 50px;
-}
-.detail-header {
-  flex-direction: column;
-  h2 {
-    padding-bottom: 15px;
-  }
-}
-}
-
 
 .services {
-    margin-bottom: 20px;
     .icon {
-      font-size: 16px;
+      width: 65%;
 
       img {
-        height: 30px;
         width: 100%;
       }
     }
   }
 
-  .btn-check:checked+label {
-    background-color: $light-blue;
-    color: white;
-    border: 0;
-
+.btn-check-label {
+    background-color: $dark-gray;
     img {
       filter: brightness(0) invert(1);
     }
+
+    &:hover {
+      background-color: $dark-gray;
+    }
+  }
+
+.btn-check:checked+label {
+  background-color: $light-blue;
+  color: white;
+  border: 0;
+
+  img {
+    filter: brightness(0) invert(1);
+  }
 }
+
+//media-query
+@media screen and (max-width: 1200px) {
+  .img-wrapper {
+    margin-bottom: 50px;
+  }
+  .detail-header {
+    flex-direction: column;
+    h2 {
+      padding-bottom: 15px;
+    }
+  }
+}
+
+
 
 </style>

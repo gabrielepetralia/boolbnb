@@ -15,6 +15,7 @@ export default {
   data() {
     return {
       store,
+      mapIsBlock: false,
       map_link: null,
       apiUrl: 'https://api.tomtom.com/search/2/',
       apiKey: 'gdZGu9e4M0xCvL3gtsUxcBcG8KtOb1fQ',
@@ -113,6 +114,8 @@ export default {
     },
 
     getMap(){
+
+      this.mapIsBlock = true;
     axios.get( 'https://api.tomtom.com/search/2/' + 'geocode/'+this.store.search+'.json?view=Unified&key='+ 'gdZGu9e4M0xCvL3gtsUxcBcG8KtOb1fQ' )
     .then(result => {
 
@@ -182,10 +185,10 @@ mounted() {
       </div>
     </div>
     <div v-else>
-      <h2 class="mb-4 pt-5 mb-4 fw-semibold d-flex justify-content-center h-100 py-5 my-5">Cerca un appartamento !</h2>
+      <h2 class="py-5 fw-semibold d-flex justify-content-center h-100">Cerca un appartamento !</h2>
     </div>
 
-      <div class="pb-5 t4-container">
+      <div class="pb-5 t4-container none" :class="{ 'block': this.mapIsBlock }">
         <div style="width: 100%; height:300px" id="map"></div>
       </div>
 
@@ -481,6 +484,12 @@ mounted() {
 
 @use "../../scss/partials/variables" as *;
 
+.none {
+  display: none;
+}
+.block {
+  display: block;
+}
 #map {
     width: 100%;
     height: 400px;

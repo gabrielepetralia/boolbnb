@@ -1,11 +1,14 @@
 
 <script type="text/javascript">
-
-
+import Loader from "../components/partials/Loader.vue";
 import axios from 'axios'
 import { store } from '../store/store'
 export default {
   name: "Checkout",
+
+  components: {
+    Loader
+  },
 
   data(){
     return{
@@ -108,9 +111,9 @@ export default {
     </form>
   </div>
 
-  <div v-if="loading" >
-    <h3 class="text-center mt-5">Loading...</h3>
-  </div>
+  <div v-if="this.loading" class="d-flex justify-content-center py-5 my-5">
+      <Loader/>
+    </div>
 </template>
 
 

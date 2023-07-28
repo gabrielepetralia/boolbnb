@@ -173,7 +173,7 @@ mounted() {
 
       <div v-if="store.apartmentCoordinates" class="t4-container">
         <h2 class="mb-4 pt-3 mb-4 fw-semibold">Risultati della ricerca</h2>
-        <div class="row row-cols-6">
+        <div class="row row-cols-12 row-cols-md-4 row-cols-lg-6 px-4 px-md-2">
           <ApartmentCard
           v-for="apartment in store.searchedApartments"
           :key="apartment.id"
@@ -186,7 +186,7 @@ mounted() {
       </div>
 
       <div
-      class="mb-4"
+      class="mb-4 d-none"
       :class="{ 't4-container': mapVisible, 'd-none': !mapVisible }" id="map"></div>
       <!-- ------ offcanvas ------ -->
       <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">

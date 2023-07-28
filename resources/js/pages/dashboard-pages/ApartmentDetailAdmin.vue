@@ -7,234 +7,237 @@ import AddGallery from "../../components/partials/AddGallery.vue";
 import Slider from '../../components/partials/Slider.vue';
 import Loader from '../../components/partials/Loader.vue';
 export default {
-name: 'ApartmentDetailAdmin',
-components:{
-  AddGallery,
-  Slider,
-  Loader
-},
-data(){
-  return {
-    store,
-    gallery: [],
-    apartmentServices: [],
-    apartment: null,
-    errors: null,
-    map_link: null,
-    last_sponsorship: null,
-    apiUrl: 'https://api.tomtom.com/search/2/',
-    apiKey: 'gdZGu9e4M0xCvL3gtsUxcBcG8KtOb1fQ',
-    _map: {
-      lat: null,
-      lon: null
-    },
-    loading: true,
-    apartmentForm : ref({
-        title: '',
-        num_rooms: '',
-        num_beds: '',
-        num_bathrooms: '',
-        square_meters: '',
-        address: '',
-        description: '',
-        image: '',
-        visible: true,
-        price: '',
-        user_id: store.user.id,
-        services: this.apartmentServices
-      }),
-      coordinate_x: null,
-      coordinate_Y: null,
-  }
-},
-methods: {
-  redirectToPreviousPage() {
-      this.$router.back();
-    },
-
-  fillForm(){
-    this.apartmentForm = ref({
-        title: this.apartment.title,
-        num_rooms: this.apartment.num_rooms,
-        num_beds: this.apartment.num_beds,
-        num_bathrooms: this.apartment.num_bathrooms,
-        square_meters: this.apartment.square_meters,
-        address: this.apartment.address,
-        description: this.apartment.description,
-        image: this.apartment.img_path,
-        visible: this.apartment.visible === 1 ? true : false,
-        price: this.apartment.price,
-        user_id: store.user.id
-      })
+  name: 'ApartmentDetailAdmin',
+  components:{
+    AddGallery,
+    Slider,
+    Loader
   },
-
-  getApi() {
-    this.loading = true,
-    axios.get('sanctum/csrf-cookie')
-      .then(() => {
-        axios.get(store.adminUrl + 'apartment/' + this.$route.params.slug)
-          .then(result => {
-            this.apartment = result.data.apartment[0];
-            this.gallery = result.data.gallery;
-            this.getLastActiveSponsorship();
-            this.fillForm();
-            this.getMap();
-            this.loading = false;
-            result.data.apartment[0].services.forEach(service =>{
-              this.apartmentServices.push(service.id)
-            })
-          })
-      })
+  data(){
+    return {
+      store,
+      gallery: [],
+      apartmentServices: [],
+      apartment: null,
+      errors: null,
+      map_link: null,
+      last_sponsorship: null,
+      apiUrl: 'https://api.tomtom.com/search/2/',
+      apiKey: 'gdZGu9e4M0xCvL3gtsUxcBcG8KtOb1fQ',
+      _map: {
+        lat: null,
+        lon: null
+      },
+      loading: true,
+      apartmentForm : ref({
+          title: '',
+          num_rooms: '',
+          num_beds: '',
+          num_bathrooms: '',
+          square_meters: '',
+          address: '',
+          description: '',
+          image: '',
+          visible: true,
+          price: '',
+          user_id: store.user.id,
+          services: this.apartmentServices
+        }),
+        coordinate_x: null,
+        coordinate_Y: null,
+    }
   },
+  methods: {
+    redirectToPreviousPage() {
+        this.$router.back();
+      },
 
-  getMap(){
-    axios.get( 'https://api.tomtom.com/search/2/' + 'geocode/'+this.apartment.address+'.json?view=Unified&key='+ 'gdZGu9e4M0xCvL3gtsUxcBcG8KtOb1fQ' )
-    .then(result => {
-
-      this._map.lat = result.data.results[0].position.lat;
-      this._map.lon = result.data.results[0].position.lon;
-      this.coordinates = [this._map.lon,this._map.lat];
-      this.map_link = `https://www.google.it/maps/@${this._map.lat},${this._map.lon},18z/data=!5m1!1e1?entry=ttu`;
-
-      tt.setProductInfo("maps", "1");
-
-      var map = tt.map({
-        key: 'gdZGu9e4M0xCvL3gtsUxcBcG8KtOb1fQ',
-        container: "map",
-        center: this.coordinates,
-        zoom: 18
-      })
-      map.on('load', () =>{
-        new tt.Marker().setLngLat(this.coordinates).addTo(map)
-      })
-    })
-  },
-
-  deleteApartment(id){
-    axios.get('sanctum/csrf-cookie')
-      .then(() => {
-        axios.delete(store.adminUrl + 'apartments/' + id)
-          .then(result => {
-            this.$router.push("/my-apartments/apartments");
-          })
-      })
-  },
-
-  updateApartment($id){
-
-    this.errors = null
-      if(this.apartmentForm.visible == true){
-        if(
-          this.apartmentForm.title == ''         ||
-          this.apartmentForm.num_rooms == ''     ||
-          this.apartmentForm.num_beds == ''      ||
-          this.apartmentForm.num_bathrooms == '' ||
-          this.apartmentForm.square_meters == '' ||
-          this.apartmentForm.description == ''   ||
-          this.apartmentForm.price == '')
-        {
-          this.errors = 'Rendi l\'appartamento privato o completa tutti i campi';
-        }else{
-          axios.get('sanctum/csrf-cookie')
-            .then(() => {
-              axios.post(store.adminUrl + 'apartments/' + $id, {
-                _method: 'PUT',
-                title: this.apartmentForm.title,
-                num_rooms: this.apartmentForm.num_rooms,
-                num_beds: this.apartmentForm.num_beds,
-                num_bathrooms: this.apartmentForm.num_bathrooms,
-                square_meters: this.apartmentForm.square_meters,
-                address: this.apartmentForm.address,
-                description: this.apartmentForm.description,
-                image: this.apartmentForm.image,
-                visible: this.apartmentForm.visible,
-                price: this.apartmentForm.price,
-                services: JSON.stringify(this.apartmentServices),
-                user_id: this.apartmentForm.user_id
-              }, {
-                headers:{
-                  'content-type' : 'multipart/form-data'
-                }
-              })
+    fillForm(){
+      this.apartmentForm = ref({
+          title: this.apartment.title,
+          num_rooms: this.apartment.num_rooms,
+          num_beds: this.apartment.num_beds,
+          num_bathrooms: this.apartment.num_bathrooms,
+          square_meters: this.apartment.square_meters,
+          address: this.apartment.address,
+          description: this.apartment.description,
+          image: this.apartment.img_path,
+          visible: this.apartment.visible === 1 ? true : false,
+          price: this.apartment.price,
+          user_id: store.user.id
         })
-            .then(result => {
-              this.apartmentServices=[]
+    },
 
-              this.getApi();
-              this.$router.push("/my-apartments/apartment-detail/" + this.apartments[0].slug);
-            })
-        }
-
-    }else if(this.apartmentForm.address == ''){
-      this.errors = 'Devi inserire sia il titolo che l\'indirizzo'
-
-    }else{
+    getApi() {
+      this.loading = true,
       axios.get('sanctum/csrf-cookie')
         .then(() => {
-          axios.post(store.adminUrl + 'apartments/' + $id, {
-            _method: 'PUT',
-            title: this.apartmentForm.title,
-            num_rooms: this.apartmentForm.num_rooms,
-            num_beds: this.apartmentForm.num_beds,
-            num_bathrooms: this.apartmentForm.num_bathrooms,
-            square_meters: this.apartmentForm.square_meters,
-            address: this.apartmentForm.address,
-            description: this.apartmentForm.description,
-            image: this.apartmentForm.image,
-            visible: this.apartmentForm.visible,
-            price: this.apartmentForm.price,
-            services: JSON.stringify(this.apartmentServices),
-            user_id: this.apartmentForm.user_id
-          }, {
-            headers: {
-            'Content-Type': 'multipart/form-data',
+          axios.get(store.adminUrl + 'apartment/' + this.$route.params.slug)
+            .then(result => {
+              this.apartment = result.data.apartment[0];
+              this.gallery = result.data.gallery;
+              this.getLastActiveSponsorship();
+              this.fillForm();
+              this.getMap();
+              this.loading = false;
+              result.data.apartment[0].services.forEach(service =>{
+                this.apartmentServices.push(service.id)
+              })
+            })
+        })
+    },
+
+    getMap(){
+      axios.get( 'https://api.tomtom.com/search/2/' + 'geocode/'+this.apartment.address+'.json?view=Unified&key='+ 'gdZGu9e4M0xCvL3gtsUxcBcG8KtOb1fQ' )
+      .then(result => {
+
+        this._map.lat = result.data.results[0].position.lat;
+        this._map.lon = result.data.results[0].position.lon;
+        this.coordinates = [this._map.lon,this._map.lat];
+        this.map_link = `https://www.google.it/maps/@${this._map.lat},${this._map.lon},18z/data=!5m1!1e1?entry=ttu`;
+
+        tt.setProductInfo("maps", "1");
+
+        var map = tt.map({
+          key: 'gdZGu9e4M0xCvL3gtsUxcBcG8KtOb1fQ',
+          container: "map",
+          center: this.coordinates,
+          zoom: 18
+        })
+        map.on('load', () =>{
+          new tt.Marker().setLngLat(this.coordinates).addTo(map)
+        })
+      })
+    },
+
+    deleteApartment(id){
+      axios.get('sanctum/csrf-cookie')
+        .then(() => {
+          axios.delete(store.adminUrl + 'apartments/' + id)
+            .then(result => {
+              this.$router.push("/my-apartments/apartments");
+            })
+        })
+    },
+
+    updateApartment($id){
+
+      this.errors = null
+        if(this.apartmentForm.visible == true){
+          if(
+            this.apartmentForm.title == ''         ||
+            this.apartmentForm.num_rooms == ''     ||
+            this.apartmentForm.num_beds == ''      ||
+            this.apartmentForm.num_bathrooms == '' ||
+            this.apartmentForm.square_meters == '' ||
+            this.apartmentForm.description == ''   ||
+            this.apartmentForm.price == '')
+          {
+            this.errors = 'Rendi l\'appartamento privato o completa tutti i campi';
+          }else{
+            axios.get('sanctum/csrf-cookie')
+              .then(() => {
+                axios.post(store.adminUrl + 'apartments/' + $id, {
+                  _method: 'PUT',
+                  title: this.apartmentForm.title,
+                  num_rooms: this.apartmentForm.num_rooms,
+                  num_beds: this.apartmentForm.num_beds,
+                  num_bathrooms: this.apartmentForm.num_bathrooms,
+                  square_meters: this.apartmentForm.square_meters,
+                  address: this.apartmentForm.address,
+                  description: this.apartmentForm.description,
+                  image: this.apartmentForm.image,
+                  visible: this.apartmentForm.visible,
+                  price: this.apartmentForm.price,
+                  services: JSON.stringify(this.apartmentServices),
+                  user_id: this.apartmentForm.user_id
+                }, {
+                  headers:{
+                    'content-type' : 'multipart/form-data'
+                  }
+                })
+          })
+              .then(result => {
+                this.apartmentServices=[]
+
+                this.getApi();
+                this.$router.push("/my-apartments/apartment-detail/" + this.apartments[0].slug);
+              })
           }
 
-              })
-        })
-        .then(result => {
-          this.apartmentServices=[]
+      }else if(this.apartmentForm.address == ''){
+        this.errors = 'Devi inserire sia il titolo che l\'indirizzo'
 
-          this.apartmentForm = ref({
-            title: '',
-            num_rooms: '',
-            num_beds: '',
-            num_bathrooms: '',
-            square_meters: '',
-            address: '',
-            description: '',
-            image: '',
-            visible: true,
-            price: '',
-            user_id: store.user.id
+      }else{
+        axios.get('sanctum/csrf-cookie')
+          .then(() => {
+            axios.post(store.adminUrl + 'apartments/' + $id, {
+              _method: 'PUT',
+              title: this.apartmentForm.title,
+              num_rooms: this.apartmentForm.num_rooms,
+              num_beds: this.apartmentForm.num_beds,
+              num_bathrooms: this.apartmentForm.num_bathrooms,
+              square_meters: this.apartmentForm.square_meters,
+              address: this.apartmentForm.address,
+              description: this.apartmentForm.description,
+              image: this.apartmentForm.image,
+              visible: this.apartmentForm.visible,
+              price: this.apartmentForm.price,
+              services: JSON.stringify(this.apartmentServices),
+              user_id: this.apartmentForm.user_id
+            }, {
+              headers: {
+              'Content-Type': 'multipart/form-data',
+            }
+
+                })
           })
-
-          this.getApi();
-          this.$router.push("/my-apartments/apartment-detail/" + this.apartments[0].slug);
-        })
-     }
-  },
-
-  getLastActiveSponsorship() {
-     axios.get('sanctum/csrf-cookie')
-      .then(() => {
-        axios.get(store.adminUrl + 'last-sponsorship/' + this.$route.params.slug)
           .then(result => {
-            this.last_sponsorship = result.data;
+            this.apartmentServices=[]
+
+            this.apartmentForm = ref({
+              title: '',
+              num_rooms: '',
+              num_beds: '',
+              num_bathrooms: '',
+              square_meters: '',
+              address: '',
+              description: '',
+              image: '',
+              visible: true,
+              price: '',
+              user_id: store.user.id
+            })
+
+            this.getApi();
+            this.$router.push("/my-apartments/apartment-detail/" + this.apartments[0].slug);
           })
-      })
+      }
+    },
+
+    getLastActiveSponsorship() {
+      axios.get('sanctum/csrf-cookie')
+        .then(() => {
+          axios.get(store.adminUrl + 'last-sponsorship/' + this.$route.params.slug)
+            .then(result => {
+              this.last_sponsorship = result.data;
+            })
+        })
+    },
+
+    onChange(event){
+        this.apartmentForm.image = event.target.files[0]
+      },
+
+
   },
 
-  onChange(event){
-      this.apartmentForm.image = event.target.files[0]
-    }
-},
-
-mounted(){
+  mounted(){
   this.getApi();
   store.getServices();
-}
   }
+
+}
 </script>
 
 <template>
@@ -317,7 +320,7 @@ mounted(){
 
           <div class="d-flex align-items-baseline">
             <h5 class="fw-semibold me-2 mb-0">Sponsorizzazione :</h5>
-            <span>{{ last_sponsorship }}</span>
+            <span class="text-capitalize">{{ store.formatDate(last_sponsorship)}}</span>
           </div>
 
           <hr>

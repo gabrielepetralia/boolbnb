@@ -13,6 +13,7 @@ export default {
 
   data() {
     return {
+      store,
       apartments: [],
       counter: 0,
       loading: true
@@ -91,7 +92,7 @@ export default {
             <hr>
             <div class="text">
               <p>{{ message.msg_text }}</p>
-              <span class="sent-time">{{ message.sent_date }}</span>
+              <span class="sent-time text-capitalize">{{ store.formatDate(message.sent_date) }}</span>
             </div>
           </div>
 

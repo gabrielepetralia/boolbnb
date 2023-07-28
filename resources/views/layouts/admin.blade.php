@@ -19,6 +19,9 @@
 
     <!-- Usando Vite -->
     @vite(['resources/scss/admin.scss', 'resources/js/admin.js'])
+
+    <script src="https://js.braintreegateway.com/web/dropin/1.39.0/js/dropin.min.js"></script>
+
 </head>
 
 <body>

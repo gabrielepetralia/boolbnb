@@ -6,6 +6,7 @@ use App\Http\Controllers\Guest\PageController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\Orders\OrderController;
 use App\Http\Controllers\Admin\ApartmentController as AdminApartmentController;
 use App\Http\Controllers\Admin\SponsorshipController;
 use App\Http\Controllers\Api\ApartmentController;
@@ -40,7 +41,8 @@ Route::middleware(['auth', 'verified'])
     Route::get('/last-sponsorship/{apartmentId}', [AdminApartmentController::class, 'getLastActiveSponsorship']);
   });
 
-
+  Route::post('/make-payment', [OrderController::class, 'makePayment']);
+  Route::get('/generate-token', [OrderController::class, 'generate']);
 require __DIR__ . '/auth.php';
 require __DIR__ . '/api.php';
 

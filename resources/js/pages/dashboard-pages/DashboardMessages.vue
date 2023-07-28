@@ -30,6 +30,11 @@ export default {
         });
       });
     },
+
+    formatDate (date){
+      return new Date(date).toLocaleDateString('it-IT', { weekday:"long", year:"numeric", month:"short", day:"numeric", hour:'2-digit', minute:'2-digit'}) ;
+
+    }
   },
 
   mounted(){
@@ -92,7 +97,7 @@ export default {
             <hr>
             <div class="text">
               <p>{{ message.msg_text }}</p>
-              <span class="sent-time text-capitalize">{{ store.formatDate(message.sent_date) }}</span>
+              <span class="sent-time text-capitalize">{{ this.formatDate(message.sent_date) }}</span>
             </div>
           </div>
 

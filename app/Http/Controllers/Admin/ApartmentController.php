@@ -81,9 +81,9 @@ class ApartmentController extends Controller
     ->max('end_date');
 
     if($last_end_date > $curr_date) {
-      $str = 'attiva fino al ' . $last_end_date;
+      $str =  $last_end_date;
     } else {
-      $str = 'non attiva';
+      $str = 'Non attiva';
     }
 
     return response()->json($str);

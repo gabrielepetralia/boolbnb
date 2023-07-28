@@ -229,6 +229,14 @@ export default {
         this.apartmentForm.image = event.target.files[0]
       },
 
+    formatDate (date){
+      const formattedDate = new Date(date).toLocaleDateString('it-IT', { weekday:"long", year:"numeric", month:"short", day:"numeric", hour:'2-digit', minute:'2-digit'}) ;
+      if(formattedDate === 'Invalid Date'){
+        return date
+      }else {
+        return "Attiva fino a " + formattedDate
+      }
+    }
 
   },
 
@@ -320,7 +328,7 @@ export default {
 
           <div class="d-flex align-items-baseline">
             <h5 class="fw-semibold me-2 mb-0">Sponsorizzazione :</h5>
-            <span class="text-capitalize">{{ store.formatDate(last_sponsorship)}}</span>
+            <span>{{ this.formatDate(last_sponsorship)}}</span>
           </div>
 
           <hr>

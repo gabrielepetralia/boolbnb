@@ -67,7 +67,7 @@ export default {
     <div v-else class="row row-cols-12 row-cols-lg-2 row-cols-xxl-3 mt-4">
       <div v-for="sponsorship in sponsorships" :key="sponsorship.id">
         <SponsorshipCard :sponsorship="sponsorship"/>
-        {{ sponsorship.id }}
+
         <div class="modal fade" id="apartments-modal" tabindex="-1" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">

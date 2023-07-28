@@ -12,13 +12,14 @@ export default {
       store,
       token: null,
       message: null,
-      loading: true
+      loading: true,
+      transactionMessage: null
     }
   },
 
   methods: {
     getToken(){
-
+      this.transactionMessage = null
       axios.get('/generate-token')
       .then(result => {
         const form = document.getElementById('payment-form');
@@ -38,12 +39,14 @@ export default {
             dropinInstance.requestPaymentMethod((error, payload) => {
               if (error) {
                 console.log(error)
+                this.transactionMessage = "Ops, qualcosa è andato storto."
 
               }else {
                 this.makePayment()
                 dropinInstance.teardown(function(err) {
                   if (err) { console.error('An error occurred during teardown:', err); }
                 });
+                this.transactionMessage = "Transazione avvenuta con successo."
               }
 
               document.getElementById('nonce').value = payload.nonce;
@@ -83,7 +86,11 @@ export default {
 
 
 <template>
-  <div v-show="!loading" class="t4-container w-50 mx-auto">
+
+  <div v-show="!loading" class="t4-container w-50 mx-auto mt-5">
+    <div v-if="transactionMessage !== null" class="alert alert-success " :class="{'alert-danger' : this.transactionMessage.includes('Ops')}" role="alert">
+      {{ this.transactionMessage }}
+    </div>
 
 
     <div v-if="this.message">

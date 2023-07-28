@@ -69,6 +69,26 @@ class ApartmentController extends Controller
     ]);
   }
 
+  public function getLastActiveSponsorship($slug) {
+    date_default_timezone_set('Europe/Rome');
+
+    $curr_date = date('Y-m-d H:i:s');
+
+    $apartmentId = Apartment::where('slug', $slug)->pluck('id')->first();
+
+    $last_end_date = DB::table('apartment_sponsorship')
+    ->where('apartment_id', $apartmentId)
+    ->max('end_date');
+
+    if($last_end_date > $curr_date) {
+      $str = 'attiva fino al ' . $last_end_date;
+    } else {
+      $str = 'non attiva';
+    }
+
+    return response()->json($str);
+  }
+
 
   /**
    * Show the form for creating a new resource.
@@ -194,7 +214,6 @@ class ApartmentController extends Controller
     }
 
     $apartment->delete();
-
   }
 
 

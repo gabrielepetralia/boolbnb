@@ -21,6 +21,7 @@ data(){
     apartment: null,
     errors: null,
     map_link: null,
+    last_sponsorship: null,
     apiUrl: 'https://api.tomtom.com/search/2/',
     apiKey: 'gdZGu9e4M0xCvL3gtsUxcBcG8KtOb1fQ',
     _map: {
@@ -75,9 +76,10 @@ methods: {
           .then(result => {
             this.apartment = result.data.apartment[0];
             this.gallery = result.data.gallery;
-            this.loading = false;
+            this.getLastActiveSponsorship();
             this.fillForm();
             this.getMap();
+            this.loading = false;
             result.data.apartment[0].services.forEach(service =>{
               this.apartmentServices.push(service.id)
             })
@@ -213,6 +215,16 @@ methods: {
      }
   },
 
+  getLastActiveSponsorship() {
+     axios.get('sanctum/csrf-cookie')
+      .then(() => {
+        axios.get(store.adminUrl + 'last-sponsorship/' + this.$route.params.slug)
+          .then(result => {
+            this.last_sponsorship = result.data;
+          })
+      })
+  },
+
   onChange(event){
       this.apartmentForm.image = event.target.files[0]
     }
@@ -297,6 +309,13 @@ mounted(){
                 <span>{{ service.name }}</span>
               </li>
             </ul>
+          </div>
+
+          <hr>
+
+          <div class="d-flex align-items-baseline">
+            <h5 class="fw-semibold me-2 mb-0">Sponsorizzazione :</h5>
+            <span>{{ last_sponsorship }}</span>
           </div>
 
           <hr>

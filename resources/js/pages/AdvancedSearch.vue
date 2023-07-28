@@ -186,8 +186,8 @@ mounted() {
       </div>
 
       <div
-      class="mb-4 d-none"
-      :class="{ 't4-container': mapVisible, 'd-none': !mapVisible }" id="map"></div>
+      class="mb-4 t4-container"
+       id="map"></div>
       <!-- ------ offcanvas ------ -->
       <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
         <div class="offcanvas-header">
@@ -482,8 +482,7 @@ mounted() {
 
 #map {
     width: 100%;
-    height: 500px;
-    box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
+    height: 400px;
     border-radius: 15px;
     overflow: hidden;
   }

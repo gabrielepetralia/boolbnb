@@ -32,9 +32,6 @@ class ApartmentController extends Controller
     date_default_timezone_set('Europe/Rome');
 
     $duration = Sponsorship::where('id', $sponsorshipId)->value('duration');
-    // $start_date = date('Y-m-d H:i:s');
-    // $end_date = date('Y-m-d H:i:s', strtotime($start_date . ' +' . $duration . ' hours'));
-
 
     $apartment = Apartment::where('id', $apartmentId)->first();
 

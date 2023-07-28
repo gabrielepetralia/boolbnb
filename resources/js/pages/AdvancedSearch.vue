@@ -185,9 +185,10 @@ mounted() {
         <h2 class="mb-4 pt-5 mb-4 fw-semibold d-flex justify-content-center h-100 py-5 mb-0">Cerca un appartamento !</h2>
       </div>
 
-      <div class="t4-container">
+      <div class="pb-5 t4-container">
         <div style="width: 100%; height:300px" id="map"></div>
       </div>
+
       <!-- ------ offcanvas ------ -->
       <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
         <div class="offcanvas-header">

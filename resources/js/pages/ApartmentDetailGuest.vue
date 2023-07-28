@@ -185,12 +185,14 @@ export default {
           <hr>
           <div>
             <h4 class="fw-semibold">Servizi :</h4>
-            <ul class="d-flex flex-wrap">
-              <li v-for="service in this.apartment.services" :key="service.id" class="service d-flex mb-2 me-4">
-                <img style="height: 20px;" :src="`/img/services-icons/${service.slug}.png`" :alt="service.name" class="me-2">
-                <span>{{ service.name }}</span>
-              </li>
-            </ul>
+            <div class="row row-cols-2">
+              <div class="col mb-1" v-for="service in this.apartment.services" :key="service.id">
+                <li class="service d-flex mb-2 me-4">
+                  <img style="height: 20px;" :src="`/img/services-icons/${ service.slug }.png`" :alt="service.name" class="me-2">
+                  <span>{{ service.name }}</span>
+                </li>
+              </div>
+            </div>
           </div>
 
             <!-- Button trigger modal -->

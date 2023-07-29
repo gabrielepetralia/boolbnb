@@ -23,15 +23,15 @@ class ViewController extends Controller
       ->groupBy(DB::raw('MONTHNAME(date_time)'))
       ->get();
 
-      $total_views = View::all()->where('apartment_id', $apartment_id)->count();
-
+      $total_views = View::where('apartment_id', $apartment_id)->count();
+      $new_views = View::where('apartment_id', $apartment_id)->where('new_view', 1)->count();
         // ->selectRaw('
         // SELECT MONTHNAME(date_time) AS mese, COUNT(*) AS numero_record
         // FROM `views`
         // WHERE apartment_id =' . $apartment_id . '
         // GROUP BY MONTHNAME(date_time);');
 
-        return response()->json(compact('visuals', 'total_views'));
+        return response()->json(compact('visuals', 'total_views', 'new_views'));
     }
 
     /**
@@ -55,9 +55,17 @@ class ViewController extends Controller
       date_default_timezone_set('Europe/Rome');
       $form_data = $request->all();
       $form_data['date_time'] = date('Y-m-d H:i');
+      $count = View::where('ip_address', $form_data['ip_address'])->where('apartment_id', $form_data['apartment_id'])->count();
+      if($count > 0){
+        $form_data['new_view'] = 0;
+      }
+
+
       $new_view = new View();
       $new_view::create($form_data);
     }
+
+
 
     /**
      * Display the specified resource.

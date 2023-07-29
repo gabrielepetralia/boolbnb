@@ -23,6 +23,7 @@ class ViewsTableSeeder extends Seeder
           date_default_timezone_set('Europe/Rome');
           $formattedDateTime = $faker->dateTimeInInterval('-6 month', '+6 month')->format('Y-m-d H:i:s');
           $new_view->date_time = $formattedDateTime;
+          $new_view->new_view = rand(0, 1);
           $new_view->apartment_id = Apartment::inRandomOrder()->first()->id;
           $new_view->save();
         }

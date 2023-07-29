@@ -14,6 +14,7 @@ export default {
     ApartmentCard,
     Footer,
     Loader
+
   },
 
   data() {
@@ -46,13 +47,7 @@ export default {
         })
 
       })
-      // } catch (error) {
-      //   console.error(error);
-      // }
-      // axios.post(store.apiUrl + 'view')
-      // .then(res => {
-      //   console.log(res);
-      // })
+
     }
   },
 

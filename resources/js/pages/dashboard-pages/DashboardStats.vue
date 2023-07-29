@@ -36,6 +36,7 @@ export default {
   data() {
     return {
       store,
+      new_views : 0,
       counter: 0,
       apartments: [],
       loading: true,
@@ -76,6 +77,7 @@ export default {
                   datasets: [ { data: this.datas , label: 'VIews', backgroundColor: '#8AC6DD', }  ]
                 },
                 this.totalViews = result.data.total_views
+                this.newViews = result.data.new_views
                 this.loading = false
             });
 
@@ -97,25 +99,28 @@ export default {
   <div v-else class="t4-container">
   <div class=" mb-4">
     <div class="row">
-      <div class="col">
-        <h5 class="fw-bold ms-5 total-views">Total views = {{ this.totalViews }}</h5>
+      <div class="col-3">
+        <h5 class="fw-bold ms-5 total-views">Visualizzazioni totali = {{ this.totalViews }}</h5>
+      </div>
+      <div class="col-3">
+        <h5 class="fw-bold ms-5 total-views">Utenti singoli = {{ this.newViews }}</h5>
       </div>
 
       </div>
     </div>
-    <div  class=" d-flex justify-content-center chart-shadow ">
+    <div  class=" d-lg-flex justify-content-center chart-shadow d-block">
      <!-- side -->
      <div class="side">
         <ul class="d-flex d-lg-block">
           <li @click="this.counter = index" v-for="(apartment, index) in this.apartments" :key="index">
-            <div @click="getApartmentViews(apartment.id)" :class="{'active-msg' : this.counter == index}">
+            <div @click="getApartmentViews(apartment.id)" :class="{'active-apartment' : this.counter == index}">
               {{apartment.title}}
             </div>
           </li>
         </ul>
       </div>
 
-      <div class="chart-container main">
+      <div class="chart-container main d-flex justify-content-center">
         <Line
 
         id="my-chart-id"
@@ -132,9 +137,7 @@ export default {
 @use "../../../scss/partials/variables" as *;
 
 .chart-container{
-
   height: 100%;
-
 }
 
 .total-views{
@@ -178,7 +181,7 @@ export default {
       cursor: pointer;
 
       &:hover,
-      &.active-msg {
+      &.active-apartment {
         border-left: 5px solid $light_blue;
         background-color: $gray;
       }
@@ -186,4 +189,37 @@ export default {
   }
 }
 
+
+@media screen and (max-width: 992px) {
+
+  .side{
+    width: 100%;
+    height: 100px;
+    ul {
+      height: 100%;
+    }
+    li {
+      div {
+        border-left: 0;
+        border-bottom: 5px solid transparent;
+        padding-right: 20px;
+        height: 100%;
+        &:hover,
+        &.active-apartment {
+          border-left: 0;
+          border-bottom: 5px solid $light-blue;
+        }
+      }
+    }
+  }
+
+  .chart-container{
+    width: 100%;
+
+    #my-chart-id{
+     width: 100%;
+    }
+  }
+
+}
 </style>

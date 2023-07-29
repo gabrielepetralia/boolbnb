@@ -19,7 +19,8 @@ export default {
       gallery: [],
       apartmentServices: [],
       apartment: null,
-      errors: null,
+      errors: {},
+      generalFormError: null,
       map_link: null,
       last_sponsorship: null,
       apiUrl: 'https://api.tomtom.com/search/2/',
@@ -62,7 +63,7 @@ export default {
           address: this.apartment.address,
           description: this.apartment.description,
           image: this.apartment.img_path,
-          visible: this.apartment.visible === 1 ? true : false,
+          visible: this.apartment.visible == 1 ? true : false,
           price: this.apartment.price,
           user_id: store.user.id
         })
@@ -122,53 +123,67 @@ export default {
 
     updateApartment($id){
 
-      this.errors = null
-        if(this.apartmentForm.visible == true){
-          if(
-            this.apartmentForm.title == ''         ||
-            this.apartmentForm.num_rooms == ''     ||
-            this.apartmentForm.num_beds == ''      ||
-            this.apartmentForm.num_bathrooms == '' ||
-            this.apartmentForm.square_meters == '' ||
-            this.apartmentForm.description == ''   ||
-            this.apartmentForm.price == '')
-          {
-            this.errors = 'Rendi l\'appartamento privato o completa tutti i campi';
-          }else{
-            axios.get('sanctum/csrf-cookie')
-              .then(() => {
-                axios.post(store.adminUrl + 'apartments/' + $id, {
-                  _method: 'PUT',
-                  title: this.apartmentForm.title,
-                  num_rooms: this.apartmentForm.num_rooms,
-                  num_beds: this.apartmentForm.num_beds,
-                  num_bathrooms: this.apartmentForm.num_bathrooms,
-                  square_meters: this.apartmentForm.square_meters,
-                  address: this.apartmentForm.address,
-                  description: this.apartmentForm.description,
-                  image: this.apartmentForm.image,
-                  visible: this.apartmentForm.visible,
-                  price: this.apartmentForm.price,
-                  services: JSON.stringify(this.apartmentServices),
-                  user_id: this.apartmentForm.user_id
-                }, {
-                  headers:{
-                    'content-type' : 'multipart/form-data'
-                  }
-                })
-          })
-              .then(result => {
-                this.apartmentServices=[]
+    this.errors = {}
+    this.generalFormError = null
 
-                this.getApi();
-                this.$router.push("/my-apartments/apartment-detail/" + this.apartments[0].slug);
-              })
-          }
+    const addressPattern = /^(?=.*[a-zA-Z])(?=.*\d).+$/;
+    const numRoomsValue = parseInt(this.apartmentForm.num_rooms);
+    const numBedsValue = parseInt(this.apartmentForm.num_beds);
+    const numBathroomsValue = parseInt(this.apartmentForm.num_bathrooms);
+    const numPricesValue = parseInt(this.apartmentForm.price);
+    const numSquareMetersValue = parseInt(
+      this.apartmentForm.square_meters
+    );
+      if(this.apartmentForm.visible == true){
 
-      }else if(this.apartmentForm.address == ''){
-        this.errors = 'Devi inserire sia il titolo che l\'indirizzo'
+        if(this.apartmentForm.title !== "" ) {
+        this.generalFormError = "Completa tutti i campi o rendi l'appartamento non visibile"
+        }
 
-      }else{
+        if (this.apartmentForm.title.trim() === "") {
+          this.errors.title = "Il titolo non può essere vuoto.";
+          return
+        }
+
+        if (this.apartmentForm.title.length < 3) {
+          this.errors.title = "Il titolo deve avere almeno 3 caratteri.";
+          return
+        }
+
+        if (isNaN(numRoomsValue) || numRoomsValue <= 0) {
+          this.errors.num_rooms = "Inserisci un numero valido di stanze.";
+          return
+        }
+        if (isNaN(numBedsValue) || numBedsValue <= 0) {
+          this.errors.num_beds = "Inserisci un numero valido di letti.";
+          return
+        }
+        if (isNaN(numBathroomsValue) || numBathroomsValue <= 0) {
+          this.errors.num_bathrooms = "Inserisci un numero valido di bagni.";
+          return
+        }
+        if (isNaN(numSquareMetersValue) || numSquareMetersValue <= 0) {
+          this.errors.square_meters = "Inserisci i m²";
+          return
+        }
+
+        if (isNaN(numPricesValue) || numPricesValue <= 0) {
+          this.errors.price = "Inserisci il prezzo.";
+          return
+        }
+
+        if (!addressPattern.test(this.apartmentForm.address)) {
+          this.errors.address =
+            "L'indirizzo deve contenere almeno una lettera e almeno un numero.";
+            return
+        } else {
+          this.errors.address = "";
+        }
+
+        if (this.apartmentForm.description.length < 10){
+          this.errors.description = "Devi inserire minimo 10 caratteri";
+          return
+        }
         axios.get('sanctum/csrf-cookie')
           .then(() => {
             axios.post(store.adminUrl + 'apartments/' + $id, {
@@ -186,14 +201,47 @@ export default {
               services: JSON.stringify(this.apartmentServices),
               user_id: this.apartmentForm.user_id
             }, {
-              headers: {
-              'Content-Type': 'multipart/form-data',
-            }
+              headers:{
+                'content-type' : 'multipart/form-data'
+              }
+            })
+        })
+          .then(result => {
+            this.apartmentServices=[]
+            console.log(result);
+            this.generalFormError = 'Aggiornato con successo!'
+            this.getApi();
+            this.$router.push("/my-apartments/apartment-detail/" + this.apartments[0].slug);
+          })
 
-                })
+      }else{
+        if(this.apartmentForm.title !== "" && this.apartmentForm.address !== ""){
+          axios.get('sanctum/csrf-cookie')
+            .then(() => {
+              axios.post(store.adminUrl + 'apartments/' + $id, {
+                _method: 'PUT',
+                title: this.apartmentForm.title,
+                num_rooms: this.apartmentForm.num_rooms,
+                num_beds: this.apartmentForm.num_beds,
+                num_bathrooms: this.apartmentForm.num_bathrooms,
+                square_meters: this.apartmentForm.square_meters,
+                address: this.apartmentForm.address,
+                description: this.apartmentForm.description,
+                image: this.apartmentForm.image,
+                visible: this.apartmentForm.visible,
+                price: this.apartmentForm.price,
+                services: JSON.stringify(this.apartmentServices),
+                user_id: this.apartmentForm.user_id
+              }, {
+                headers: {
+                'Content-Type': 'multipart/form-data',
+              }
+            })
           })
           .then(result => {
             this.apartmentServices=[]
+            console.log(result);
+            this.generalFormError = 'Aggiornato con successo!'
 
             this.apartmentForm = ref({
               title: '',
@@ -208,10 +256,12 @@ export default {
               price: '',
               user_id: store.user.id
             })
-
             this.getApi();
             this.$router.push("/my-apartments/apartment-detail/" + this.apartments[0].slug);
           })
+        }else{
+        this.generalFormError = "Per salvare una bozza completa titolo e indirizzo"
+        }
       }
     },
 
@@ -363,10 +413,8 @@ export default {
           </div>
           <div class="modal-body">
             <h1 class="modal-title fs-3 fw-semibold text-center mt-2 mb-4" id="addApartmentModalLabel">Modifica Appartamento</h1>
-            <div v-if="this.errors !== null" class="d-flex justify-content-center align-items-center">
-              <span style="font-size: 13px;" class="text-danger">
-                {{ this.errors }}
-              </span>
+            <div v-if="generalFormError" class="text-center general-error" :class="{'text-success' : this.generalFormError.includes('Aggiornato con successo!')}">
+              {{ generalFormError }}
             </div>
             <form enctype="multipart/form-data">
 
@@ -382,7 +430,9 @@ export default {
                 <label  for="title" class="form-label mb-0"><i class="fa-solid fa-heading"></i></label>
 
               </div>
-
+              <div v-if="errors.title" class="text-danger">
+                <p>{{ errors.title }}</p>
+              </div>
               <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
                 <input
                   v-model="apartmentForm.num_rooms"
@@ -394,6 +444,9 @@ export default {
                   class="form-control"
                   placeholder="N. Stanze">
                 <label for="num_rooms" class="form-label mb-0"><i class="fa-solid fa-door-open"></i></label>
+              </div>
+              <div v-if="errors.num_rooms" class="text-danger">
+                <p>{{ errors.num_rooms }}</p>
               </div>
 
               <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
@@ -408,6 +461,9 @@ export default {
                   placeholder="N. Letti">
                 <label for="num_beds" class="form-label mb-0"><i class="fa-solid fa-bed"></i></label>
               </div>
+              <div v-if="errors.num_beds" class="text-danger">
+                <p>{{ errors.num_beds }}</p>
+              </div>
 
               <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
                 <input
@@ -420,6 +476,9 @@ export default {
                   class="form-control"
                   placeholder="N. Bagni">
                 <label for="num_bathrooms" class="form-label mb-0"><i class="fa-solid fa-bath"></i></label>
+              </div>
+              <div v-if="errors.num_bathrooms" class="text-danger">
+                <p>{{ errors.num_bathrooms }}</p>
               </div>
 
               <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
@@ -434,6 +493,10 @@ export default {
                   placeholder="m²">
                 <label for="square_meters" class="form-label mb-0"><i class="fa-solid fa-expand"></i></label>
               </div>
+              <div v-if="errors.square_meters" class="text-danger">
+                <p>{{ errors.square_meters }}</p>
+              </div>
+
 
               <div class="mb-3 d-flex align-items-center flex-row-reverse input-box position-relative">
                 <input
@@ -454,6 +517,9 @@ export default {
                     </ul>
                   </div>
               </div>
+              <div v-if="errors.address" class="text-danger">
+                <p>{{ errors.address }}</p>
+              </div>
 
               <div class="mb-3 d-flex flex-row-reverse input-box pb-2">
                 <textarea
@@ -464,6 +530,9 @@ export default {
                   placeholder="Descrizione"
                   rows="3"></textarea>
                 <label for="description" class="form-label mb-0 mt-2"><i class="fa-solid fa-comment-dots"></i></label>
+              </div>
+              <div v-if="errors.description" class="text-danger">
+                <p>{{ errors.description }}</p>
               </div>
 
               <div class="mb-3 d-flex align-items-center flex-row-reverse input-box">
@@ -477,6 +546,9 @@ export default {
                   class="form-control"
                   placeholder="Prezzo Per Notte">
                 <label for="price" class="form-label mb-0"><i class="fa-solid fa-euro-sign"></i></label>
+              </div>
+              <div v-if="errors.price" class="text-danger">
+                <p>{{ errors.price }}</p>
               </div>
 
               <div class="services py-2 mb-3 input-box">
@@ -515,6 +587,7 @@ export default {
                 <label class="switch">
                   <input type="checkbox"
                     v-model="apartmentForm.visible"
+
                     id="visible"
                     name="visible"
                     class="form-control ms-1"
@@ -522,6 +595,7 @@ export default {
                     >
                   <span class="slider round"></span>
                 </label>
+
                 <label for="visible" title="Visibile" class="form-label mb-0"><i class="fa-solid fa-eye"></i></label>
               </div>
 
@@ -529,7 +603,7 @@ export default {
           </div>
 
           <div class="modal-footer pe-4">
-            <button @click="updateApartment(this.apartment.id)" class="btn t4-btn" data-bs-dismiss="modal" title="Salva">
+            <button @click="updateApartment(this.apartment.id)" class="btn t4-btn" title="Salva">
               <i class="fa-solid fa-floppy-disk"></i>
             </button>
           </div>
@@ -542,6 +616,10 @@ export default {
 
 <style lang="scss" scoped>
 @use "../../../scss/partials/variables" as *;
+
+.general-error{
+  color: #DB4956;
+}
 
 .slider-container {
   width: 100%;

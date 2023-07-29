@@ -114,7 +114,7 @@ class ApartmentController extends Controller
     // if(in_array('visible', $form_data)){
     //   $form_data = $visiblecheck->all();
     // }
-    $form_data['visible'] = ($form_data['visible'] == true) ? 1 : 0;
+    $form_data['visible'] = ($request->visible == "true") ? 1 : 0;
     $form_data['slug'] = CustomHelper::generateUniqueSlug($form_data['title'], new Apartment());
     $form_data['coordinates'] = DB::raw("ST_GeomFromText('POINT(" . CustomHelper::getCoordinates($request->input('address')) . ")')");
 
@@ -172,7 +172,8 @@ class ApartmentController extends Controller
 
 
     $form_data = $request->all();
-    $form_data['visible'] = ($form_data['visible'] == true) ? 1 : '';
+
+    $form_data['visible'] = ($request->visible == "true") ? 1 : 0;
 
 
     if($request->hasFile('image')){

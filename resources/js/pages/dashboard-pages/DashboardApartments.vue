@@ -245,6 +245,7 @@ export default {
       <h2 class="fs-3 fw-semibold mb-3 mb-md-0 title">Appartamenti</h2>
       <div>
         <button
+        @click="store.showSuggestions = false"
           title="Aggiungi Appartamento"
           class="btn t4-btn"
           data-bs-toggle="modal"
@@ -272,7 +273,7 @@ export default {
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button @click="store.showSuggestions = false" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <h1 class="modal-title fs-3 fw-semibold text-center mt-2 mb-4" id="addApartmentModalLabel">Aggiungi Appartamento</h1>

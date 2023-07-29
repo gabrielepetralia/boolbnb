@@ -140,7 +140,8 @@ currentFilters : {},
   },
 
 // Getting suggestions for adressed autocomplete w/ TomTom Api
-  getSuggestions(){
+  getSuggestions(address){
+    this.search = address
     if(this.search.length >= 3){
 
       axios
@@ -178,6 +179,8 @@ currentFilters : {},
           lat: apartment.lat,
           lon: apartment.lng,
           id: apartment.slug,
+          title: apartment.title,
+          path: apartment.img_path
         }));
       })
       console.log(this.searchedApartments);

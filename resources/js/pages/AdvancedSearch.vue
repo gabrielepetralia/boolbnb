@@ -140,7 +140,25 @@ export default {
       }
 
       for (const markerData of this.store.apartmentCoordinates) {
-        new tt.Marker().setLngLat([markerData.lon, markerData.lat]).addTo(map);
+        let size = 35;
+        let div = document.createElement('div')
+        let a = document.createElement('a')
+        a.href = "/apartment-detail/" + markerData.id
+        a.innerHTML = "<strong class='text-dark'>" + markerData.title + "</strong>"
+
+        let img = document.createElement('img');
+        img.src =  markerData.path ? markerData.path : '/img/house-placeholder.png'
+        img.setAttribute("height", "50%");
+        img.setAttribute("width", "100%");
+        a.appendChild(img)
+        div.appendChild(a)
+
+        let popup = new tt.Popup({
+          closeButton: false,
+          offset: size/2,
+
+        }).setDOMContent(div);
+        let marker = new tt.Marker().setLngLat([markerData.lon, markerData.lat]).setPopup(popup).addTo(map);
       }
       this.mapVisible = true;
 

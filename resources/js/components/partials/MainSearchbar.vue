@@ -21,9 +21,9 @@ export default {
 <template>
 <div class="d-flex align-items-center position-relative">
   <input
-
+  autocomplete="off"
     v-model="store.search"
-    @input="store.getSuggestions()"
+    @input="store.getSuggestions(store.search)"
     @keyup.enter="store.getSearchedApartments(this.search)"
     class="searchbar me-2"
     type="text"
@@ -52,7 +52,7 @@ export default {
 <style lang="scss" scoped>
 @use "../../../scss/partials/variables" as *;
 .searchbar {
-  z-index: 2;
+  z-index: 3;
   color: $dark-gray;
   font-size: 0.95rem;
   height: 40px;
@@ -75,7 +75,7 @@ export default {
 }
 
 .autocomplete-box {
-  z-index: 1;
+  z-index: 2 !important;
   position: absolute;
   top: 50%;
   left: 0;

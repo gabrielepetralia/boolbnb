@@ -52,6 +52,21 @@ export default {
   },
 
   methods: {
+    getView(apartment_id) {
+      axios.get('https://api.ipify.org/?format=json')
+      .then(response => {
+        console.log(response);
+        let ip_address = response.data.ip;
+        axios.post('/view', {
+          apartment_id: apartment_id,
+          ip_address: response.data.ip
+        })
+        .then(result => {
+          console.log(result);
+        })
+
+      })
+    },
 
     clearFilter(){
       this.min_price=  0,
@@ -199,6 +214,7 @@ mounted() {
         v-for="apartment in store.searchedApartments"
         :key="apartment.id"
         :apartment="apartment"
+        @click="getView(apartment.id)"
         :link_name="'apartment-detail-guest'"/>
       </div>
     </div>

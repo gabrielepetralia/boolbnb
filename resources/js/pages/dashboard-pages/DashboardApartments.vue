@@ -492,6 +492,7 @@ export default {
 }
 
 .autocomplete-box {
+  z-index: 100;
   position: absolute;
   top: 102%;
   left: 0;

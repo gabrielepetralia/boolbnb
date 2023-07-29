@@ -32,5 +32,6 @@ Route::namespace('Api')
 
 Route::resource('/message', MessageController::class);
 Route::post('/view', [ViewController::class, 'store']);
+Route::get('/view/{apartment_id}', [ViewController::class, 'index']);
 
 

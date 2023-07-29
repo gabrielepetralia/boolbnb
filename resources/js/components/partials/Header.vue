@@ -42,14 +42,14 @@ export default {
           </button>
           <div class="collapse navbar-collapse vf-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <router-link :to="{ name: 'home' }" class="nav-link fw-semibold">Home</router-link>
+              <li class="nav-item" @click="store.suggestions = null">
+                <router-link  :to="{ name: 'home' }" class="nav-link fw-semibold">Home</router-link>
               </li>
-              <li class="nav-item">
-                <router-link :to="{ name: 'advanced-search' }" class="nav-link fw-semibold">Ricerca Avanzata</router-link>
+              <li class="nav-item" @click="store.suggestions = null">
+                <router-link  :to="{ name: 'advanced-search' }"  class="nav-link fw-semibold">Ricerca Avanzata</router-link>
               </li>
-              <li v-if="store.user" class="nav-item">
-                <router-link :to="{ name: 'apartments' }" class="nav-link fw-semibold">Gestione Appartamenti</router-link>
+              <li v-if="store.user" class="nav-item" @click="store.showSuggestions = false">
+                <router-link  :to="{ name: 'apartments' }"  class="nav-link fw-semibold">Gestione Appartamenti</router-link>
               </li>
               <li class="nav-item log-btn">
                 <div>
@@ -79,13 +79,13 @@ export default {
           </router-link>
 
           <ul class="d-flex align-items-center mb-0 h-100">
-            <li class="header-menu-item me-4">
+            <li class="header-menu-item me-4" @click="store.showSuggestions = false">
               <router-link :to="{ name: 'home' }" class="nav-link fw-semibold">Home</router-link>
             </li>
-            <li class="header-menu-item me-4">
+            <li class="header-menu-item me-4" @click="store.showSuggestions = false">
               <router-link :to="{ name: 'advanced-search' }" class="nav-link fw-semibold">Ricerca Avanzata</router-link>
             </li>
-            <li v-if="store.user" class="header-menu-item">
+            <li v-if="store.user" class="header-menu-item" @click="store.showSuggestions = false">
               <router-link :to="{ name: 'apartments' }" class="nav-link fw-semibold">Gestione Appartamenti</router-link>
             </li>
           </ul>

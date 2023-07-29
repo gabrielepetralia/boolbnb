@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
       ApartmentsTableSeeder::class, //to remove
       ApartmentsServicesTableSeeder::class, //to remove
       ApartmentsSponsorshipsTableSeeder::class, //to remove
-      MessagesTableSeeder::class
+      MessagesTableSeeder::class,
+      ViewsTableSeeder::class
 
     ]);
   }

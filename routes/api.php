@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\ApartmentController;
 use App\Http\Controllers\Api\MessageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\ViewController;
 
 
 
@@ -30,5 +31,6 @@ Route::namespace('Api')
 });
 
 Route::resource('/message', MessageController::class);
+Route::post('/view', [ViewController::class, 'store']);
 
 

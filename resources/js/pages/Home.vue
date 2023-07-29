@@ -31,6 +31,28 @@ export default {
           store.sponsorizedApartments = res.data.apartments;
           this.loading = false;
         })
+    },
+    getView(apartment_id) {
+      axios.get('https://api.ipify.org/?format=json')
+      .then(response => {
+        console.log(response);
+        let ip_address = response.data.ip;
+        axios.post('/view', {
+          apartment_id: apartment_id,
+          ip_address: response.data.ip
+        })
+        .then(result => {
+          console.log(result);
+        })
+
+      })
+      // } catch (error) {
+      //   console.error(error);
+      // }
+      // axios.post(store.apiUrl + 'view')
+      // .then(res => {
+      //   console.log(res);
+      // })
     }
   },
 
@@ -57,7 +79,9 @@ export default {
           <div v-for="apartment in store.sponsorizedApartments" :key="apartment.id" class="col-12 col-md-4 col-lg-2 px-4 px-md-3">
             <ApartmentCard
               :apartment="apartment"
-              :link_name="'apartment-detail-guest'"/>
+              :link_name="'apartment-detail-guest'"
+              @click="getView(apartment.id)"
+              />
           </div>
         </div>
 

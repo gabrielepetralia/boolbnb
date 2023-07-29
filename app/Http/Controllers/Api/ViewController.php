@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\View;
-
+use Illuminate\Support\Facades\DB;
 class ViewController extends Controller
 {
     /**
@@ -13,7 +13,26 @@ class ViewController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function index($apartment_id)
+    {
+        $visuals = View::select(
+          DB::raw('MONTHNAME(date_time) AS mese'),
+          DB::raw('COUNT(*) AS num_views')
+      )
+      ->where('apartment_id', $apartment_id)
+      ->groupBy(DB::raw('MONTHNAME(date_time)'))
+      ->get();
 
+      $total_views = View::all()->where('apartment_id', $apartment_id)->count();
+
+        // ->selectRaw('
+        // SELECT MONTHNAME(date_time) AS mese, COUNT(*) AS numero_record
+        // FROM `views`
+        // WHERE apartment_id =' . $apartment_id . '
+        // GROUP BY MONTHNAME(date_time);');
+
+        return response()->json(compact('visuals', 'total_views'));
+    }
 
     /**
      * Show the form for creating a new resource.

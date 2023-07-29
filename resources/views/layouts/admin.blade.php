@@ -20,7 +20,11 @@
     <!-- Usando Vite -->
     @vite(['resources/scss/admin.scss', 'resources/js/admin.js'])
 
+    {{-- Braintree Payments --}}
     <script src="https://js.braintreegateway.com/web/dropin/1.39.0/js/dropin.min.js"></script>
+
+    {{-- Chart.js --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
 </head>
 

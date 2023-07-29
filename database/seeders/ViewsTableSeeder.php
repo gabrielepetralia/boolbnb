@@ -17,11 +17,11 @@ class ViewsTableSeeder extends Seeder
      */
     public function run(Faker $faker)
     {
-        for ($i=0; $i < 100; $i++) {
+        for ($i=0; $i < 10000; $i++) {
           $new_view = new View();
           $new_view->ip_address = $faker->ipv4();
           date_default_timezone_set('Europe/Rome');
-          $formattedDateTime = $faker->dateTimeInInterval('-1 month', '+1 month')->format('Y-m-d H:i:s');
+          $formattedDateTime = $faker->dateTimeInInterval('-6 month', '+6 month')->format('Y-m-d H:i:s');
           $new_view->date_time = $formattedDateTime;
           $new_view->apartment_id = Apartment::inRandomOrder()->first()->id;
           $new_view->save();

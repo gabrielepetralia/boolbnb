@@ -16,6 +16,7 @@ currentFilters : {},
   searchedApartments : null,
   availableServices: null,
   sponsorizedApartments: [],
+  sponsorizedIds: [],
 
 
   // TomTom Api Datas

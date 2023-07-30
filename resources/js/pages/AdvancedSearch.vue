@@ -213,6 +213,7 @@ mounted() {
         <ApartmentCard
         v-for="apartment in store.searchedApartments"
         :key="apartment.id"
+        :class="store.sponsorizedIds.includes(apartment.id) ? 'order-0' : 'order-1' "
         :apartment="apartment"
         @click="getView(apartment.id)"
         :link_name="'apartment-detail-guest'"/>

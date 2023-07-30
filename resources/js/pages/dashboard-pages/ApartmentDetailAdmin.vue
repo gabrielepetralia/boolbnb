@@ -511,7 +511,7 @@ export default {
                   placeholder="Indirizzo">
                   <label for="address" class="form-label mb-0"><i class="fa-solid fa-location-dot"></i></label>
 
-                  <div class="autocomplete-box">
+                  <div class="autocomplete-box" :class="{ 'box-shadow': (apartmentForm.address).length > 2 }">
                     <ul v-if="store.showSuggestions">
                       <li v-for="(suggest, index) in store.suggestions" :key="index" @click="store.selectAddress(this.apartmentForm, suggest)">{{ suggest.address.freeformAddress }}</li>
                     </ul>
@@ -654,6 +654,10 @@ export default {
   }
 }
 
+.box-shadow {
+  box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
+}
+
 .autocomplete-box {
   z-index: 100;
   position: absolute;
@@ -663,7 +667,6 @@ export default {
   color: $dark-gray;
   width: 100%;
   border-radius: 0 0 12px 12px;
-  box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
   overflow: hidden;
 
   ul {

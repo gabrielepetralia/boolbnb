@@ -383,7 +383,7 @@ export default {
                 title="Indirizzo"/>
               <label for="address" class="form-label mb-0"><i class="fa-solid fa-location-dot"></i></label>
 
-              <div class="autocomplete-box">
+              <div class="autocomplete-box" :class="{'box-shadow': (apartmentForm.address).length > 2}">
                 <ul v-if="store.showSuggestions">
                   <li
                     v-for="(suggest, index) in store.suggestions"

@@ -27,12 +27,19 @@ export default {
   methods: {
     getApi() {
       this.loading = true;
+      store.sponsorizedIds = []
       axios.get(store.apiUrl + 'apartments')
         .then(res => {
           store.sponsorizedApartments = res.data.apartments;
+
+        }).then(res=> {
+          store.sponsorizedApartments.forEach(element => {
+            store.sponsorizedIds.push(element.id)
+          });
+          console.log(store.sponsorizedIds);
           this.loading = false;
         })
-    },
+      },
     getView(apartment_id) {
       axios.get('https://api.ipify.org/?format=json')
       .then(response => {

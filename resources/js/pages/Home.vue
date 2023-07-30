@@ -36,22 +36,19 @@ export default {
           store.sponsorizedApartments.forEach(element => {
             store.sponsorizedIds.push(element.id)
           });
-          console.log(store.sponsorizedIds);
+
           this.loading = false;
         })
       },
     getView(apartment_id) {
       axios.get('https://api.ipify.org/?format=json')
       .then(response => {
-        console.log(response);
         let ip_address = response.data.ip;
         axios.post('/view', {
           apartment_id: apartment_id,
           ip_address: response.data.ip
         })
-        .then(result => {
-          console.log(result);
-        })
+
 
       })
 

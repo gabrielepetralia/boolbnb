@@ -327,8 +327,6 @@ export default {
   }
 }
 
-
-
 .btn-contact-modal{
   position: fixed;
   display: block;

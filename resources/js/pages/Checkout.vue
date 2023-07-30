@@ -90,6 +90,7 @@ export default {
 
 <template>
 
+<div class="checkout">
   <div v-show="!loading" class="t4-container w-50 mx-auto mt-5">
     <div v-if="transactionMessage !== null" class="alert alert-success " :class="{'alert-danger' : this.transactionMessage.includes('Ops')}" role="alert">
       {{ this.transactionMessage }}
@@ -105,20 +106,26 @@ export default {
 
       <div class="w-50 mx-auto">
 
-        <input type="submit" class="btn btn-secondary w-100" />
+        <input type="submit" class="btn t4-btn w-100" />
         <input type="hidden" id="nonce" name="payment_method_nonce" />
       </div>
     </form>
   </div>
 
   <div v-if="this.loading" class="d-flex justify-content-center py-5 my-5">
-      <Loader/>
-    </div>
+    <Loader/>
+  </div>
+</div>
 </template>
 
 
 
 
-<style >
-
+<style lang="scss" scoped>
+@use "../../scss/partials/variables" as *;
+  .checkout {
+    min-height: calc(100vh - 70px);
+    padding-top: 70px;
+    background-color: $dark-white;
+  }
 </style>

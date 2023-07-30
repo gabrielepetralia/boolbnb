@@ -501,7 +501,7 @@ mounted() {
             <span class="me-1">Resetta Filtro</span>
           </button>
           <button @click="filterApartments" class="btn btn-filters t4-btn-light d-flex align-items-center">
-            <i class="fa-solid fa-gears me-2 fs-6"></i>
+            <i class="fa-solid fa-magnifying-glass me-2 fs-6"></i>
             <span class="me-1">Filtra</span>
           </button>
         </div>

@@ -190,7 +190,7 @@ mounted() {
 
 <template>
 
-    <div class="advanced-search">
+    <div class="advanced-search pb-4">
     <!-- button+searchbar -->
     <div class="t4-container d-flex flex-column flex-md-row justify-content-between align-items-center pt-4 ">
       <div class="d-none d-lg-block"></div>
@@ -225,8 +225,8 @@ mounted() {
       <h2 class="py-5 fw-semibold d-flex justify-content-center h-100">Cerca un appartamento !</h2>
     </div>
 
-      <div class="pb-5 t4-container none" :class="{ 'block': this.mapIsBlock }">
-        <div style="width: 100%; height:300px" id="map"></div>
+      <div class="mb-4 mt-2 t4-container none rounded rounded-4" :class="[{ 'block': this.mapIsBlock }, { 'box-shadow': this.mapIsBlock }] ">
+        <div style="width: 100%; height:400px" id="map"></div>
       </div>
 
       <!-- ------ offcanvas ------ -->
@@ -523,6 +523,9 @@ mounted() {
 
 .none {
   display: none;
+}
+.box-shadow {
+  box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
 }
 .block {
   display: block;

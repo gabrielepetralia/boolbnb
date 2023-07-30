@@ -61,10 +61,6 @@ export default {
           apartment_id: apartment_id,
           ip_address: response.data.ip
         })
-        .then(result => {
-          console.log(result);
-        })
-
       })
     },
 

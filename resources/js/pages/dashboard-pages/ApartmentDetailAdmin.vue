@@ -211,7 +211,9 @@ export default {
             console.log(result);
             this.generalFormError = 'Aggiornato con successo!'
             this.getApi();
-            this.$router.push("/my-apartments/apartment-detail/" + this.apartments[0].slug);
+            const modalEdit =bootstrap.Modal.getOrCreateInstance('#edit-apartment-modal');
+            modalEdit.hide()
+            this.$router.push("/my-apartments/apartments")
           })
 
       }else{
@@ -257,7 +259,9 @@ export default {
               user_id: store.user.id
             })
             this.getApi();
-            this.$router.push("/my-apartments/apartment-detail/" + this.apartments[0].slug);
+            const modalEdit =bootstrap.Modal.getOrCreateInstance('#edit-apartment-modal');
+            modalEdit.hide()
+            this.$router.push("/my-apartments/apartments")
           })
         }else{
         this.generalFormError = "Per salvare una bozza completa titolo e indirizzo"

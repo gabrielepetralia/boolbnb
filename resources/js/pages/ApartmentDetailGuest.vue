@@ -65,8 +65,9 @@ export default {
               email: '',
               msg_text: ''
             }
-
             this.sendMessageErrors = "Messaggio inviato con successo!"
+            const modalMessage =bootstrap.Modal.getOrCreateInstance('#message-modal');
+            modalMessage.hide()
           })
       }
     },
@@ -196,12 +197,12 @@ export default {
           </div>
 
             <!-- Button trigger modal -->
-            <button type="button" class="btn-contact-modal" data-bs-toggle="modal" data-bs-target="#exampleModal" title="Contatta l'Host">
+            <button type="button" class="btn-contact-modal" data-bs-toggle="modal" data-bs-target="#message-modal" title="Contatta l'Host">
               <i class="fa-regular fa-message fs-5 mt-1"></i>
             </button>
 
               <!-- Modal -->
-              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal fade" id="message-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
                     <div class="modal-header">

@@ -110,6 +110,9 @@ currentFilters : {},
             loginEmail: "",
             loginPassword: ""
           })
+
+          const modalLogin =bootstrap.Modal.getOrCreateInstance('#login-modal');
+          modalLogin.hide()
         })
 
         .catch(error => {
@@ -172,7 +175,7 @@ currentFilters : {},
 
   getSearchedApartments(address) {
     this.currentFilters = {};
-    axios.get(store.apiUrl + "apartments/" + address + "/" + "0.2")
+    axios.get(store.apiUrl + "apartments/" + address + "/" + "10")
       .then(res => {
         this.searchedApartments = res.data.apartments;
         this.apartmentCoordinates = [];

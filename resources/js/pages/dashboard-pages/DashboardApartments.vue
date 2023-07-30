@@ -169,7 +169,8 @@ export default {
           this.getMyApartments()
 
         }).then(()=>{
-
+          const modalAddApartment =bootstrap.Modal.getOrCreateInstance('#add-apartment-modal');
+          modalAddApartment.hide()
           this.$router.push("/my-apartments/apartments");
         })
         .catch(error=>{
@@ -214,7 +215,8 @@ export default {
               price: '',
               user_id: store.user.id,
             })
-
+            const modalAddApartment =bootstrap.Modal.getOrCreateInstance('#add-apartment-modal');
+            modalAddApartment.hide()
             this.getMyApartments()
           })
           .catch(error=>{

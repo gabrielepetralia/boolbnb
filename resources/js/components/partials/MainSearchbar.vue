@@ -24,7 +24,7 @@ export default {
   autocomplete="off"
     v-model="store.search"
     @input="store.getSuggestions(store.search)"
-    @keyup.enter="store.getSearchedApartments(this.search)"
+    @keyup.enter="store.getSearchedApartments(store.search), this.$router.push('/advanced-search'), store.showSuggestions = false"
     class="searchbar me-2"
     type="text"
     name="searchbar"

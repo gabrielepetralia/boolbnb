@@ -154,6 +154,7 @@ export default {
         let size = 35;
         let div = document.createElement('div')
         let a = document.createElement('a')
+        let containerImg = document.createElement('div')
         a.href = "/apartment-detail/" + markerData.id
         a.innerHTML = "<strong class='text-dark'>" + markerData.title + "</strong>"
 
@@ -161,9 +162,11 @@ export default {
         img.src =  markerData.path ? markerData.path : '/img/house-placeholder.png'
         img.setAttribute("height", "50%");
         img.setAttribute("width", "100%");
-        a.appendChild(img)
+        containerImg.appendChild(img)
+        containerImg.style.borderRadius = '10px'
+        containerImg.style.overflow = 'hidden'
+        a.appendChild(containerImg)
         div.appendChild(a)
-
         let popup = new tt.Popup({
           closeButton: false,
           offset: size/2,
@@ -205,7 +208,7 @@ mounted() {
 
     <div v-if="store.apartmentCoordinates" class="t4-container">
       <h2 class="mb-4 pt-3 mb-4 fw-semibold">Risultati della ricerca</h2>
-      <div class="row row-cols-12 row-cols-md-4 row-cols-lg-6 px-4 px-md-2">
+      <div v-if="store.searchedApartments.length > 0" class="row row-cols-12 row-cols-md-4 row-cols-lg-6 px-4 px-md-2">
         <ApartmentCard
         v-for="apartment in store.searchedApartments"
         :key="apartment.id"
@@ -213,6 +216,9 @@ mounted() {
         :apartment="apartment"
         @click="getView(apartment.id)"
         :link_name="'apartment-detail-guest'"/>
+      </div>
+      <div v-else>
+        <h2 class="py-5 fw-semibold d-flex justify-content-center h-100">Nessun risultato per questa ricerca</h2>
       </div>
     </div>
     <div v-else>

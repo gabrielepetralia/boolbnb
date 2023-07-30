@@ -39,6 +39,7 @@ export default {
       new_views : 0,
       counter: 0,
       apartments: [],
+      mainLoading : true,
       loading: true,
       datas: [],
       chartData: {},
@@ -51,11 +52,11 @@ export default {
 
   methods: {
     getMyApartments() {
-      this.loading = true;
+      this.mainLoading = true;
       axios.get("sanctum/csrf-cookie").then(() => {
         axios.get(`/admin/${store.user.id}`).then((result) => {
           this.apartments = result.data.apartments;
-          this.loading = false;
+          this.mainLoading = false;
           this.getApartmentViews(this.apartments[0].id)
         });
       });
@@ -74,7 +75,7 @@ export default {
                 }
                 this.chartData= {
                   labels: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
-                  datasets: [ { data: this.datas , label: 'VIews', backgroundColor: '#8AC6DD', }  ]
+                  datasets: [ { data: this.datas , label: 'Visualizzazioni', backgroundColor: '#8AC6DD', }  ]
                 },
                 this.totalViews = result.data.total_views
                 this.newViews = result.data.new_views
@@ -92,82 +93,119 @@ export default {
 </script>
 
 <template>
-  <h2 class="p-5 fw-semibold">Statistiche</h2>
-  <div class="d-flex justify-content-center" v-if="loading">
-    <Loader/>
-  </div>
-  <div v-else class="t4-container">
-  <div class=" mb-4">
-    <div class="row">
-      <div class="col-3">
-        <h5 class="fw-bold ms-5 total-views">Visualizzazioni totali = {{ this.totalViews }}</h5>
-      </div>
-      <div class="col-3">
-        <h5 class="fw-bold ms-5 total-views">Utenti singoli = {{ this.newViews }}</h5>
+
+
+  <div class="t4-container py-0 px-0 py-md-5 px-md-5">
+      <h2 class="fs-3 fw-semibold my-4 title">Statistiche</h2>
+
+      <div v-if="this.mainLoading" class="d-flex justify-content-center py-5 my-5">
+        <Loader/>
       </div>
 
-      </div>
-    </div>
-    <div  class=" d-lg-flex justify-content-center chart-shadow d-block">
-     <!-- side -->
-     <div class="side">
-        <ul class="d-flex d-lg-block">
-          <li @click="this.counter = index" v-for="(apartment, index) in this.apartments" :key="index">
-            <div @click="getApartmentViews(apartment.id)" :class="{'active-apartment' : this.counter == index}">
-              {{apartment.title}}
+      <div v-else class="container vf-container mt-4">
+        <!-- top -->
+        <router-link :to="{ name: 'apartment-detail-admin', params: { slug: this.apartments[counter].slug } }" class="top d-flex align-items-center justify-content-between p-4">
+          <div class="apartment d-flex align-items-center">
+            <div class="img me-3">
+              <img :src="this.apartments[counter].img_path ?? '/img/house-placeholder.png'" alt="">
             </div>
-          </li>
-        </ul>
-      </div>
+            <h4 class="name m-0 fw-semibold">{{ this.apartments[counter].title }}</h4>
+          </div>
+          <div class="d-flex">
+            <span class="badge-views me-2">Visualizzazioni totali = {{ this.totalViews }}</span>
+            <span class="badge-views">Singoli utenti = {{ this.newViews }}</span>
+          </div>
+        </router-link>
+        <!-- /top -->
 
-      <div class="chart-container main d-flex justify-content-center">
-        <Line
+        <!-- bottom -->
+        <div class="bottom d-flex">
+          <!-- side -->
+          <div class="side">
+            <ul class="d-flex d-lg-block">
+              <li @click="this.counter = index" v-for="(apartment, index) in this.apartments" :key="index">
+                <div @click="getApartmentViews(apartment.id)" :class="{ 'active-apartment': this.counter == index }">
+                  {{ apartment.title }}
+                </div>
+              </li>
+            </ul>
+          </div>
+          <!-- /side -->
 
-        id="my-chart-id"
-        :options="chartOptions"
-        :data="chartData"
-        />
+          <!-- main -->
+          <div class="chart-container main d-flex justify-content-center">
+            <div v-if="this.loading" class="d-flex justify-content-center py-5 my-5">
+              <Loader/>
+            </div>
+            <Line v-else
+              id="my-chart-id"
+              :options="chartOptions"
+              :data="chartData"
+              />
+          </div>
+          <!-- /main -->
+
+        </div>
+        <!-- /bottom -->
       </div>
     </div>
-
-  </div>
 </template>
 
 <style lang="scss" scoped>
 @use "../../../scss/partials/variables" as *;
-
-.chart-container{
-  height: 100%;
+.title {
+  color: $dark-gray;
 }
-
-.total-views{
-  padding: 10px 15px;
-  box-shadow: inset 0 0 10px grey;
-  border-radius: 10px;
-  width: fit-content;
+.vf-container {
+  height: 700px;
+  padding: 0;
+  box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
+  border-radius: 15px;
+  overflow: hidden;
 }
-
-
-.chart-shadow {
-  padding: 10px 15px;
-  box-shadow: inset 0 0 10px grey;
-  border-radius: 10px;
-}
-.main {
-  width: 82%;
-  padding: 15px;
-  height: 100%;
+.top {
+  width: 100%;
+  height: 15%;
+  margin-bottom: 10px;
   background: $dark-white;
-  overflow: auto;
-}
+  box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
+  .apartment {
+    .img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .name {
+      color: $dark-gray;
+    }
+  }
 
-.side {
-  width: 300px;
-  height: 650px;
+  .badge-views {
+    font-size: 0.9rem;
+    display: block;
+    padding: 5px 10px;
+    border-radius: 10px;
+    color: white;
+    background-color: $dark_gray;
+    transition: all 0.3s;
+  }
+}
+.bottom {
+  height: 83%;
+  box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
+  .side {
+  width: 18%;
+  height: 100%;
   overflow: auto;
   background: $dark-gray;
   color: white;
-  transform: translate(y, 50px);
+
   li {
     div {
       display: inline-block;
@@ -188,13 +226,34 @@ export default {
     }
   }
 }
-
-
+  .main {
+    width: 82%;
+    padding: 15px;
+    height: 100%;
+    background: $dark-white;
+    overflow: auto;
+  }
+}
+//media-query
 @media screen and (max-width: 992px) {
-
-  .side{
+.t4-container {
+  padding: 0;
+}
+.title {
+  margin-bottom: 20px;
+}
+.top {
+  .apartment {
+    .name {
+    font-size: 19px;
+  }
+  }
+}
+.bottom {
+  flex-direction: column;
+  .side {
     width: 100%;
-    height: 100px;
+    max-height: 75px;
     ul {
       height: 100%;
     }
@@ -205,14 +264,13 @@ export default {
         padding-right: 20px;
         height: 100%;
         &:hover,
-        &.active-apartment {
+        &.active-msg {
           border-left: 0;
           border-bottom: 5px solid $light-blue;
         }
       }
     }
   }
-
   .chart-container{
     width: 100%;
 
@@ -220,6 +278,6 @@ export default {
      width: 100%;
     }
   }
-
+}
 }
 </style>

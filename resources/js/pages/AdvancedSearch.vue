@@ -6,7 +6,7 @@ import Footer from '../components/partials/Footer.vue';
 import MainSearchbar from '../components/partials/MainSearchbar.vue';
 import Loader from "../components/partials/Loader.vue";
 import tt from '@tomtom-international/web-sdk-maps';
-import Loader from "../components/partials/Loader.vue";
+
 
 export default {
   name : "AdvancedSearch",

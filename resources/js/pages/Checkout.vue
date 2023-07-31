@@ -61,6 +61,8 @@ export default {
 
     },
     makePayment(){
+      const invia = document.getElementById('invia')
+      invia.style.display = 'none'
       const form = document.getElementById('payment-form');
 
       axios.post('/make-payment', {
@@ -73,9 +75,10 @@ export default {
       })
       .then(response => {
         console.log(response);
-
         this.message = response.data.message;
         store.sponsorizeApartment(this.$route.params.apartmentId)
+        const invia = document.getElementById('invia')
+      invia.style.display = 'block'
         this.$router.push('/my-apartments/sponsorships')
       })
     }
@@ -106,7 +109,7 @@ export default {
 
       <div class="w-50 mx-auto">
 
-        <input type="submit" class="btn t4-btn w-100" />
+        <input id="invia" type="submit" class="btn t4-btn w-100" />
         <input type="hidden" id="nonce" name="payment_method_nonce" />
       </div>
     </form>

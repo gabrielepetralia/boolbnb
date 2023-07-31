@@ -4,13 +4,15 @@ import ApartmentCard from '../components/partials/cards/ApartmentCard.vue';
 import axios from 'axios';
 import Footer from '../components/partials/Footer.vue';
 import MainSearchbar from '../components/partials/MainSearchbar.vue';
+import Loader from "../components/partials/Loader.vue";
 import tt from '@tomtom-international/web-sdk-maps';
 export default {
   name : "AdvancedSearch",
   components: {
     ApartmentCard,
     Footer,
-    MainSearchbar
+    MainSearchbar,
+    Loader
   },
   data() {
     return {
@@ -126,7 +128,8 @@ export default {
 
 
     getMap(){
-      this.mapIsBlock = true;
+      if(store.searchedApartments.length > 0) this.mapIsBlock = true;
+
       axios.get( 'https://api.tomtom.com/search/2/' + 'geocode/'+this.store.search+'.json?view=Unified&key='+ 'gdZGu9e4M0xCvL3gtsUxcBcG8KtOb1fQ' )
       .then(result => {
 
@@ -235,28 +238,40 @@ mounted() {
     </div>
       <!-- /button+searchbar -->
 
-    <div v-if="store.apartmentCoordinates" class="t4-container">
-      <h2 class="mb-4 pt-3 mb-4 fw-semibold">Risultati della ricerca</h2>
-      <div v-if="store.searchedApartments.length > 0" class="row row-cols-12 row-cols-md-4 row-cols-lg-6 px-4 px-md-2">
-        <ApartmentCard
-        v-for="apartment in store.searchedApartments"
-        :key="apartment.id"
-        :class="store.sponsorizedIds.includes(apartment.id) ? 'order-0' : 'order-1' "
-        :apartment="apartment"
-        @click="getView(apartment.id)"
-        :link_name="'apartment-detail-guest'"/>
+      <div v-if="store.advancedLoading" class="d-flex justify-content-center py-5 my-5">
+        <Loader/>
       </div>
-      <div v-else>
-        <h2 class="py-5 fw-semibold d-flex justify-content-center h-100">Nessun risultato per questa ricerca</h2>
-      </div>
-    </div>
-    <div v-else>
-      <h2 class="py-5 fw-semibold d-flex justify-content-center h-100">Cerca un appartamento !</h2>
-    </div>
 
-      <div class="mb-4 mt-2 t4-container none rounded rounded-4" :class="[{ 'block': this.mapIsBlock }, { 'box-shadow': this.mapIsBlock }] ">
-        <div style="width: 100%; height:400px" id="map"></div>
+      <div v-else>
+        <div v-if="store.apartmentCoordinates" class="t4-container">
+          <div v-if="store.searchedApartments.length > 0">
+            <h2 class="mb-4 pt-3 mb-4 fw-semibold w-100">Risultati della ricerca</h2>
+
+            <div class="row row-cols-12 row-cols-md-4 row-cols-lg-6 px-4 px-md-2">
+              <ApartmentCard
+              v-for="apartment in store.searchedApartments"
+              :key="apartment.id"
+              :class="store.sponsorizedIds.includes(apartment.id) ? 'order-0' : 'order-1' "
+              :apartment="apartment"
+              @click="getView(apartment.id)"
+              :link_name="'apartment-detail-guest'"/>
+            </div>
+
+            <div class="mb-4 mt-2 none rounded rounded-4" :class="[{ 'block': this.mapIsBlock }, { 'box-shadow': this.mapIsBlock }] ">
+              <div style="width: 100%; height:400px" id="map"></div>
+            </div>
+
+          </div>
+          <div v-else>
+            <h2 class="py-5 my-5 fw-semibold d-flex justify-content-center h-100">Nessun risultato per questa ricerca</h2>
+          </div>
+        </div>
+        <div v-else>
+          <h2 class="py-5 my-5 fw-semibold d-flex justify-content-center h-100">Cerca un appartamento !</h2>
+        </div>
+
       </div>
+
 
       <!-- ------ offcanvas ------ -->
       <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">

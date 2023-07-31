@@ -5,6 +5,7 @@ import axios from 'axios';
 
 export const store = reactive ({
 
+  advancedLoading : false,
 // sponsorship
 apartmentId: null,
 sponsorshipId: null,
@@ -174,11 +175,13 @@ currentFilters : {},
   },
 
   getSearchedApartments(address) {
+    this.advancedLoading = true;
     this.currentFilters = {};
-    axios.get(store.apiUrl + "apartments/" + address + "/" + "10")
+    axios.get(store.apiUrl + "apartments/" + address + "/" + "0.2")
       .then(res => {
         this.searchedApartments = res.data.apartments;
         this.apartmentCoordinates = [];
+        console.log(this.searchedApartments);
         this.apartmentCoordinates = this.searchedApartments.map(apartment => ({
           lat: apartment.lat,
           lon: apartment.lng,
@@ -186,8 +189,9 @@ currentFilters : {},
           title: apartment.title,
           path: apartment.img_path
         }));
+        this.advancedLoading = false;
+        console.log(this.searchedApartments);
       })
-      console.log(this.searchedApartments);
   },
 
   // Get All services

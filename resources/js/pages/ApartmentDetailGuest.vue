@@ -5,12 +5,14 @@ import { ref } from 'vue';
 import tt from '@tomtom-international/web-sdk-maps';
 import Slider from '../components/partials/Slider.vue';
 import Loader from "../components/partials/Loader.vue";
+import Footer from '../components/partials/Footer.vue';
 
 export default {
-  name: 'ApartmentDetailAdmin',
+  name: 'ApartmentDetailGuest',
   components: {
     Slider,
-    Loader
+    Loader,
+    Footer
   },
   data() {
     return {
@@ -143,9 +145,10 @@ export default {
 </script>
 
 <template>
-
-  <div v-if="this.loading" class="d-flex justify-content-center py-5 my-5">
-    <Loader/>
+  <div v-if="this.loading" class="loading">
+    <div class="d-flex justify-content-center">
+      <Loader/>
+    </div>
   </div>
 
   <div v-else class="apartment-detail position-relative">
@@ -302,7 +305,7 @@ export default {
 
     </div>
 
-
+    <Footer />
 
   </div>
 </template>
@@ -312,6 +315,11 @@ export default {
 @use "../../scss/partials/variables" as *;
 @use "../../scss/partials/_modal" as *;
 
+.loading {
+  padding-top: 95px;
+  min-height: calc(100vh - 70px);
+  background-color: $dark-white;
+}
 .slider-container {
   width: 100%;
   border-radius: 15px;
@@ -338,7 +346,7 @@ export default {
 
   #map {
     width: 100%;
-    height: 300px;
+    height: 350px;
     box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
     border-radius: 15px;
     overflow: hidden;

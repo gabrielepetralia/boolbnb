@@ -669,7 +669,7 @@ export default {
 
   #map {
     width: 100%;
-    height: 300px;
+    height: 350px;
     box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.15);
     border-radius: 15px;
     overflow: hidden;

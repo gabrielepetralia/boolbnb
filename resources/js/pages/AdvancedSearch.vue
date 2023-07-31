@@ -158,6 +158,7 @@ export default {
 
       })
     },
+
     createCustomMarker(map, position, markerData) {
       const svgLogo = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 300 300" style="enable-background:new 0 0 300 300; filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.5));" xml:space="preserve"><style type="text/css">.st0{fill:#F0F0F0;}.st1{fill:#8AC6DD;}.st2{fill:#797978;}</style><g id="Layer_1"><g id="XMLID_00000093897840131001323190000011936723167068966559_"><path class="st0" d="M230.5,151.9L230.5,151.9l-82.4,142.8L65.7,151.9l0.1,0c-8-13.8-12.6-29.9-12.6-47c0-22.8,8.1-43.7,21.7-60.1c17.4-21,43.8-34.4,73.3-34.4s55.9,13.4,73.3,34.4c13.5,16.3,21.7,37.2,21.7,60.1C243.1,122,238.5,138,230.5,151.9z"/></g></g><g id="Layer_2"><g id="XMLID_00000150809438600640936840000007739809172138332046_"><g><path class="st1" d="M199.8,115.9c0-9.8-6.9-18-16.6-21.1c-2.6-0.8-5.4-1.3-8.3-1.3H150v58.1h-49.8v16.6h74.7c2.9,0,5.7-0.5,8.3-1.3c9.7-3.1,16.6-11.4,16.6-21.1c0-5.7-2.4-11-6.3-14.9C197.4,126.9,199.8,121.7,199.8,115.9z M174.9,153.3h-8.3v-14.9h8.3c4.6,0,8.3,3.3,8.3,7.5S179.5,153.3,174.9,153.3z M174.9,123.4h-8.3v-14.9h8.3c4.6,0,8.3,3.3,8.3,7.5C183.2,120.1,179.5,123.4,174.9,123.4z"/><polygon class="st2" points="216.4,85.3 183.2,85.3 150,64.5 116.8,85.3 116.8,143.3 100.2,143.3 100.2,85.3 83.6,85.3 112.7,67.1 112.7,43.8 129.3,43.8 129.3,56.7 133.4,54.1 150,43.8 166.6,54.1"/></g></g></g></svg>';
 
@@ -184,14 +185,25 @@ export default {
         .setLngLat(position)
         .addTo(map);
 
-        const popupContent = document.createElement('div');
-        popupContent.innerHTML = '<strong class="text-dark">' + markerData.title + '</strong><br>' +
-        '<img src="' + (markerData.path ? markerData.path : '/img/house-placeholder.png') + '" height="50%" width="100%">';
-
-        const popup = new tt.Popup({
+        let size = 35;
+        let div = document.createElement('div')
+        let a = document.createElement('a')
+        let containerImg = document.createElement('div')
+        a.href = "/apartment-detail/" + markerData.id
+        a.innerHTML = "<strong class='text-dark'>" + markerData.title + "</strong>"
+        let img = document.createElement('img');
+        img.src =  markerData.path ? markerData.path : '/img/house-placeholder.png'
+        img.setAttribute("height", "50%");
+        img.setAttribute("width", "100%");
+        containerImg.appendChild(img)
+        containerImg.style.borderRadius = '10px'
+        containerImg.style.overflow = 'hidden'
+        a.appendChild(containerImg)
+        div.appendChild(a)
+        let popup = new tt.Popup({
           closeButton: false,
-          anchor: 'bottom',
-        }).setDOMContent(popupContent);
+          offset: size/2,
+        }).setDOMContent(div);
 
         marker.setPopup(popup);
       }

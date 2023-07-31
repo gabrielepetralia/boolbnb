@@ -158,6 +158,7 @@ export default {
 
       })
     },
+
     createCustomMarker(map, position, markerData) {
       const svgLogo = '<svg id="eSnegB3J4bU1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 300 300" shape-rendering="geometricPrecision" text-rendering="geometricPrecision">' +
         '<defs><filter id="eSnegB3J4bU4-filter" x="-150%" width="400%" y="-150%" height="400%"><feGaussianBlur id="eSnegB3J4bU4-filter-drop-shadow-0-blur" in="SourceAlpha" stdDeviation="4,8"/><feOffset id="eSnegB3J4bU4-filter-drop-shadow-0-offset" dx="0" dy="0" result="tmp"/><feFlood id="eSnegB3J4bU4-filter-drop-shadow-0-flood" flood-color="#000"/><feComposite id="eSnegB3J4bU4-filter-drop-shadow-0-composite" operator="in" in2="tmp"/><feMerge id="eSnegB3J4bU4-filter-drop-shadow-0-merge" result="result"><feMergeNode id="eSnegB3J4bU4-filter-drop-shadow-0-merge-node-1"/><feMergeNode id="eSnegB3J4bU4-filter-drop-shadow-0-merge-node-2" in="SourceGraphic"/></feMerge></filter></defs>' +
@@ -186,14 +187,25 @@ export default {
         .setLngLat(position)
         .addTo(map);
 
-        const popupContent = document.createElement('div');
-        popupContent.innerHTML = '<strong class="text-dark">' + markerData.title + '</strong><br>' +
-        '<img src="' + (markerData.path ? markerData.path : '/img/house-placeholder.png') + '" height="50%" width="100%">';
-
-        const popup = new tt.Popup({
+        let size = 35;
+        let div = document.createElement('div')
+        let a = document.createElement('a')
+        let containerImg = document.createElement('div')
+        a.href = "/apartment-detail/" + markerData.id
+        a.innerHTML = "<strong class='text-dark'>" + markerData.title + "</strong>"
+        let img = document.createElement('img');
+        img.src =  markerData.path ? markerData.path : '/img/house-placeholder.png'
+        img.setAttribute("height", "50%");
+        img.setAttribute("width", "100%");
+        containerImg.appendChild(img)
+        containerImg.style.borderRadius = '10px'
+        containerImg.style.overflow = 'hidden'
+        a.appendChild(containerImg)
+        div.appendChild(a)
+        let popup = new tt.Popup({
           closeButton: false,
-          anchor: 'bottom',
-        }).setDOMContent(popupContent);
+          offset: size/2,
+        }).setDOMContent(div);
 
         marker.setPopup(popup);
       }

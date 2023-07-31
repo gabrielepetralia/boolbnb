@@ -79,6 +79,8 @@ currentFilters : {},
         email: this.form.email,
         password: this.form.password
       })
+      const modalRegister =bootstrap.Modal.getOrCreateInstance('#register-modal');
+      modalRegister.hide()
 
     }).then(response => {
       this.getUser()

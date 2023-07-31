@@ -124,60 +124,79 @@ export default {
       }
     },
 
+
     getMap(){
-
       this.mapIsBlock = true;
-    axios.get( 'https://api.tomtom.com/search/2/' + 'geocode/'+this.store.search+'.json?view=Unified&key='+ 'gdZGu9e4M0xCvL3gtsUxcBcG8KtOb1fQ' )
-    .then(result => {
+      axios.get( 'https://api.tomtom.com/search/2/' + 'geocode/'+this.store.search+'.json?view=Unified&key='+ 'gdZGu9e4M0xCvL3gtsUxcBcG8KtOb1fQ' )
+      .then(result => {
 
-      this._map.lat = result.data.results[0].position.lat;
-      this._map.lon = result.data.results[0].position.lon;
-      this.coordinates = [this._map.lon,this._map.lat];
+        this._map.lat = result.data.results[0].position.lat;
+        this._map.lon = result.data.results[0].position.lon;
+        this.coordinates = [this._map.lon,this._map.lat];
 
-      store.searchedApartments = result.data.apartments
-      store.apartmentCoordinates
+        store.searchedApartments = result.data.apartments
+        store.apartmentCoordinates
 
 
-      tt.setProductInfo("maps", "1");
+        tt.setProductInfo("maps", "1");
 
-      var map = tt.map({
-        key: 'gdZGu9e4M0xCvL3gtsUxcBcG8KtOb1fQ',
-        container: "map",
-        center: this.coordinates,
-        zoom: 13
+        var map = tt.map({
+          key: 'gdZGu9e4M0xCvL3gtsUxcBcG8KtOb1fQ',
+          container: "map",
+          center: this.coordinates,
+          zoom: 13
+        })
+        if (this.mapMarker) {
+          this.mapMarker.remove();
+        }
+
+        for (const markerData of this.store.apartmentCoordinates) {
+
+          this.createCustomMarker(map, [markerData.lon, markerData.lat], markerData);
+        }
+        this.mapVisible = true;
+
       })
-      if (this.mapMarker) {
-        this.mapMarker.remove();
-      }
+    },
+    createCustomMarker(map, position, markerData) {
+      const svgLogo = '<svg id="eSnegB3J4bU1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 300 300" shape-rendering="geometricPrecision" text-rendering="geometricPrecision">' +
+        '<defs><filter id="eSnegB3J4bU4-filter" x="-150%" width="400%" y="-150%" height="400%"><feGaussianBlur id="eSnegB3J4bU4-filter-drop-shadow-0-blur" in="SourceAlpha" stdDeviation="4,8"/><feOffset id="eSnegB3J4bU4-filter-drop-shadow-0-offset" dx="0" dy="0" result="tmp"/><feFlood id="eSnegB3J4bU4-filter-drop-shadow-0-flood" flood-color="#000"/><feComposite id="eSnegB3J4bU4-filter-drop-shadow-0-composite" operator="in" in2="tmp"/><feMerge id="eSnegB3J4bU4-filter-drop-shadow-0-merge" result="result"><feMergeNode id="eSnegB3J4bU4-filter-drop-shadow-0-merge-node-1"/><feMergeNode id="eSnegB3J4bU4-filter-drop-shadow-0-merge-node-2" in="SourceGraphic"/></feMerge></filter></defs>' +
+        '<g transform="matrix(.968088 0 0 1 5.646429-1.998086)"><g transform="matrix(.462516 0 0 0.447135 77.921102 46.423512)"><ellipse rx="96.16702" ry="94.120913" transform="matrix(2.148881 0 0 2.16511 160.108727 183.518228)" filter="url(#eSnegB3J4bU4-filter)" fill="#fff" stroke="#fff"/><path d="M262.3,172.56c0-21.97-15.6-40.66-37.39-47.57-5.84-1.87-12.13-2.89-18.69-2.89h-56.06v130.85h-112.17v37.39h168.23c6.56,0,12.85-1.02,18.69-2.89c21.79-6.91,37.39-25.6,37.39-47.59c0-12.93-5.39-24.73-14.27-33.65c8.88-8.92,14.27-20.72,14.27-33.65Zm-56.08,84.13h-18.7v-33.65h18.7c10.34,0,18.69,7.53,18.69,16.82s-8.35,16.83-18.69,16.83Zm0-67.3h-18.7v-33.66h18.7c10.34,0,18.69,7.54,18.69,16.83c0,9.31-8.35,16.83-18.69,16.83Z" transform="matrix(.992031 0 0 0.981863 3.603624 20.068868)" fill="#8ac6dd"/><polygon points="299.69,103.41 224.91,103.41 150.16,56.67 75.38,103.41 75.38,234.25 37.99,234.25 37.99,103.41 0.6,103.41 66.12,62.46 66.12,9.94 103.51,9.94 103.51,39.1 112.77,33.31 150.16,9.94 187.54,33.31" transform="translate(5.695881 17.859341)" fill="#575756"/></g></g></svg>';
+        ;
 
-      for (const markerData of this.store.apartmentCoordinates) {
-        let size = 35;
-        let div = document.createElement('div')
-        let a = document.createElement('a')
-        let containerImg = document.createElement('div')
-        a.href = "/apartment-detail/" + markerData.id
-        a.innerHTML = "<strong class='text-dark'>" + markerData.title + "</strong>"
 
-        let img = document.createElement('img');
-        img.src =  markerData.path ? markerData.path : '/img/house-placeholder.png'
-        img.setAttribute("height", "50%");
-        img.setAttribute("width", "100%");
-        containerImg.appendChild(img)
-        containerImg.style.borderRadius = '10px'
-        containerImg.style.overflow = 'hidden'
-        a.appendChild(containerImg)
-        div.appendChild(a)
-        let popup = new tt.Popup({
+        const markerElement = document.createElement('div');
+        markerElement.className = 'marker';
+        markerElement.style.width = '60px';
+        markerElement.style.height = '60px';
+
+        const markerContentElement = document.createElement('div');
+        markerElement.appendChild(markerContentElement);
+
+        const iconElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        iconElement.setAttribute('class', 'marker-icon');
+        iconElement.setAttribute('width', '100%');
+        iconElement.setAttribute('height', '100%');
+
+        iconElement.innerHTML = svgLogo;
+
+        markerContentElement.appendChild(iconElement);
+
+        const marker = new tt.Marker({ element: markerElement})
+        .setLngLat(position)
+        .addTo(map);
+
+        const popupContent = document.createElement('div');
+        popupContent.innerHTML = '<strong class="text-dark">' + markerData.title + '</strong><br>' +
+        '<img src="' + (markerData.path ? markerData.path : '/img/house-placeholder.png') + '" height="50%" width="100%">';
+
+        const popup = new tt.Popup({
           closeButton: false,
-          offset: size/2,
+          anchor: 'bottom',
+        }).setDOMContent(popupContent);
 
-        }).setDOMContent(div);
-        let marker = new tt.Marker().setLngLat([markerData.lon, markerData.lat]).setPopup(popup).addTo(map);
+        marker.setPopup(popup);
       }
-      this.mapVisible = true;
-
-    })
-  },
 
 
 },

@@ -17,6 +17,7 @@ class Apartment extends Model
     'num_bathrooms',
     'square_meters',
     'coordinates',
+    'description',
     'address',
     'visible',
     'img_path',
